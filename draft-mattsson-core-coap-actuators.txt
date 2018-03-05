@@ -4,10 +4,12 @@
 
 Network Working Group                                        J. Mattsson
 Internet-Draft                                               J. Fornehed
-Intended status: Standards Track                             G. Selander
-Expires: January 5, 2018                                    F. Palombini
+Intended status: Informational                               G. Selander
+Expires: September 6, 2018                                  F. Palombini
                                                                 Ericsson
-                                                            July 4, 2017
+                                                              C. Amsuess
+                                             Energy Harvesting Solutions
+                                                           March 5, 2018
 
 
                     Controlling Actuators with CoAP
@@ -16,9 +18,9 @@ Expires: January 5, 2018                                    F. Palombini
 Abstract
 
    Being able to trust information from sensors and to securely control
-   actuators is essential in a world of connected and networking things
+   actuators are essential in a world of connected and networking things
    interacting with the physical world.  In this memo we show that just
-   using COAP with a security protocol like DTLS, TLS, or OSCOAP is not
+   using COAP with a security protocol like DTLS, TLS, or OSCORE is not
    enough.  We describe several serious attacks any on-path attacker can
    do, and discusses tougher requirements and mechanisms to mitigate the
    attacks.  While this document is focused on actuators, one of the
@@ -32,32 +34,32 @@ Status of This Memo
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
-   Drafts is at http://datatracker.ietf.org/drafts/current/.
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 5, 2018.
+   This Internet-Draft will expire on September 6, 2018.
 
 Copyright Notice
 
-   Copyright (c) 2017 IETF Trust and the persons identified as the
+   Copyright (c) 2018 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
-   (http://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
 
 
 
-Mattsson, et al.         Expires January 5, 2018                [Page 1]
+Mattsson, et al.        Expires September 6, 2018               [Page 1]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
@@ -67,66 +69,124 @@ Internet-Draft               CoAP Actuators                    July 2017
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Attacks . . . . . . . . . . . . . . . . . . . . . . . . . . .   3
-     2.1.  The Block Attack  . . . . . . . . . . . . . . . . . . . .   3
-     2.2.  The Request Delay Attack  . . . . . . . . . . . . . . . .   4
-     2.3.  The Response Delay and Mismatch Attack  . . . . . . . . .   7
-     2.4.  The Relay Attack  . . . . . . . . . . . . . . . . . . . .  10
-   3.  The Repeat Option . . . . . . . . . . . . . . . . . . . . . .  11
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  13
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  14
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .  14
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+     1.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
+   2.  Attacks . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     2.1.  The Block Attack  . . . . . . . . . . . . . . . . . . . .   4
+     2.2.  The Request Delay Attack  . . . . . . . . . . . . . . . .   5
+     2.3.  The Response Delay and Mismatch Attack  . . . . . . . . .   8
+     2.4.  The Relay Attack  . . . . . . . . . . . . . . . . . . . .  11
+     2.5.  The Request Fragment Rearrangement Attack . . . . . . . .  12
+       2.5.1.  Completing an operation with an earlier final block .  13
+       2.5.2.  Injecting a withheld first block  . . . . . . . . . .  14
+   3.  Security Considerations . . . . . . . . . . . . . . . . . . .  15
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .  15
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .  16
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  17
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  17
 
 1.  Introduction
 
    Being able to trust information from sensors and to securely control
-   actuators is essential in a world of connected and networking things
+   actuators are essential in a world of connected and networking things
    interacting with the physical world.  One protocol used to interact
    with sensors and actuators is the Constrained Application Protocol
    (CoAP) [RFC7252].  Any Internet-of-Things (IoT) deployment valuing
    security and privacy would use a security protocol such as DTLS
-   [RFC6347], TLS [RFC5246], or OSCOAP
-   [I-D.selander-ace-object-security] to protect CoAP, where the choice
-   of security protocol depends on the transport protocol and the
-   presence of intermediaries.  The use of CoAP over UDP and DTLS is
-   specified in [RFC6347] and the use of CoAP over TCP and TLS is
-   specified in [I-D.ietf-core-coap-tcp-tls].  OSCOAP protects CoAP end-
-   to-end with the use of COSE [I-D.ietf-cose-msg] and the CoAP Object-
-   Security option [I-D.selander-ace-object-security], and can therefore
-   be used over any transport.  In this document we show that protecting
-   CoAP with a security protocol is not enough to securely control
-   actuators.  We describe several serious attacks any on-path attacker
-   (i.e. not only "trusted" intermediaries) can do, and discusses
-   tougher requirements and mechanisms to mitigate the attacks.  The
-   request delay attack (valid for DTLS, TLS, and OSCOAP and described
-   in Section 2.2) lets an attacker control an actuator at a much later
-   time than the client anticipated.  The response delay and mismatch
-   attack (valid for DTLS and described in Section 2.3) lets an attacker
+   [RFC6347], TLS [RFC5246], or OSCORE [I-D.ietf-core-object-security]
+   to protect CoAP, where the choice of security protocol depends on the
+   transport protocol and the presence of intermediaries.  The use of
+   CoAP over UDP and DTLS is specified in [RFC6347] and the use of CoAP
+   over TCP and TLS is specified in [RFC8323].  OSCORE protects CoAP
+   end-to-end with the use of COSE [RFC8152] and the CoAP Object-
+   Security option [I-D.ietf-core-object-security], and can therefore be
+   used over any transport.
+
+   The Constrained Application Protocol (CoAP) [RFC7252] was designed
+   with the assumption that security could be provided on a separate
 
 
 
-Mattsson, et al.         Expires January 5, 2018                [Page 2]
+
+Mattsson, et al.        Expires September 6, 2018               [Page 2]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
-   respond to a client with a response meant for an older request.  In
-   Section 3, a new CoAP Option, the Repeat Option, mitigating the delay
-   attack in specified.
+   layer, in particular by using DTLS [RFC6347].  The four properties
+   traditionally provided by security protocols are:
+
+   o  Data confidentiality
+
+   o  Data origin authentication
+
+   o  Data integrity checking
+
+   o  Replay protection
+
+   In this document we show that protecting CoAP with a security
+   protocol on another layer is not nearly enough to securely control
+   actuators (and in many cases sensors) and that secure operation often
+   demands far more than the four properties traditionally provided by
+   security protocols.  We describe several serious attacks any on-path
+   attacker (i.e. not only "trusted intermediaries) can do and discusses
+   tougher requirements and mechanisms to mitigate the attacks.  In
+   general, secure operation of actuators also requires the three
+   properties:
+
+   o  Data-to-Data binding
+
+   o  Data-to-space binding
+
+   o  Data-to-time binding
+
+   "Data-to-Data binding" is e.g. binding of responses to a request or
+   binding of data fragments to each other.  "Data-to-space binding" is
+   the binding of data to an absolute or relative point in space (i.e. a
+   location) and may in the relative case be referred to as proximity.
+   "Data-to-time binding" is the binding of data to an absolute or
+   relative point in time and may in the relative case be referred to as
+   freshness.  The two last properties may be bundled together as "Data-
+   to-spacetime binding".
+
+   The request delay attack (valid for DTLS, TLS, and OSCORE and
+   described in Section 2.2) lets an attacker control an actuator at a
+   much later time than the client anticipated.  The response delay and
+   mismatch attack (valid for DTLS and TLS and described in Section 2.3)
+   lets an attacker respond to a client with a response meant for an
+   older request.  The request fragment rearrangement attack (valid for
+   DTLS, TLS, and OSCORE and described in Section 2.5) lets an attacker
+   cause unauthorized operations to be performed on the server, and
+   responses to unauthorized operations to be mistaken for responses to
+   authorized operations.
+
+
+
+
+
+Mattsson, et al.        Expires September 6, 2018               [Page 3]
+
+Internet-Draft               CoAP Actuators                   March 2018
+
+
+1.1.  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
 
 2.  Attacks
 
    Internet-of-Things (IoT) deployments valuing security and privacy,
-   MUST use a security protocol such as DTLS, TLS, or OSCOAP to protect
+   MUST use a security protocol such as DTLS, TLS, or OSCORE to protect
    CoAP.  This is especially true for deployments of actuators where
    attacks often (but not always) have serious consequences.  The
    attacks described in this section are made under the assumption that
    CoAP is already protected with a security protocol such as DTLS, TLS,
-   or OSCOAP, as an attacker otherwise can easily forge false requests
+   or OSCORE, as an attacker otherwise can easily forge false requests
    and responses.
 
 2.1.  The Block Attack
@@ -134,10 +194,10 @@ Internet-Draft               CoAP Actuators                    July 2017
    An on-path attacker can block the delivery of any number of requests
    or responses.  The attack can also be performed by an attacker
    jamming the lower layer radio protocol.  This is true even if a
-   security protocol like DTLS, TLS, or OSCOAP is used.  Encryption
+   security protocol like DTLS, TLS, or OSCORE is used.  Encryption
    makes selective blocking of messages harder, but not impossible or
    even infeasible.  With DTLS and TLS, proxies have access to the
-   complete CoAP message, and with OSCOAP, the CoAP header and several
+   complete CoAP message, and with OSCORE, the CoAP header and several
    CoAP options are not encrypted.  In both security protocols, the IP-
    addresses, ports, and CoAP message lengths are available to all on-
    path attackers, which may be enough to determine the server,
@@ -161,13 +221,9 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
-
-
-
-
-Mattsson, et al.         Expires January 5, 2018                [Page 3]
+Mattsson, et al.        Expires September 6, 2018               [Page 4]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
                Client   Foe   Server
@@ -203,14 +259,14 @@ Internet-Draft               CoAP Actuators                    July 2017
    An on-path attacker may not only block packets, but can also delay
    the delivery of any packet (request or response) by a chosen amount
    of time.  If CoAP is used over a reliable and ordered transport such
-   as TCP with TLS or OSCOAP, no messages can be delivered before the
+   as TCP with TLS or OSCORE, no messages can be delivered before the
    delayed message.  If CoAP is used over an unreliable and unordered
-   transport such as UDP with DTLS, or OSCOAP, other messages can be
+   transport such as UDP with DTLS, or OSCORE, other messages can be
    delivered before the delayed message as long as the delayed packet is
    delivered inside the replay window.  When CoAP is used over UDP, both
-   DTLS and OSCOAP allow out-of-order delivery and uses sequence numbers
+   DTLS and OSCORE allow out-of-order delivery and uses sequence numbers
    together with a replay window to protect against replay attacks.  The
-   replay window has a default length of 64 in both DTLS and OSCOAP.
+   replay window has a default length of 64 in DTLS and 32 in OSCORE.
    The attacker can control the replay window by blocking some or all
    other packets.  By first delaying a request, and then later, after
    delivery, blocking the response to the request, the client is not
@@ -221,9 +277,9 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
-Mattsson, et al.         Expires January 5, 2018                [Page 4]
+Mattsson, et al.        Expires September 6, 2018               [Page 5]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
    If some wireless low-level protocol is used, the attack can also be
@@ -272,14 +328,14 @@ Internet-Draft               CoAP Actuators                    July 2017
    "unlock" request for later use.  The client will likely resend the
    request with the same token.  If DTLS is used, the resent packet will
    have a different sequence number and the attacker can forward it.  If
-   OSCOAP is used, resent packets will have the same sequence number and
+   OSCORE is used, resent packets will have the same sequence number and
    the attacker must block them all until the client sends a new message
 
 
 
-Mattsson, et al.         Expires January 5, 2018                [Page 5]
+Mattsson, et al.        Expires September 6, 2018               [Page 6]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
    with a new sequence number (not shown in Figure 4).  After a while
@@ -333,9 +389,9 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
-Mattsson, et al.         Expires January 5, 2018                [Page 6]
+Mattsson, et al.        Expires September 6, 2018               [Page 7]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
    [I-D.selander-ace-cose-ecdhe]) mitigates the problem, but requires
@@ -349,23 +405,26 @@ Internet-Draft               CoAP Actuators                    July 2017
    signals to radio controlled clocks, or expose one of them to a strong
    gravity field.  As soon as client falsely believes it is time
    synchronized with the server, delay attacks are possible.  A
-   challenge response mechanism is much more failure proof and easy to
-   analyze.  The challenge and response may be sent in a CoAP option or
-   in the CoAP payload.  One such mechanism, the CoAP Replay Option, is
-   specified in Section 3.
+   challenge response mechanism where the server does not need to
+   synchronize its time with the client is easier analyze.  The
+   challenge and response may be sent in a CoAP option or in the CoAP
+   payload.  Two different mechanism for mitigating delay attacks are
+   specified in [I-D.ietf-core-echo-request-tag] and
+   [I-D.liu-core-coap-delay-attacks].
 
-   Remedy: The CoAP Replay Option specified in Section 3 SHALL be used
-   for controlling actuators unless another application specific
-   challenge-response or timestamp mechanism is used.
+   Remedy: The mechanisms specified in [I-D.ietf-core-echo-request-tag]
+   or [I-D.liu-core-coap-delay-attacks] SHALL be used for controlling
+   actuators unless another application specific challenge-response or
+   timestamp mechanism is used.
 
 2.3.  The Response Delay and Mismatch Attack
 
    The following attack can be performed if CoAP is protected by a
    security protocol where the response is not bound to the request in
    any way except by the CoAP token.  This would include most general
-   security protocols, such as DTLS and IPsec, but not OSCOAP.  The
-   attacker performs the attack by delaying delivery of a response until
-   the client sends a request with the same token.  As long as the
+   security protocols, such as DTLS, TLS, and IPsec, but not OSCORE.
+   The attacker performs the attack by delaying delivery of a response
+   until the client sends a request with the same token.  As long as the
    response is inside the replay window (which the attacker can make
    sure by blocking later responses), the response will be accepted by
    the client as a valid response to the later request.  CoAP [RFC7252]
@@ -386,12 +445,9 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
-
-
-
-Mattsson, et al.         Expires January 5, 2018                [Page 7]
+Mattsson, et al.        Expires September 6, 2018               [Page 8]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
              Client   Foe   Server
@@ -445,9 +501,9 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
-Mattsson, et al.         Expires January 5, 2018                [Page 8]
+Mattsson, et al.        Expires September 6, 2018               [Page 9]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
              Client   Foe   Server
@@ -501,9 +557,9 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
-Mattsson, et al.         Expires January 5, 2018                [Page 9]
+Mattsson, et al.        Expires September 6, 2018              [Page 10]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
        Client   Foe   Server
@@ -530,11 +586,11 @@ Internet-Draft               CoAP Actuators                    July 2017
       Figure 7: Delaying and Mismatching Response from other resource
 
    Remedy: If CoAP is protected with a security protocol not providing
-   bindings between requests and responses (e.g.  DTLS) the client MUST
-   NOT reuse any tokens for a given source/destination which the client
-   has not received responses to.  The easiest way to accomplish this is
-   to implement the token as a counter and never reuse any tokens at
-   all, this approach SHOULD be followed.
+   bindings between requests and responses (e.g.  DTLS and TLS) the
+   client MUST NOT reuse any tokens for a given source/destination which
+   the client has not received responses to.  The easiest way to
+   accomplish this is to implement the token as a counter and never
+   reuse any tokens at all, this approach MUST be followed.
 
 2.4.  The Relay Attack
 
@@ -557,9 +613,9 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
-Mattsson, et al.         Expires January 5, 2018               [Page 10]
+Mattsson, et al.        Expires September 6, 2018              [Page 11]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
    Client   Foe         Foe   Server
@@ -594,197 +650,267 @@ Internet-Draft               CoAP Actuators                    July 2017
    an attacker cannot influence the location estimation, something that
    is very hard in practice.
 
-3.  The Repeat Option
+2.5.  The Request Fragment Rearrangement Attack
 
-   The Repeat Option is a challenge-response mechanism for CoAP, binding
-   a resent request to an earlier 4.03 forbidden response.  The
-   challenge (for the client) is simply to echo the Repeat Option value
-   in a new request.  The Repeat Option enables the server to verify the
-   freshness of a request, thus mitigating the Delay Attack described in
-   Section 2.2.  An example message flow is illustrated in Figure 9.
+   These attack scenarios show that the Request Delay and Block Attacks
+   can be used against blockwise transfers to cause unauthorized
+   operations to be performed on the server, and responses to
+   unauthorized operations to be mistaken for responses to authorized
+   operations.  The combination of these attacks is described as a
+   separate attack because it makes the Request Delay Attack relevant to
+   systems that are otherwise not time-dependent, which means that they
+   could disregard the Request Delay Attack.
 
-
-
-
-
-
-
-
-
+   This attack works even if the individual request/response pairs are
+   encrypted, authenticated and protected against the Response Delay and
+   Mismatch Attack, provided the attacker is on the network path and can
+   correctly guess which operations the respective packages belong to.
 
 
-Mattsson, et al.         Expires January 5, 2018               [Page 11]
+
+
+Mattsson, et al.        Expires September 6, 2018              [Page 12]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
-                Client  Server
-                   |      |
-                   +----->|        Code: 0.03 (PUT)
-                   | PUT  |       Token: 0x41
-                   |      |    Uri-Path: lock
-                   |      |     Payload: 0 (Unlock)
-                   |      |
-                   |<-----+ t0     Code: 4.03 (Forbidden)
-                   | 4.03 |       Token: 0x41
-                   |      |      Repeat: 0x6c880d41167ba807
-                   |      |
-                   +----->| t1     Code: 0.03 (PUT)
-                   | PUT  |       Token: 0x42
-                   |      |    Uri-Path: lock
-                   |      |      Repeat: 0x6c880d41167ba807
-                   |      |     Payload: 0 (Unlock)
-                   |      |
-                   |<-----+        Code: 2.04 (Changed)
-                   | 2.04 |       Token: 0x42
-                   |      |
+2.5.1.  Completing an operation with an earlier final block
 
-                Figure 9: The Repeat Option
+   In this scenario, blocks from two operations on a POST-accepting
+   resource are combined to make the server execute an action that was
+   not intended by the authorized client.  This works only if the client
+   attempts a second operation after the first operation failed (due to
+   what the attacker made appear like a network outage) within the
+   replay window.  The client does not receive a confirmation on the
+   second operation either, but, by the time the client acts on it, the
+   server has already executed the unauthorized action.
 
-   The Repeat Option may be used for all Methods and Response Codes.  In
-   responses, the value MUST be a (pseudo-)random bit string with a
-   length of at least 64 bits.  A new (pseudo-)random bit string MUST be
-   generated for each response.  In requests, the Repeat Option MUST
-   echo the value from a previously received response.
+   Client   Foe   Server
+      |      |      |
+      +------------->    POST "incarcerate" (Block1: 0, more to come)
+      |      |      |
+      <-------------+    2.31 Continue (Block1: 0 received, send more)
+      |      |      |
+      +----->@      |    POST "valjean" (Block1: 1, last block)
+      |      |      |
+      +----->X      |    All retransmissions dropped
+      |      |      |
 
-   The Repeat Option is critical, Safe-to-Forward, not part of the
-   Cache-Key, and not repeatable.
+   (Client: Odd, but let's go on and promote Javert)
 
-   Upon receiving a request without the Repeat Option to a resource with
-   freshness requirements, the server sends a 4.03 Forbidden response
-   with a Repeat Option and stores the option value and the response
-   transmit time t0.
+      |      |      |
+      +------------->    POST "promote" (Block1: 0, more to come)
+      |      |      |
+      |      X<-----+    2.31 Continue (Block1: 0 received, send more)
+      |      |      |
+      |      @------>    POST "valjean" (Block1: 1, last block)
+      |      |      |
+      |      X<-----+    2.04 Valjean Promoted
 
-   Upon receiving a 4.03 Forbidden response with the Repeat Option, the
-   client SHOULD resend the request, echoing the Repeat Option value.
 
-   Upon receiving a request with the Repeat Option, the server verifies
-   that the option value equals the previously sent value; otherwise the
-   request is not processed further.  The server calculates the round-
-   trip time RTT = (t1 - t0), where t1 is the request receive time.  The
-   server MUST only accept requests with a round-trip time below a
-   certain threshold T, i.e. RTT < T, otherwise the request is not
-   processed further, and an error message MAY be send.  The threshold T
-   is application specific.
+                         Figure 1: Attack example
+
+   Remedy: If a client starts new blockwise operations on a security
+   context that has lost packages, it needs to label the fragments in
+   such a way that the server will not mix them up.
+
+   A mechanism to that effect is described as Request-Tag
+   [I-D.ietf-core-echo-request-tag].  Had it been in place in the
+   example and used for body integrity protection, the client would have
+   set the Request-Tag option in the "promote" request.  Depending on
+   the server's capabilities and setup, either of four outcomes could
+   have occurred:
 
 
 
-Mattsson, et al.         Expires January 5, 2018               [Page 12]
+
+
+Mattsson, et al.        Expires September 6, 2018              [Page 13]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
 
-   EDITORS NOTE: The mechanism described above is secure and gives the
-   server freshness guarantee independently of what the client does.
-   The disadvantages are that the mechanism always takes two round-trips
-   and that the server has to save the option value and the time t0.
-   Two different solutions involving time overcomes these disadvantages:
+   1.  The server could have processed the reinjected POST "valjean" as
+       belonging to the original "incarcerate" block; that's the
+       expected case when the server can handle simultaneous block
+       transfers.
 
-   o  The server may simply send the client the current time in its
-      timescale, i.e. a timestamp (option value = t0).  The client may
-      then use this timestamp to estimate the current time in the
-      servers timescale when sending future requests (i.e. not echoing).
-      This approach has the benefit of reducing round-trips and server
-      state, but has the security problems discussed in Section 2.2.
+   2.  The server could respond 5.03 Service Unavailable, including a
+       Max-Age option indicating how long it prefers not to take any
+       requests that force it to overwrite the state kept for the
+       "incarcerate" request.
 
-   o  The server may instead of a pseudorandom value send an encrypted
-      timestamp (option value = E(k, t0)).  CTR-mode would from a
-      security point be like sending (value = t0).  ECB-mode or CCM-mode
-      would work, but would expand the value length.  With CCM, the
-      server might also bind the option value to request (value =
-      AEAD(k, t0, parts of request)).  This approach does not reduce the
-      number of round-trips but eliminates server state.
+   3.  The server could decide to drop the state kept for the
+       "incarcerate" request's state, and process the "promote" request.
+       The reinjected POST "valjean" will then fail with 4.08 Request
+       Entity incomplete, indicating that the server does not have the
+       start of the operation any more.
 
-   TODO: Update the Repeat Option to use a combination of these two
-   solutions instead.
+2.5.2.  Injecting a withheld first block
 
-4.  IANA Considerations
+   If the first block of a request is withheld by the attacker for later
+   use, it can be used to have the server process a different request
+   body than intended by the client.  Unlike in the previous scenario,
+   it will return a response based on that body to the client.
 
-   This document defines the following Option Number, whose value have
-   been assigned to the CoAP Option Numbers Registry defined by
-   [RFC7252].
+   Again, a first operation (that would go like "Homeless stole apples.
+   What shall we do with him?" - "Set him free.") is aborted by the
+   proxy, and a part of that operation is later used in a different
+   operation to prime the server for responding leniently to another
+   operation that would originally have been "Hitman killed someone.
+   What shall we do with him?" - "Hang him.".
 
-                       +--------+------------------+
-                       | Number | Name             |
-                       +--------+------------------+
-                       |     29 | Repeat           |
-                       +--------+------------------+
 
-5.  Security Considerations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mattsson, et al.        Expires September 6, 2018              [Page 14]
+
+Internet-Draft               CoAP Actuators                   March 2018
+
+
+   Client   Foe   Server
+      |      |      |
+      +----->@      |    POST "Homeless stole apples. Wh"
+      |      |      |        (Block1: 0, more to come)
+
+   (Client: We'll try that one later again; for now, we have something
+   more urgent:)
+
+      |      |      |
+      +------------->    POST "Hitman killed someone. Wh"
+      |      |      |        (Block1: 0, more to come)
+      |      |      |
+      |      @<-----+    2.31 Continue (Block1: 0 received, send more)
+      |      |      |
+      |      @------>    POST "Homeless stole apples. Wh"
+      |      |      |        (Block1: 0, more to come)
+      |      |      |
+      |      X<-----+    2.31 Continue (Block1: 0 received, send more)
+      |      |      |
+      <------@      |    2.31 Continue (Block1: 0 received, send more)
+      |      |      |
+      +------------->    POST "at shall we do with him?"
+      |      |      |        (Block1: 1, last block)
+      |      |      |
+      <-------------+    2.05 "Set him free."
+                             (Block1: 1 received and this is the result)
+
+                         Figure 2: Attack example
+
+3.  Security Considerations
 
    The whole document can be seen as security considerations for CoAP.
 
-6.  Acknowledgements
+4.  IANA Considerations
 
-   The authors would like to thank Carsten Bormann, Klaus Hartke, Ari
-   Keranen, Matthias Kovatsch, Sandeep Kumar, and Andras Mehes for their
-   valuable comments and feedback.
+   This document has no actions for IANA.
+
+5.  References
+
+5.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
 
 
 
 
 
-Mattsson, et al.         Expires January 5, 2018               [Page 13]
+Mattsson, et al.        Expires September 6, 2018              [Page 15]
 
-Internet-Draft               CoAP Actuators                    July 2017
+Internet-Draft               CoAP Actuators                   March 2018
 
-
-7.  References
-
-7.1.  Normative References
 
    [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
               DOI 10.17487/RFC7252, June 2014,
-              <http://www.rfc-editor.org/info/rfc7252>.
+              <https://www.rfc-editor.org/info/rfc7252>.
 
-7.2.  Informative References
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-   [I-D.ietf-core-coap-tcp-tls]
-              Bormann, C., Lemay, S., Tschofenig, H., Hartke, K.,
-              Silverajan, B., and B. Raymor, "CoAP (Constrained
-              Application Protocol) over TCP, TLS, and WebSockets",
-              draft-ietf-core-coap-tcp-tls-09 (work in progress), May
-              2017.
+5.2.  Informative References
 
-   [I-D.ietf-cose-msg]
-              Schaad, J., "CBOR Object Signing and Encryption (COSE)",
-              draft-ietf-cose-msg-24 (work in progress), November 2016.
+   [I-D.ietf-core-echo-request-tag]
+              Amsuess, C., Mattsson, J., and G. Selander, "Echo and
+              Request-Tag", draft-ietf-core-echo-request-tag-00 (work in
+              progress), October 2017.
+
+   [I-D.ietf-core-object-security]
+              Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
+              "Object Security for Constrained RESTful Environments
+              (OSCORE)", draft-ietf-core-object-security-08 (work in
+              progress), January 2018.
+
+   [I-D.liu-core-coap-delay-attacks]
+              Liu, Y. and J. Zhu, "Mitigating delay attacks on
+              Constrained Application Protocol", draft-liu-core-coap-
+              delay-attacks-01 (work in progress), October 2017.
 
    [I-D.selander-ace-cose-ecdhe]
               Selander, G., Mattsson, J., and F. Palombini, "Ephemeral
               Diffie-Hellman Over COSE (EDHOC)", draft-selander-ace-
               cose-ecdhe-07 (work in progress), July 2017.
 
-   [I-D.selander-ace-object-security]
-              Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
-              "Object Security of CoAP (OSCOAP)", draft-selander-ace-
-              object-security-06 (work in progress), October 2016.
-
    [RFC5246]  Dierks, T. and E. Rescorla, "The Transport Layer Security
               (TLS) Protocol Version 1.2", RFC 5246,
               DOI 10.17487/RFC5246, August 2008,
-              <http://www.rfc-editor.org/info/rfc5246>.
+              <https://www.rfc-editor.org/info/rfc5246>.
 
    [RFC6347]  Rescorla, E. and N. Modadugu, "Datagram Transport Layer
               Security Version 1.2", RFC 6347, DOI 10.17487/RFC6347,
-              January 2012, <http://www.rfc-editor.org/info/rfc6347>.
+              January 2012, <https://www.rfc-editor.org/info/rfc6347>.
+
+   [RFC8152]  Schaad, J., "CBOR Object Signing and Encryption (COSE)",
+              RFC 8152, DOI 10.17487/RFC8152, July 2017,
+              <https://www.rfc-editor.org/info/rfc8152>.
+
+
+
+
+
+
+
+Mattsson, et al.        Expires September 6, 2018              [Page 16]
+
+Internet-Draft               CoAP Actuators                   March 2018
+
+
+   [RFC8323]  Bormann, C., Lemay, S., Tschofenig, H., Hartke, K.,
+              Silverajan, B., and B. Raymor, Ed., "CoAP (Constrained
+              Application Protocol) over TCP, TLS, and WebSockets",
+              RFC 8323, DOI 10.17487/RFC8323, February 2018,
+              <https://www.rfc-editor.org/info/rfc8323>.
+
+Acknowledgements
+
+   The authors would like to thank Carsten Bormann, Klaus Hartke, Ari
+   Keraenen, Matthias Kovatsch, Sandeep Kumar, and Andras Mehes for
+   their valuable comments and feedback.
 
 Authors' Addresses
-
-
-
-
-
-
-
-
-
-Mattsson, et al.         Expires January 5, 2018               [Page 14]
-
-Internet-Draft               CoAP Actuators                    July 2017
-
 
    John Mattsson
    Ericsson AB
@@ -802,7 +928,7 @@ Internet-Draft               CoAP Actuators                    July 2017
    Email: john.fornehed@ericsson.com
 
 
-   Goran Selander
+   Goeran Selander
    Ericsson AB
    SE-164 80 Stockholm
    Sweden
@@ -823,6 +949,15 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
+Mattsson, et al.        Expires September 6, 2018              [Page 17]
+
+Internet-Draft               CoAP Actuators                   March 2018
+
+
+   Christian Amsuess
+   Energy Harvesting Solutions
+
+   Email: c.amsuess@energyharvesting.at
 
 
 
@@ -837,4 +972,37 @@ Internet-Draft               CoAP Actuators                    July 2017
 
 
 
-Mattsson, et al.         Expires January 5, 2018               [Page 15]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mattsson, et al.        Expires September 6, 2018              [Page 18]
