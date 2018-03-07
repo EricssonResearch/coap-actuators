@@ -76,8 +76,8 @@ Table of Contents
      2.3.  The Response Delay and Mismatch Attack  . . . . . . . . .   8
      2.4.  The Relay Attack  . . . . . . . . . . . . . . . . . . . .  11
      2.5.  The Request Fragment Rearrangement Attack . . . . . . . .  12
-       2.5.1.  Completing an operation with an earlier final block .  13
-       2.5.2.  Injecting a withheld first block  . . . . . . . . . .  14
+       2.5.1.  Completing an Operation with an Earlier Final Block .  13
+       2.5.2.  Injecting a Withheld First Block  . . . . . . . . . .  14
    3.  Security Considerations . . . . . . . . . . . . . . . . . . .  15
    4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
    5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
@@ -202,7 +202,7 @@ Internet-Draft               CoAP Actuators                   March 2018
    addresses, ports, and CoAP message lengths are available to all on-
    path attackers, which may be enough to determine the server,
    resource, and command.  The block attack is illustrated in Figure 1
-   and 2.
+   and Figure 2.
 
                  Client   Foe   Server
                     |      |      |
@@ -212,7 +212,7 @@ Internet-Draft               CoAP Actuators                   March 2018
                     |      |      |   Payload: 1 (Lock)
                     |      |      |
 
-                 Figure 1: Blocking a Request
+                       Figure 1: Blocking a request
 
    Where 'X' means the attacker is blocking delivery of the message.
 
@@ -237,7 +237,7 @@ Internet-Draft               CoAP Actuators                   March 2018
                   |      | 2.04 |     Token: 0x47
                   |      |      |
 
-               Figure 2: Blocking a Response
+                       Figure 2: Blocking a response
 
    While blocking requests to, or responses from, a sensor is just a
    denial of service attack, blocking a request to, or a response from,
@@ -287,25 +287,25 @@ Internet-Draft               CoAP Actuators                   March 2018
    transmits while at the same time jamming the server.  The request
    delay attack is illustrated in Figure 3.
 
-                Client   Foe   Server
-                   |      |      |
-                   +----->@      |      Code: 0.03 (PUT)
-                   | PUT  |      |     Token: 0x9c
-                   |      |      |  Uri-Path: lock
-                   |      |      |   Payload: 0 (Unlock)
-                   |      |      |
-                     ....   ....
-                   |      |      |
-                   |      @----->|      Code: 0.03 (PUT)
-                   |      | PUT  |     Token: 0x9c
-                   |      |      |  Uri-Path: lock
-                   |      |      |   Payload: 0 (Unlock)
-                   |      |      |
-                   |      X<-----+      Code: 2.04 (Changed)
-                   |      | 2.04 |     Token: 0x9c
-                   |      |      |
+               Client   Foe   Server
+                  |      |      |
+                  +----->@      |      Code: 0.03 (PUT)
+                  | PUT  |      |     Token: 0x9c
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 0 (Unlock)
+                  |      |      |
+                    ....   ....
+                  |      |      |
+                  |      @----->|      Code: 0.03 (PUT)
+                  |      | PUT  |     Token: 0x9c
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 0 (Unlock)
+                  |      |      |
+                  |      X<-----+      Code: 2.04 (Changed)
+                  |      | 2.04 |     Token: 0x9c
+                  |      |      |
 
-               Figure 3: Delaying a Request
+                       Figure 3: Delaying a request
 
    Where '@' means the attacker is storing and later forwarding the
    message (@ may alternatively be seen as a wormhole connecting two
@@ -342,41 +342,41 @@ Internet-Draft               CoAP Actuators                   March 2018
    when the client has locked the door again, the attacker can deliver
    the delayed "unlock" message to the door, a very serious attack.
 
-                Client   Foe   Server
-                   |      |      |
-                   +----->@      |      Code: 0.03 (PUT)
-                   | PUT  |      |     Token: 0x9c
-                   |      |      |  Uri-Path: lock
-                   |      |      |   Payload: 0 (Unlock)
-                   |      |      |
-                   +------------>|      Code: 0.03 (PUT)
-                   | PUT  |      |     Token: 0x9c
-                   |      |      |  Uri-Path: lock
-                   |      |      |   Payload: 0 (Unlock)
-                   |      |      |
-                   <-------------+      Code: 2.04 (Changed)
-                   |      | 2.04 |     Token: 0x9c
-                   |      |      |
-                     ....   ....
-                   |      |      |
-                   +------------>|      Code: 0.03 (PUT)
-                   | PUT  |      |     Token: 0x7a
-                   |      |      |  Uri-Path: lock
-                   |      |      |   Payload: 1 (Lock)
-                   |      |      |
-                   <-------------+      Code: 2.04 (Changed)
-                   |      | 2.04 |     Token: 0x7a
-                   |      |      |
-                   |      @----->|      Code: 0.03 (PUT)
-                   |      | PUT  |     Token: 0x9c
-                   |      |      |  Uri-Path: lock
-                   |      |      |   Payload: 0 (Unlock)
-                   |      |      |
-                   |      X<-----+      Code: 2.04 (Changed)
-                   |      | 2.04 |     Token: 0x9c
-                   |      |      |
+               Client   Foe   Server
+                  |      |      |
+                  +----->@      |      Code: 0.03 (PUT)
+                  | PUT  |      |     Token: 0x9c
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 0 (Unlock)
+                  |      |      |
+                  +------------>|      Code: 0.03 (PUT)
+                  | PUT  |      |     Token: 0x9c
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 0 (Unlock)
+                  |      |      |
+                  <-------------+      Code: 2.04 (Changed)
+                  |      | 2.04 |     Token: 0x9c
+                  |      |      |
+                    ....   ....
+                  |      |      |
+                  +------------>|      Code: 0.03 (PUT)
+                  | PUT  |      |     Token: 0x7a
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 1 (Lock)
+                  |      |      |
+                  <-------------+      Code: 2.04 (Changed)
+                  |      | 2.04 |     Token: 0x7a
+                  |      |      |
+                  |      @----->|      Code: 0.03 (PUT)
+                  |      | PUT  |     Token: 0x9c
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 0 (Unlock)
+                  |      |      |
+                  |      X<-----+      Code: 2.04 (Changed)
+                  |      | 2.04 |     Token: 0x9c
+                  |      |      |
 
-               Figure 4: Delaying Request with Reordering
+                Figure 4: Delaying request with reordering
 
    While the second attack (Figure 4) can be mitigated by using a replay
    window of length zero, the first attack (Figure 3) cannot.  A
@@ -458,28 +458,28 @@ Internet-Draft               CoAP Actuators                   March 2018
    the same time jamming the client.  The response delay and mismatch
    attack is illustrated in Figure 5.
 
-             Client   Foe   Server
-                |      |      |
-                +------------>|      Code: 0.03 (PUT)
-                | PUT  |      |     Token: 0x77
-                |      |      |  Uri-Path: lock
-                |      |      |   Payload: 0 (Unlock)
-                |      |      |
-                |      @<-----+      Code: 2.04 (Changed)
-                |      | 2.04 |     Token: 0x77
-                |      |      |
-                  ....   ....
-                |      |      |
-                +----->X      |      Code: 0.03 (PUT)
-                | PUT  |      |     Token: 0x77
-                |      |      |  Uri-Path: lock
-                |      |      |   Payload: 0 (Lock)
-                |      |      |
-                <------@      |      Code: 2.04 (Changed)
-                | 2.04 |      |     Token: 0x77
-                |      |      |
+               Client   Foe   Server
+                  |      |      |
+                  +------------>|      Code: 0.03 (PUT)
+                  | PUT  |      |     Token: 0x77
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 0 (Unlock)
+                  |      |      |
+                  |      @<-----+      Code: 2.04 (Changed)
+                  |      | 2.04 |     Token: 0x77
+                  |      |      |
+                    ....   ....
+                  |      |      |
+                  +----->X      |      Code: 0.03 (PUT)
+                  | PUT  |      |     Token: 0x77
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 0 (Lock)
+                  |      |      |
+                  <------@      |      Code: 2.04 (Changed)
+                  | 2.04 |      |     Token: 0x77
+                  |      |      |
 
-            Figure 5: Delaying and Mismatching Response to PUT
+            Figure 5: Delaying and mismatching response to PUT
 
    If we once again take a lock as an example, the security consequences
    may be severe as the client receives a response message likely to be
@@ -506,34 +506,34 @@ Mattsson, et al.        Expires September 8, 2018               [Page 9]
 Internet-Draft               CoAP Actuators                   March 2018
 
 
-             Client   Foe   Server
-                |      |      |
-                +------------>|      Code: 0.01 (GET)
-                | GET  |      |     Token: 0x77
-                |      |      |  Uri-Path: lock
-                |      |      |
-                |      @<-----+      Code: 2.05 (Content)
-                |      | 2.05 |     Token: 0x77
-                |      |      |   Payload: 1 (Locked)
-                |      |      |
-                +------------>|      Code: 0.03 (PUT)
-                | PUT  |      |     Token: 0x34
-                |      |      |  Uri-Path: lock
-                |      |      |   Payload: 1 (Unlock)
-                |      |      |
-                |      X<-----+      Code: 2.04 (Changed)
-                |      | 2.04 |     Token: 0x34
-                |      |      |
-                +----->X      |      Code: 0.01 (GET)
-                | GET  |      |     Token: 0x77
-                |      |      |  Uri-Path: lock
-                |      |      |
-                <------@      |      Code: 2.05 (Content)
-                | 2.05 |      |     Token: 0x77
-                |      |      |   Payload: 1 (Locked)
-                |      |      |
+               Client   Foe   Server
+                  |      |      |
+                  +------------>|      Code: 0.01 (GET)
+                  | GET  |      |     Token: 0x77
+                  |      |      |  Uri-Path: lock
+                  |      |      |
+                  |      @<-----+      Code: 2.05 (Content)
+                  |      | 2.05 |     Token: 0x77
+                  |      |      |   Payload: 1 (Locked)
+                  |      |      |
+                  +------------>|      Code: 0.03 (PUT)
+                  | PUT  |      |     Token: 0x34
+                  |      |      |  Uri-Path: lock
+                  |      |      |   Payload: 1 (Unlock)
+                  |      |      |
+                  |      X<-----+      Code: 2.04 (Changed)
+                  |      | 2.04 |     Token: 0x34
+                  |      |      |
+                  +----->X      |      Code: 0.01 (GET)
+                  | GET  |      |     Token: 0x77
+                  |      |      |  Uri-Path: lock
+                  |      |      |
+                  <------@      |      Code: 2.05 (Content)
+                  | 2.05 |      |     Token: 0x77
+                  |      |      |   Payload: 1 (Locked)
+                  |      |      |
 
-            Figure 6: Delaying and Mismatching Response to GET
+            Figure 6: Delaying and mismatching response to GET
 
    As illustrated in Figure 7, an attacker may even mix responses from
    different resources as long as the two resources share the same
@@ -562,28 +562,28 @@ Mattsson, et al.        Expires September 8, 2018              [Page 10]
 Internet-Draft               CoAP Actuators                   March 2018
 
 
-       Client   Foe   Server
-          |      |      |
-          +------------>|      Code: 0.01 (GET)
-          | GET  |      |     Token: 0x77
-          |      |      |  Uri-Path: oven/temperature
-          |      |      |
-          |      @<-----+      Code: 2.05 (Content)
-          |      | 2.05 |     Token: 0x77
-          |      |      |   Payload: 225
-          |      |      |
-            ....   ....
-          |      |      |
-          +----->X      |      Code: 0.01 (GET)
-          | GET  |      |     Token: 0x77
-          |      |      |  Uri-Path: livingroom/temperature
-          |      |      |
-          <------@      |      Code: 2.05 (Content)
-          | 2.05 |      |     Token: 0x77
-          |      |      |   Payload: 225
-          |      |      |
+           Client   Foe   Server
+              |      |      |
+              +------------>|      Code: 0.01 (GET)
+              | GET  |      |     Token: 0x77
+              |      |      |  Uri-Path: oven/temperature
+              |      |      |
+              |      @<-----+      Code: 2.05 (Content)
+              |      | 2.05 |     Token: 0x77
+              |      |      |   Payload: 225
+              |      |      |
+                ....   ....
+              |      |      |
+              +----->X      |      Code: 0.01 (GET)
+              | GET  |      |     Token: 0x77
+              |      |      |  Uri-Path: livingroom/temperature
+              |      |      |
+              <------@      |      Code: 2.05 (Content)
+              | 2.05 |      |     Token: 0x77
+              |      |      |   Payload: 225
+              |      |      |
 
-      Figure 7: Delaying and Mismatching Response from other resource
+      Figure 7: Delaying and mismatching response from other resource
 
    Remedy: If CoAP is protected with a security protocol not providing
    bindings between requests and responses (e.g.  DTLS and TLS) the
@@ -630,7 +630,7 @@ Internet-Draft               CoAP Actuators                   March 2018
       |      |           |      |   Payload: RM8i13G8D5vfXK (Response)
       |      |           |      |
 
-         Figure 8: Relay Attack (the client is the actuator)
+            Figure 8: Relay attack (the client is the actuator)
 
    The consequences may be severe, and in the case of a car, lead to the
    attacker unlocking and driving away with the car, an attack that
@@ -674,16 +674,17 @@ Mattsson, et al.        Expires September 8, 2018              [Page 12]
 Internet-Draft               CoAP Actuators                   March 2018
 
 
-2.5.1.  Completing an operation with an earlier final block
+2.5.1.  Completing an Operation with an Earlier Final Block
 
-   In this scenario, blocks from two operations on a POST-accepting
-   resource are combined to make the server execute an action that was
-   not intended by the authorized client.  This works only if the client
-   attempts a second operation after the first operation failed (due to
-   what the attacker made appear like a network outage) within the
-   replay window.  The client does not receive a confirmation on the
-   second operation either, but, by the time the client acts on it, the
-   server has already executed the unauthorized action.
+   In this scenario (illustrated in Figure 9), blocks from two
+   operations on a POST-accepting resource are combined to make the
+   server execute an action that was not intended by the authorized
+   client.  This works only if the client attempts a second operation
+   after the first operation failed (due to what the attacker made
+   appear like a network outage) within the replay window.  The client
+   does not receive a confirmation on the second operation either, but,
+   by the time the client acts on it, the server has already executed
+   the unauthorized action.
 
    Client   Foe   Server
       |      |      |
@@ -706,9 +707,9 @@ Internet-Draft               CoAP Actuators                   March 2018
       |      @------>    POST "valjean" (Block1: 1, last block)
       |      |      |
       |      X<-----+    2.04 Valjean Promoted
+      |      |      |
 
-
-                         Figure 1: Attack example
+       Figure 9: Completing an operation with an earlier final block
 
    Remedy: If a client starts new blockwise operations on a security
    context that has lost packages, it needs to label the fragments in
@@ -720,7 +721,6 @@ Internet-Draft               CoAP Actuators                   March 2018
    set the Request-Tag option in the "promote" request.  Depending on
    the server's capabilities and setup, either of four outcomes could
    have occurred:
-
 
 
 
@@ -746,7 +746,7 @@ Internet-Draft               CoAP Actuators                   March 2018
        Entity incomplete, indicating that the server does not have the
        start of the operation any more.
 
-2.5.2.  Injecting a withheld first block
+2.5.2.  Injecting a Withheld First Block
 
    If the first block of a request is withheld by the attacker for later
    use, it can be used to have the server process a different request
@@ -758,8 +758,8 @@ Internet-Draft               CoAP Actuators                   March 2018
    proxy, and a part of that operation is later used in a different
    operation to prime the server for responding leniently to another
    operation that would originally have been "Hitman killed someone.
-   What shall we do with him?" - "Hang him.".
-
+   What shall we do with him?" - "Hang him.".  The attack is illustrated
+   in Figure 10.
 
 
 
@@ -811,9 +811,9 @@ Internet-Draft               CoAP Actuators                   March 2018
       |      |      |        (Block1: 1, last block)
       |      |      |
       <-------------+    2.05 "Set him free."
-                             (Block1: 1 received and this is the result)
+      |      |      |        (Block1: 1 received and this is the result)
 
-                         Figure 2: Attack example
+                Figure 10: Injecting a withheld first block
 
 3.  Security Considerations
 
