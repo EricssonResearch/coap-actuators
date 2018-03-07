@@ -170,7 +170,7 @@ Mattsson, et al.        Expires September 8, 2018               [Page 3]
 Internet-Draft               CoAP Actuators                   March 2018
 
 
-   Solution mechanisms to some of the attacks discussed in this document
+   Mechanisms mitigating some of the attacks discussed in this document
    can be found in [I-D.ietf-core-echo-request-tag] and
    [I-D.liu-core-coap-delay-attacks]
 
