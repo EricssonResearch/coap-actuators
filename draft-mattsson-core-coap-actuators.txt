@@ -5,11 +5,11 @@
 Network Working Group                                        J. Mattsson
 Internet-Draft                                               J. Fornehed
 Intended status: Informational                               G. Selander
-Expires: September 6, 2018                                  F. Palombini
+Expires: September 8, 2018                                  F. Palombini
                                                                 Ericsson
                                                               C. Amsuess
                                              Energy Harvesting Solutions
-                                                           March 5, 2018
+                                                           March 7, 2018
 
 
                     Controlling Actuators with CoAP
@@ -23,8 +23,8 @@ Abstract
    using COAP with a security protocol like DTLS, TLS, or OSCORE is not
    enough.  We describe several serious attacks any on-path attacker can
    do, and discusses tougher requirements and mechanisms to mitigate the
-   attacks.  While this document is focused on actuators, one of the
-   attacks applies equally well to sensors using DTLS.
+   attacks.  While this document is focused on actuators, some of the
+   attacks apply equally well to sensors.
 
 Status of This Memo
 
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 6, 2018.
+   This Internet-Draft will expire on September 8, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Mattsson, et al.        Expires September 6, 2018               [Page 1]
+Mattsson, et al.        Expires September 8, 2018               [Page 1]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Mattsson, et al.        Expires September 6, 2018               [Page 2]
+Mattsson, et al.        Expires September 8, 2018               [Page 2]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -165,7 +165,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018               [Page 3]
+Mattsson, et al.        Expires September 8, 2018               [Page 3]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -221,7 +221,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018               [Page 4]
+Mattsson, et al.        Expires September 8, 2018               [Page 4]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -277,7 +277,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018               [Page 5]
+Mattsson, et al.        Expires September 8, 2018               [Page 5]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -333,7 +333,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018               [Page 6]
+Mattsson, et al.        Expires September 8, 2018               [Page 6]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -381,36 +381,44 @@ Internet-Draft               CoAP Actuators                   March 2018
    While the second attack (Figure 4) can be mitigated by using a replay
    window of length zero, the first attack (Figure 3) cannot.  A
    solution must enable the server to verify that the request was
-   received within a certain time frame after it was sent.  This can be
-   accomplished with either a challenge-response pattern, by exchanging
-   timestamps, or by only allowing requests a short period after client
-   authentication.  Requiring a fresh client authentication (such as a
-   new TLS/DTLS handshake or an EDHOC key exchange
+   received within a certain time frame after it was sent or enable the
+   server to securely determine an absolute point in time when the
+   request is to be executed.  This can be accomplished with either a
+   challenge-response pattern, by exchanging timestamps between client
 
 
 
-Mattsson, et al.        Expires September 6, 2018               [Page 7]
+
+Mattsson, et al.        Expires September 8, 2018               [Page 7]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
 
-   [I-D.selander-ace-cose-ecdhe]) mitigates the problem, but requires
-   larger messages and more processing than a dedicated solution.
-   Security solutions based on timestamps require exactly synchronized
-   time, and this is hard to control with complications such as time
-   zones and daylight saving.  Even if the clocks are synchronized at
-   one point in time, they may easily get out-of-sync and an attacker
-   may even be able to affect the client or the server time in various
-   ways such as setting up a fake NTP server, broadcasting false time
-   signals to radio controlled clocks, or expose one of them to a strong
-   gravity field.  As soon as client falsely believes it is time
-   synchronized with the server, delay attacks are possible.  A
-   challenge response mechanism where the server does not need to
-   synchronize its time with the client is easier analyze.  The
-   challenge and response may be sent in a CoAP option or in the CoAP
-   payload.  Two different mechanism for mitigating delay attacks are
-   specified in [I-D.ietf-core-echo-request-tag] and
-   [I-D.liu-core-coap-delay-attacks].
+   and server, or by only allowing requests a short period after client
+   authentication.
+
+   Requiring a fresh client authentication (such as a new TLS/DTLS
+   handshake or an EDHOC key exchange [I-D.selander-ace-cose-ecdhe])
+   mitigates the problem, but requires larger messages and more
+   processing than a dedicated solution.  Security solutions based on
+   exchanging timestamps require exactly synchronized time between
+   client and server, and this may be hard to control with complications
+   such as time zones and daylight saving.  Wall clock time SHOULD NOT
+   be used as it is not monotonic, may reveal that the endpoints will
+   accept expired certificates, or reveal the endpoint's location.  Use
+   of non-monotonic clocks is not secure as the server will accept
+   requests if the clock is moved backward and reject requests if the
+   clock is moved forward.  Even if the clocks are synchronized at one
+   point in time, they may easily get out-of-sync and an attacker may
+   even be able to affect the client or the server time in various ways
+   such as setting up a fake NTP server, broadcasting false time signals
+   to radio controlled clocks, or expose one of them to a strong gravity
+   field.  As soon as client falsely believes it is time synchronized
+   with the server, delay attacks are possible.  A challenge response
+   mechanism where the server does not need to synchronize its time with
+   the client is easier to analyze but require more roundtrips.  The
+   challenges, responses, and timestamps may be sent in a CoAP option or
+   in the CoAP payload.
 
    Remedy: The mechanisms specified in [I-D.ietf-core-echo-request-tag]
    or [I-D.liu-core-coap-delay-attacks] SHALL be used for controlling
@@ -423,32 +431,32 @@ Internet-Draft               CoAP Actuators                   March 2018
    security protocol where the response is not bound to the request in
    any way except by the CoAP token.  This would include most general
    security protocols, such as DTLS, TLS, and IPsec, but not OSCORE.
-   The attacker performs the attack by delaying delivery of a response
-   until the client sends a request with the same token.  As long as the
-   response is inside the replay window (which the attacker can make
-   sure by blocking later responses), the response will be accepted by
-   the client as a valid response to the later request.  CoAP [RFC7252]
-   uses a client generated token that the server echoes to match
-   responses to request, but does not give any guidelines for the use of
-   token with DTLS, except that the tokens currently "in use" SHOULD
-   (not SHALL) be unique.
+   CoAP [RFC7252] uses a client generated token that the server echoes
+   to match responses to request, but does not give any guidelines for
+   the use of token with DTLS and TLS, except that the tokens currently
+   "in use" SHOULD (not SHALL) be unique.  The attacker performs the
+   attack by delaying delivery of a response until the client sends a
+   request with the same token, the response will be accepted by the
+   client as a valid response to the later request.  If CoAP is used
+   over a reliable and ordered transport such as TCP with TLS, no
+   messages can be delivered before the delayed message.  If CoAP is
+   used over an unreliable and unordered transport such as UDP with
+
+
+
+
+Mattsson, et al.        Expires September 8, 2018               [Page 8]
+
+Internet-Draft               CoAP Actuators                   March 2018
+
+
+   DTLS, other messages can be delivered before the delayed message as
+   long as the delayed packet is delivered inside the replay window.
 
    The attack can be performed by an attacker on the wire, or an
    attacker simultaneously recording what the server transmits while at
    the same time jamming the client.  The response delay and mismatch
    attack is illustrated in Figure 5.
-
-
-
-
-
-
-
-
-Mattsson, et al.        Expires September 6, 2018               [Page 8]
-
-Internet-Draft               CoAP Actuators                   March 2018
-
 
              Client   Foe   Server
                 |      |      |
@@ -493,15 +501,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-
-
-
-
-
-
-
-
-Mattsson, et al.        Expires September 6, 2018               [Page 9]
+Mattsson, et al.        Expires September 8, 2018               [Page 9]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -536,13 +536,13 @@ Internet-Draft               CoAP Actuators                   March 2018
             Figure 6: Delaying and Mismatching Response to GET
 
    As illustrated in Figure 7, an attacker may even mix responses from
-   different resources as long as the two resources share the same DTLS
-   connection on some part of the path towards the client.  This can
-   happen if the resources are located behind a common gateway, or are
-   served by the same CoAP proxy.  An on-path attacker (not necessarily
-   a DTLS endpoint such as a proxy) may e.g. deceive a client that the
-   living room is on fire by responding with an earlier delayed response
-   from the oven (temperatures in degree Celsius).
+   different resources as long as the two resources share the same
+   (D)TLS connection on some part of the path towards the client.  This
+   can happen if the resources are located behind a common gateway, or
+   are served by the same CoAP proxy.  An on-path attacker (not
+   necessarily a (D)TLS endpoint such as a proxy) may e.g. deceive a
+   client that the living room is on fire by responding with an earlier
+   delayed response from the oven (temperatures in degree Celsius).
 
 
 
@@ -557,7 +557,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018              [Page 10]
+Mattsson, et al.        Expires September 8, 2018              [Page 10]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -587,10 +587,9 @@ Internet-Draft               CoAP Actuators                   March 2018
 
    Remedy: If CoAP is protected with a security protocol not providing
    bindings between requests and responses (e.g.  DTLS and TLS) the
-   client MUST NOT reuse any tokens for a given source/destination which
-   the client has not received responses to.  The easiest way to
-   accomplish this is to implement the token as a counter and never
-   reuse any tokens at all, this approach MUST be followed.
+   client MUST NOT reuse any tokens until the traffic keys have been
+   replaced.  The easiest way to accomplish this is to implement the
+   Token as a counter, this approach SHOULD be followed.
 
 2.4.  The Relay Attack
 
@@ -613,7 +612,8 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018              [Page 11]
+
+Mattsson, et al.        Expires September 8, 2018              [Page 11]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -643,12 +643,13 @@ Internet-Draft               CoAP Actuators                   March 2018
    proximity.  Mechanisms that MAY be used are: measuring the round-trip
    time and calculate the maximum possible distance based on the speed
    of light, or using radio with an extremely short range like NFC
-   (centimeters instead of meters).  Another option is to including
-   geographical coordinates (from e.g.  GPS) in the messages and
-   calculate proximity based on these, but in this case the location
-   measurements MUST be very precise and the system MUST make sure that
-   an attacker cannot influence the location estimation, something that
-   is very hard in practice.
+   (centimeters instead of meters that cannot be relayed even through
+   clothes.  Another option is to including geographical coordinates
+   (from e.g.  GPS) in the messages and calculate proximity based on
+   these, but in this case the location measurements MUST be very
+   precise and the system MUST make sure that an attacker cannot
+   influence the location estimation, something that is very hard in
+   practice.
 
 2.5.  The Request Fragment Rearrangement Attack
 
@@ -668,8 +669,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-
-Mattsson, et al.        Expires September 6, 2018              [Page 12]
+Mattsson, et al.        Expires September 8, 2018              [Page 12]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -725,7 +725,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018              [Page 13]
+Mattsson, et al.        Expires September 8, 2018              [Page 13]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -781,7 +781,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018              [Page 14]
+Mattsson, et al.        Expires September 8, 2018              [Page 14]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -837,7 +837,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018              [Page 15]
+Mattsson, et al.        Expires September 8, 2018              [Page 15]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -855,14 +855,14 @@ Internet-Draft               CoAP Actuators                   March 2018
 
    [I-D.ietf-core-echo-request-tag]
               Amsuess, C., Mattsson, J., and G. Selander, "Echo and
-              Request-Tag", draft-ietf-core-echo-request-tag-00 (work in
-              progress), October 2017.
+              Request-Tag", draft-ietf-core-echo-request-tag-01 (work in
+              progress), March 2018.
 
    [I-D.ietf-core-object-security]
               Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
-              (OSCORE)", draft-ietf-core-object-security-08 (work in
-              progress), January 2018.
+              (OSCORE)", draft-ietf-core-object-security-09 (work in
+              progress), March 2018.
 
    [I-D.liu-core-coap-delay-attacks]
               Liu, Y. and J. Zhu, "Mitigating delay attacks on
@@ -872,7 +872,7 @@ Internet-Draft               CoAP Actuators                   March 2018
    [I-D.selander-ace-cose-ecdhe]
               Selander, G., Mattsson, J., and F. Palombini, "Ephemeral
               Diffie-Hellman Over COSE (EDHOC)", draft-selander-ace-
-              cose-ecdhe-07 (work in progress), July 2017.
+              cose-ecdhe-08 (work in progress), March 2018.
 
    [RFC5246]  Dierks, T. and E. Rescorla, "The Transport Layer Security
               (TLS) Protocol Version 1.2", RFC 5246,
@@ -893,7 +893,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018              [Page 16]
+Mattsson, et al.        Expires September 8, 2018              [Page 16]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -949,7 +949,7 @@ Authors' Addresses
 
 
 
-Mattsson, et al.        Expires September 6, 2018              [Page 17]
+Mattsson, et al.        Expires September 8, 2018              [Page 17]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -1005,4 +1005,4 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 6, 2018              [Page 18]
+Mattsson, et al.        Expires September 8, 2018              [Page 18]
