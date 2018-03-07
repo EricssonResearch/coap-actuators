@@ -453,6 +453,9 @@ Internet-Draft               CoAP Actuators                   March 2018
    used over an unreliable and unordered transport such as UDP with
    DTLS, other messages can be delivered before the delayed message as
    long as the delayed packet is delivered inside the replay window.
+   Note that mismatches can also happen for other reasons than a
+   malicious attacker, e.g. delayed delivery or a server sending
+   notifications to an uninterested client.
 
    The attack can be performed by an attacker on the wire, or an
    attacker simultaneously recording what the server transmits while at
@@ -495,9 +498,6 @@ Internet-Draft               CoAP Actuators                   March 2018
    the client that the lock is locked, when it in fact is not.  The
    "Unlock" request may be also be sent by another client authorized to
    control the lock.
-
-
-
 
 
 
