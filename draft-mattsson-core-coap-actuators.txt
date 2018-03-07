@@ -273,7 +273,7 @@ Internet-Draft               CoAP Actuators                   March 2018
    other packets.  By first delaying a request, and then later, after
    delivery, blocking the response to the request, the client is not
    made aware of the delayed delivery except by the missing response.
-
+   The server has in general, no way of knowing that the request was
 
 
 
@@ -282,8 +282,8 @@ Mattsson, et al.        Expires September 8, 2018               [Page 5]
 Internet-Draft               CoAP Actuators                   March 2018
 
 
-   The server has in general, no way of knowing that the request was
-   delayed and will therefore happily process the request.
+   delayed and will therefore happily process the request.  Note that
+   delays can also happen for other reasons than a malicious attacker.
 
    If some wireless low-level protocol is used, the attack can also be
    performed by the attacker simultaneously recording what the client
