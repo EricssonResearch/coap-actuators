@@ -5,11 +5,11 @@
 Network Working Group                                        J. Mattsson
 Internet-Draft                                               J. Fornehed
 Intended status: Informational                               G. Selander
-Expires: September 8, 2018                                  F. Palombini
+Expires: September 10, 2018                                 F. Palombini
                                                                 Ericsson
                                                               C. Amsuess
                                              Energy Harvesting Solutions
-                                                           March 7, 2018
+                                                           March 9, 2018
 
 
                     Controlling Actuators with CoAP
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 8, 2018.
+   This Internet-Draft will expire on September 10, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 1]
+Mattsson, et al.       Expires September 10, 2018               [Page 1]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 2]
+Mattsson, et al.       Expires September 10, 2018               [Page 2]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -165,7 +165,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 3]
+Mattsson, et al.       Expires September 10, 2018               [Page 3]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -221,7 +221,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 4]
+Mattsson, et al.       Expires September 10, 2018               [Page 4]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -277,7 +277,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 5]
+Mattsson, et al.       Expires September 10, 2018               [Page 5]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -333,7 +333,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 6]
+Mattsson, et al.       Expires September 10, 2018               [Page 6]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -389,7 +389,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 7]
+Mattsson, et al.       Expires September 10, 2018               [Page 7]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -445,7 +445,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 8]
+Mattsson, et al.       Expires September 10, 2018               [Page 8]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -501,7 +501,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018               [Page 9]
+Mattsson, et al.       Expires September 10, 2018               [Page 9]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -557,7 +557,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 10]
+Mattsson, et al.       Expires September 10, 2018              [Page 10]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -613,7 +613,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 11]
+Mattsson, et al.       Expires September 10, 2018              [Page 11]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -643,7 +643,7 @@ Internet-Draft               CoAP Actuators                   March 2018
    proximity.  Mechanisms that MAY be used are: measuring the round-trip
    time and calculate the maximum possible distance based on the speed
    of light, or using radio with an extremely short range like NFC
-   (centimeters instead of meters that cannot be relayed even through
+   (centimeters instead of meters) that cannot be relayed through
    clothes.  Another option is to including geographical coordinates
    (from e.g.  GPS) in the messages and calculate proximity based on
    these, but in this case the location measurements MUST be very
@@ -669,7 +669,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 12]
+Mattsson, et al.       Expires September 10, 2018              [Page 12]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -725,7 +725,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 13]
+Mattsson, et al.       Expires September 10, 2018              [Page 13]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -781,7 +781,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 14]
+Mattsson, et al.       Expires September 10, 2018              [Page 14]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -837,7 +837,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 15]
+Mattsson, et al.       Expires September 10, 2018              [Page 15]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -893,7 +893,7 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 16]
+Mattsson, et al.       Expires September 10, 2018              [Page 16]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -949,7 +949,7 @@ Authors' Addresses
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 17]
+Mattsson, et al.       Expires September 10, 2018              [Page 17]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
@@ -1005,4 +1005,4 @@ Internet-Draft               CoAP Actuators                   March 2018
 
 
 
-Mattsson, et al.        Expires September 8, 2018              [Page 18]
+Mattsson, et al.       Expires September 10, 2018              [Page 18]
