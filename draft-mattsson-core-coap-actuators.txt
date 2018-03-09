@@ -643,7 +643,7 @@ Internet-Draft               CoAP Actuators                   March 2018
    proximity.  Mechanisms that MAY be used are: measuring the round-trip
    time and calculate the maximum possible distance based on the speed
    of light, or using radio with an extremely short range like NFC
-   (centimeters instead of meters) that cannot be relayed through
+   (centimeters instead of meters) that cannot be relayed through e.g.
    clothes.  Another option is to including geographical coordinates
    (from e.g.  GPS) in the messages and calculate proximity based on
    these, but in this case the location measurements MUST be very
