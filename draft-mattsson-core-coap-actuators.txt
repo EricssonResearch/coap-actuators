@@ -205,7 +205,8 @@ Internet-Draft               CoAP Actuators                   March 2018
    CoAP options are not encrypted.  In both security protocols, the IP-
    addresses, ports, and CoAP message lengths are available to all on-
    path attackers, which may be enough to determine the server,
-   resource, and command.  The block attack is illustrated in 1 and 2.
+   resource, and command.  The block attack is illustrated in Figures 1
+   and 2.
 
                  Client   Foe   Server
                     |      |      |
@@ -217,7 +218,6 @@ Internet-Draft               CoAP Actuators                   March 2018
 
                        Figure 1: Blocking a request
 
-   Where 'X' means the attacker is blocking delivery of the message.
 
 
 
@@ -225,6 +225,8 @@ Mattsson, et al.       Expires September 10, 2018               [Page 4]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
+
+   Where 'X' means the attacker is blocking delivery of the message.
 
                Client   Foe   Server
                   |      |      |
@@ -272,8 +274,6 @@ Internet-Draft               CoAP Actuators                   March 2018
    delivery, blocking the response to the request, the client is not
    made aware of the delayed delivery except by the missing response.
    The server has in general, no way of knowing that the request was
-   delayed and will therefore happily process the request.  Note that
-   delays can also happen for other reasons than a malicious attacker.
 
 
 
@@ -281,6 +281,9 @@ Mattsson, et al.       Expires September 10, 2018               [Page 5]
 
 Internet-Draft               CoAP Actuators                   March 2018
 
+
+   delayed and will therefore happily process the request.  Note that
+   delays can also happen for other reasons than a malicious attacker.
 
    If some wireless low-level protocol is used, the attack can also be
    performed by the attacker simultaneously recording what the client
@@ -327,9 +330,6 @@ Internet-Draft               CoAP Actuators                   March 2018
    Figure 4).  In the lock example, the attacker may store the first
    "unlock" request for later use.  The client will likely resend the
    request with the same token.  If DTLS is used, the resent packet will
-   have a different sequence number and the attacker can forward it.  If
-   OSCORE is used, resent packets will have the same sequence number and
-   the attacker must block them all until the client sends a new message
 
 
 
@@ -338,6 +338,9 @@ Mattsson, et al.       Expires September 10, 2018               [Page 6]
 Internet-Draft               CoAP Actuators                   March 2018
 
 
+   have a different sequence number and the attacker can forward it.  If
+   OSCORE is used, resent packets will have the same sequence number and
+   the attacker must block them all until the client sends a new message
    with a new sequence number (not shown in Figure 4).  After a while
    when the client has locked the door again, the attacker can deliver
    the delayed "unlock" message to the door, a very serious attack.
@@ -383,9 +386,6 @@ Internet-Draft               CoAP Actuators                   March 2018
    solution must enable the server to verify that the request was
    received within a certain time frame after it was sent or enable the
    server to securely determine an absolute point in time when the
-   request is to be executed.  This can be accomplished with either a
-   challenge-response pattern, by exchanging timestamps between client
-
 
 
 
@@ -394,6 +394,8 @@ Mattsson, et al.       Expires September 10, 2018               [Page 7]
 Internet-Draft               CoAP Actuators                   March 2018
 
 
+   request is to be executed.  This can be accomplished with either a
+   challenge-response pattern, by exchanging timestamps between client
    and server, or by only allowing requests a short period after client
    authentication.
 
@@ -440,8 +442,6 @@ Internet-Draft               CoAP Actuators                   March 2018
    client as a valid response to the later request.  If CoAP is used
    over a reliable and ordered transport such as TCP with TLS, no
    messages can be delivered before the delayed message.  If CoAP is
-   used over an unreliable and unordered transport such as UDP with
-   DTLS, other messages can be delivered before the delayed message as
 
 
 
@@ -450,6 +450,8 @@ Mattsson, et al.       Expires September 10, 2018               [Page 8]
 Internet-Draft               CoAP Actuators                   March 2018
 
 
+   used over an unreliable and unordered transport such as UDP with
+   DTLS, other messages can be delivered before the delayed message as
    long as the delayed packet is delivered inside the replay window.
    Note that mismatches can also happen for other reasons than a
    malicious attacker, e.g. delayed delivery or a server sending
@@ -496,8 +498,6 @@ Internet-Draft               CoAP Actuators                   March 2018
    the client that the lock is locked, when it in fact is not.  The
    "Unlock" request may be also be sent by another client authorized to
    control the lock.
-
-
 
 
 
