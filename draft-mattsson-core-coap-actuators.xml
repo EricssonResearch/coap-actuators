@@ -13,13 +13,13 @@
 <?rfc subcompact="no" ?>
 <?rfc iprnotified="no" ?>
 
-<rfc category="info" ipr="trust200902" docName="draft-mattsson-core-coap-actuators-latest">
+<rfc category="info" ipr="trust200902" docName="draft-mattsson-core-coap-attacks-latest">
 
 <front>
 
-<title abbrev="CoAP Actuators">Controlling Actuators with CoAP</title>
+<title abbrev="CoAP Attacks">Summarizing Known Attacks on CoAP</title>
 
-<author initials='J.M' surname="Mattsson" fullname='John Mattsson'>
+<author initials='J.M' surname="Preuß Mattsson" fullname='John Preuß Mattsson'>
 	<organization abbrev="Ericsson">Ericsson AB</organization>
 	<address>
 		<postal>
@@ -80,8 +80,7 @@
 
 <abstract>
 
-<t>Being able to trust information from sensors and to securely control actuators are essential in a world of connected and networking things interacting with the physical world. In this memo we show that just using COAP with a security protocol like DTLS, TLS, or OSCORE is not enough. We describe several serious attacks any on-path attacker can do, and discusses tougher requirements and mechanisms to mitigate the attacks. While this document is focused on actuators, some of the attacks apply equally well to sensors.
-</t>
+<t>Being able to trust information from sensors and to securely control actuators are essential in a world of connected and networking things interacting with the physical world. This document summarizes known attacks, and show that just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not enough for secure operation. The goal with this document is motivating generic and protocol-specific recommendations on the usage of CoAP. Several of the discussed attacks can be mitigated with the solutions in <xref target="I-D.ietf-core-echo-request-tag"/>.</t>
 
 </abstract>
 
@@ -91,7 +90,7 @@
 
 <section title="Introduction">
 
-<t>Being able to trust information from sensors and to securely control actuators are essential in a world of connected and networking things interacting with the physical world. One protocol used to interact with sensors and actuators is the Constrained Application Protocol (CoAP) <xref target="RFC7252"/>. Any Internet-of-Things (IoT) deployment valuing security and privacy would use a security protocol such as DTLS <xref target="RFC6347"/>, TLS <xref target="RFC5246"/>, or OSCORE <xref target="I-D.ietf-core-object-security"/> to protect CoAP, where the choice of security protocol depends on the transport protocol and the presence of intermediaries. The use of CoAP over UDP and DTLS is specified in <xref target="RFC6347"/> and the use of CoAP over TCP and TLS is specified in <xref target="RFC8323"/>. OSCORE protects CoAP end-to-end with the use of COSE <xref target="RFC8152"/> and the CoAP Object-Security option <xref target="I-D.ietf-core-object-security"/>, and can therefore be used over any transport.
+<t>Being able to trust information from sensors and to securely control actuators are essential in a world of connected and networking things interacting with the physical world. One protocol used to interact with sensors and actuators is the Constrained Application Protocol (CoAP) <xref target="RFC7252"/>. Any Internet-of-Things (IoT) deployment valuing security and privacy would use a security protocol such as DTLS <xref target="RFC6347"/>, TLS <xref target="RFC5246"/>, or OSCORE <xref target="RFC8613"/> to protect CoAP, where the choice of security protocol depends on the transport protocol and the presence of intermediaries. The use of CoAP over UDP and DTLS is specified in <xref target="RFC6347"/> and the use of CoAP over TCP and TLS is specified in <xref target="RFC8323"/>. OSCORE protects CoAP end-to-end with the use of COSE <xref target="RFC8152"/> and the CoAP Object-Security option <xref target="RFC8613"/>, and can therefore be used over any transport.
 </t>
 
 <t>The Constrained Application Protocol (CoAP)  <xref target="RFC7252"/> was designed with the assumption that security could be provided on a separate layer, in particular by using DTLS <xref target="RFC6347"/>. The four properties traditionally provided by security protocols are:
@@ -251,7 +250,7 @@ Client   Foe   Server
 <t>While the second attack (<xref target="delayreqreorder"/>) can be mitigated by using a replay window of length zero, the first attack (<xref target="delayreq"/>) cannot. A solution must enable the server to verify that the request was received within a certain time frame after it was sent or enable the server to securely determine an absolute point in time when the request is to be executed. This can be accomplished with either a challenge-response pattern, by exchanging timestamps between client and server, or by only allowing requests a short period after client authentication.
 </t>
 
-<t>Requiring a fresh client authentication (such as a new TLS/DTLS handshake or an EDHOC key exchange <xref target="I-D.selander-ace-cose-ecdhe"/>) mitigates the problem, but requires larger messages and more processing than a dedicated solution. Security solutions based on exchanging timestamps require exactly synchronized time between client and server, and this may be hard to control with complications such as time zones and daylight saving. Wall clock time SHOULD NOT be used as it is not monotonic, may reveal that the endpoints will accept expired certificates, or reveal the endpoint's location. Use of non-monotonic clocks is not secure as the server will accept requests if the clock is moved backward and reject requests if the clock is moved forward. Even if the clocks are synchronized at one point in time, they may easily get out-of-sync and an attacker may even be able to affect the client or the server time in various ways such as setting up a fake NTP server, broadcasting false time signals to radio controlled clocks, or expose one of them to a strong gravity field. As soon as client falsely believes it is time synchronized with the server, delay attacks are possible. A challenge response mechanism where the server does not need to synchronize its time with the client is easier to analyze but require more roundtrips. The challenges, responses, and timestamps may be sent in a CoAP option or in the CoAP payload.
+<t>Requiring a fresh client authentication (such as a new TLS/DTLS handshake or an EDHOC key exchange <xref target="I-D.ietf-lake-edhoc"/>) mitigates the problem, but requires larger messages and more processing than a dedicated solution. Security solutions based on exchanging timestamps require exactly synchronized time between client and server, and this may be hard to control with complications such as time zones and daylight saving. Wall clock time SHOULD NOT be used as it is not monotonic, may reveal that the endpoints will accept expired certificates, or reveal the endpoint's location. Use of non-monotonic clocks is not secure as the server will accept requests if the clock is moved backward and reject requests if the clock is moved forward. Even if the clocks are synchronized at one point in time, they may easily get out-of-sync and an attacker may even be able to affect the client or the server time in various ways such as setting up a fake NTP server, broadcasting false time signals to radio controlled clocks, or expose one of them to a strong gravity field. As soon as client falsely believes it is time synchronized with the server, delay attacks are possible. A challenge response mechanism where the server does not need to synchronize its time with the client is easier to analyze but require more roundtrips. The challenges, responses, and timestamps may be sent in a CoAP option or in the CoAP payload.
 </t>
 
 <t>Remedy: The mechanisms specified in <xref target="I-D.ietf-core-echo-request-tag"/> or <xref target="I-D.liu-core-coap-delay-attacks"/> SHALL be used for controlling actuators unless another application specific challenge-response or timestamp mechanism is used.
@@ -518,6 +517,120 @@ more urgent:)
 
 </section>
 
+<section title="Denial-of-Service Attacks" anchor="dos">
+
+<t>In a Denial-of-Service (DoS) attack a attacker sends a large number of requests or responses to a target endoint. The denial-of-service might be caused be the target endpoint receiving a large amount of data, sending a large amount of data, doing heavy processing, or using to much memory, etc. In a Distributed Denial-of-Service (DDoS) attack, the request or responses come from a large amount of sources.</t>
+
+<t>CoAP is susceptible to amplification attacks where an attacker sends a CoAP request to a server requesting as much information as possible. An amplification attack alone can be denial-of-service attack on the server, but often amplification attacks are combined with the attacker spoofing the source IP address of the targeted victim. Since the size of the response is significantly larger then the request, the attacker is able to multiply the amount of traffic sent to the target. When transported over UPD, CoAP is susceptible to source IP address spoofing.</t>
+
+<t>Amplification attacks with CoAP is unfortunatly not only theory, amplification factors of 10-100 are commonly reported from NoSec deployments. An amplification attack using a single reponse is illustrated in <xref target="ampsingle"/>.</t>
+
+<figure title="Amplicifcation attack using a single response" anchor="ampsingle">
+<artwork align="center"><![CDATA[
+Client   Foe   Server
+   |      |      |
+   |      +----->|      Code: 0.01 (GET)
+   |      | GET  |     Token: 0x77
+   |      |      |  Uri-Path: random quote
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x77
+   |      |      |   Payload: "just because you own half the county
+   |      |      |             doesn't mean that you have the power
+   |      |      |             to run the rest of us. For twenty-
+   |      |      |             three years, I've been dying to tell
+   |      |      |             you what I thought of you! And now...
+   |      |      |             well, being a Christian woman, I can't
+   |      |      |             say it!"
+   |      |      |
+]]></artwork></figure>
+
+<t>Amplification factors can be significantly worse when combined with observe <xref target="RFC7641"/> and multicast <xref target="I-D.ietf-core-groupcomm-bis"/>. An amplification attack using a observe is illustrated in <xref target="ampmulti_n"/>. In this case a single request results in n responses from the a single server.</t>
+
+<figure title="Amplicifcation attack using observe" anchor="ampmulti_n">
+<artwork align="center"><![CDATA[
+Client   Foe   Server
+   |      |      |
+   |      +----->|      Code: 0.01 (GET)
+   |      | GET  |     Token: 0x83
+   |      |      |   Observe: 0
+   |      |      |  Uri-Path: stock market index 1 min
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x83
+   |      |      |   Observe: 217362
+   |      |      |   Payload: 3749.7
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x83
+   |      |      |   Observe: 217363
+   |      |      |   Payload: 3745.33
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x83
+   |      |      |   Observe: 217364
+   |      |      |   Payload: 3747.65
+   |      |      |
+     ....   ....  
+]]></artwork></figure>
+
+<t>An amplification attack using a multicast request is illustrated in <xref target="ampmulti_m"/>. In this case a single request results in m responses from m different servers.</t>
+
+<figure title="Amplicifcation attack using multicast" anchor="ampmulti_m">
+<artwork align="center"><![CDATA[
+Client   Foe   Server
+   |      |      |
+   |      +----->|      Code: 0.01 (GET)
+   |      | GET  |     Token: 0x69
+   |      |      |  Uri-Path: </c>
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x69
+   |      |      |   Payload: { 1721 : { ... 
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x69
+   |      |      |   Payload: { 1721 : { ... 
+   |      |      |
+     ....   ....  
+]]></artwork></figure>
+
+<t>An amplification attack using a multicast request and observe is illustrated in <xref target="ampmulti_mn"/>. In this case a single request results in n responses each from m different serers giving a total of n * m responses.</t>
+
+<figure title="Amplicifcation attack using multicast and observe" anchor="ampmulti_mn">
+<artwork align="center"><![CDATA[
+Client   Foe   Server
+   |      |      |
+   |      +----->|      Code: 0.01 (GET)
+   |      | GET  |     Token: 0x44
+   |      |      |   Observe: 0
+   |      |      |  Uri-Path: temperature
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x44
+   |      |      |   Observe: 217
+   |      |      |   Payload: "301.2 K"
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x44
+   |      |      |   Observe: 363
+   |      |      |   Payload: "293.4 K"
+   |      |      |
+     ....   ....  
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x44
+   |      |      |   Observe: 218
+   |      |      |   Payload: "301.5 K"
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x44
+   |      |      |   Observe: 364
+   |      |      |   Payload: "293.6 K"
+   |      |      |
+     ....   ....  
+]]></artwork></figure>
+
+</section>
 
 <section title="Security Considerations">
 
@@ -539,7 +652,10 @@ more urgent:)
 
 <?rfc include="reference.RFC.2119"?>
 <?rfc include="reference.RFC.7252"?>
+<?rfc include="reference.RFC.7641"?>
 <?rfc include="reference.RFC.8174"?>
+<?rfc include="reference.I-D.ietf-core-echo-request-tag"?>
+<?rfc include="reference.I-D.ietf-core-groupcomm-bis"?>
 
 </references>
 
@@ -549,10 +665,9 @@ more urgent:)
 <?rfc include="reference.RFC.6347"?>
 <?rfc include="reference.RFC.8152"?>
 <?rfc include="reference.RFC.8323"?>
-<?rfc include="reference.I-D.ietf-core-object-security"?>
-<?rfc include="reference.I-D.ietf-core-echo-request-tag"?>
+<?rfc include="reference.RFC.8613"?>
 <?rfc include="reference.I-D.liu-core-coap-delay-attacks"?>
-<?rfc include="reference.I-D.selander-ace-cose-ecdhe"?>
+<?rfc include="reference.I-D.ietf-lake-edhoc"?>
 
 </references>
 
