@@ -67,6 +67,20 @@ informative:
   I-D.liu-core-coap-delay-attacks:
   I-D.ietf-lake-edhoc:
 
+  CoAP-Wild:
+    target: https://www.netscout.com/blog/asert/coap-attacks-wild
+    title: "CoAP Attacks In The Wild"
+    seriesinfo:
+      "Netscout"
+    date: January 2019
+
+  CoAP-Report:
+    target: https://www.shadowserver.org/news/accessible-coap-report-scanning-for-exposed-constrained-application-protocol-services/
+    title: "Accessible CoAP Report"
+    seriesinfo:
+      "Shadowserver Foundation"
+    date: June 2020
+    
 --- abstract
 
 Being able to trust information from sensors, to securely control actuators, and
