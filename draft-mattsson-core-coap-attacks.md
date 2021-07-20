@@ -88,7 +88,7 @@ are essential in a world of connected and networking things interacting with
 the physical world. One protocol used to interact with sensors and actuators
 is the Constrained Application Protocol (CoAP) {{RFC7252}}. Any
 Internet-of-Things (IoT) deployment valuing security and privacy would
-use a security protocol such as DTLS {{RFC6347}}, TLS {{RFC5246}}, or
+use a security protocol such as DTLS {{RFC6347}}, TLS {{RFC8446}}, or
 OSCORE {{RFC8613}} to protect CoAP, where the choice of security
 protocol depends on the transport protocol and the presence of intermediaries.
 The use of CoAP over UDP and DTLS is specified in {{RFC6347}} and the
