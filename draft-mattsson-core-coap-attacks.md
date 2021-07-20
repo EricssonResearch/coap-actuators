@@ -59,11 +59,12 @@ normative:
   I-D.ietf-core-echo-request-tag:
   I-D.ietf-core-groupcomm-bis:
 informative:
-  RFC5246:
   RFC6347:
   RFC8152:
   RFC8323:
+  RFC8446:
   RFC8613:
+  RFC9000:
   I-D.liu-core-coap-delay-attacks:
   I-D.ietf-lake-edhoc:
 
