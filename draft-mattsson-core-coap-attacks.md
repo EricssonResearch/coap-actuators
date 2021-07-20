@@ -829,6 +829,6 @@ This document has no actions for IANA.
 {: numbered="false"}
 
 The authors would like to thank Carsten Bormann, Klaus Hartke, Ari Keränen,
-Matthias Kovatsch, Sandeep Kumar, and András Méhes for their valuable comments
+Matthias Kovatsch, Achim Kraus, Sandeep Kumar, and András Méhes for their valuable comments
 and feedback.
 
