@@ -12,7 +12,7 @@ pi:
   compact: 'yes'
   subcompact: 'no'
   iprnotified: 'no'
-title: Summarizing Known Attacks on CoAP
+title: Summarizing a Number of Known Attacks on CoAP
 abbrev: CoAP Attacks
 area: ''
 wg: ''
@@ -70,10 +70,9 @@ informative:
 
 --- abstract
 
-
 Being able to trust information from sensors and to securely control actuators
 are essential in a world of connected and networking things interacting with
-the physical world. This document summarizes known attacks, and show that
+the physical world. This document summarizes a number of known attacks, and show that
 just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
 enough for secure operation. The goal with this document is motivating generic
 and protocol-specific recommendations on the usage of CoAP. Several of the
