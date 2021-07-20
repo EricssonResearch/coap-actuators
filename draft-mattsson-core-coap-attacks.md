@@ -18,37 +18,36 @@ area: ''
 wg: ''
 kw: ''
 author:
-- initials: J.
+- name: John Preuß Mattsson
   surname: Preuß Mattsson
-  name: John Preuß Mattsson
   org: Ericsson AB
   abbrev: Ericsson
   street: SE-164 80 Stockholm
   country: Sweden
   email: john.mattsson@ericsson.com
-- ins: J. Fornehed
-  name: John Fornehed
+- name: John Fornehed
+  surname: Fornehed
   org: Ericsson AB
   abbrev: Ericsson
   street: SE-164 80 Stockholm
   country: Sweden
   email: john.fornehed@ericsson.com
-- ins: G. Selander
-  name: Göran Selander
+- name: Göran Selander
+  surname: Selander
   org: Ericsson AB
   abbrev: Ericsson
   street: SE-164 80 Stockholm
   country: Sweden
   email: goran.selander@ericsson.com
-- ins: F. Palombini
-  name: Francesca Palombini
+- name: Francesca Palombini
+  surname: Palombini
   org: Ericsson AB
   abbrev: Ericsson
   street: SE-164 80 Stockholm
   country: Sweden
   email: francesca.palombini@ericsson.com
-- ins: C. Amsüss
-  name: Christian Amsüss
+- name: Christian Amsüss
+  surname: Amsüss
   org: Energy Harvesting Solutions
   email: c.amsuess@energyharvesting.at
 normative:
