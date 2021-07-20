@@ -713,13 +713,13 @@ Client   Foe   Server
    |      |      |             say it!"
    |      |      |
 ~~~~
-{: #ampsingle title='Amplicifcation attack using a single response' artwork-align="center"}
+{: #ampsingle title='Amplification attack using a single response' artwork-align="center"}
 
 Amplification factors can be significantly worse when combined with
 observe {{RFC7641}} and multicast {{I-D.ietf-core-groupcomm-bis}}. An
-amplification attack using a observe is illustrated in
+amplification attack using observe is illustrated in
 {{ampmulti_n}}. In this case a single request results in n responses
-from the a single server.
+from a single server.
 
 
 ~~~~
@@ -747,7 +747,7 @@ Client   Foe   Server
    |      |      |
      ....   ....
 ~~~~
-{: #ampmulti_n title='Amplicifcation attack using observe' artwork-align="center"}
+{: #ampmulti_n title='Amplification attack using observe' artwork-align="center"}
 
 An amplification attack using a multicast request is illustrated in
 {{ampmulti_m}}. In this case a single request results in m responses
@@ -771,11 +771,11 @@ Client   Foe   Server
    |      |      |
      ....   ....
 ~~~~
-{: #ampmulti_m title='Amplicifcation attack using multicast' artwork-align="center"}
+{: #ampmulti_m title='Amplification attack using multicast' artwork-align="center"}
 
 An amplification attack using a multicast request and observe is
 illustrated in {{ampmulti_mn}}. In this case a single request results
-in n responses each from m different serers giving a total of n \* m
+in n responses each from m different servers giving a total of n \* m
 responses.
 
 
@@ -810,7 +810,7 @@ Client   Foe   Server
    |      |      |
      ....   ....
 ~~~~
-{: #ampmulti_mn title='Amplicifcation attack using multicast and observe' artwork-align="center"}
+{: #ampmulti_mn title='Amplification attack using multicast and observe' artwork-align="center"}
 
 
 # Security Considerations
