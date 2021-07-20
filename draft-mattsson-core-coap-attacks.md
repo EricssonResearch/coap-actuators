@@ -675,7 +675,7 @@ more urgent:)
 # Denial-of-Service Attacks {#dos}
 
 In a Denial-of-Service (DoS) attack a attacker sends a large number of requests
-or responses to a target endoint. The denial-of-service might be caused be
+or responses to a target endpoint. The denial-of-service might be caused be
 the target endpoint receiving a large amount of data, sending a large amount
 of data, doing heavy processing, or using to much memory, etc. In a Distributed
 Denial-of-Service (DDoS) attack, the request or responses come from a large
@@ -687,12 +687,12 @@ attack alone can be denial-of-service attack on the server, but often amplificat
 attacks are combined with the attacker spoofing the source IP address of
 the targeted victim. Since the size of the response is significantly larger
 then the request, the attacker is able to multiply the amount of traffic
-sent to the target. When transported over UPD, CoAP is susceptible to source
+sent to the target. When transported over UDP, CoAP is susceptible to source
 IP address spoofing.
 
-Amplification attacks with CoAP is unfortunatly not only theory, amplification
+Amplification attacks with CoAP is unfortunately not only theory, amplification
 factors of 10-100 are commonly reported from NoSec deployments. An amplification
-attack using a single reponse is illustrated in {{ampsingle}}.
+attack using a single response is illustrated in {{ampsingle}}.
 
 
 ~~~~
