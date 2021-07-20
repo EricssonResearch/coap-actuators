@@ -1,4 +1,6 @@
-# Controlling Actuators with CoAP
+# Sumarizing a Number of Known Attacks on CoAP
+
+Note that this repository is currently not compiling so all link below are outdated.
 
 This is the working area for the individual Internet-Draft, "Controlling Actuators with CoAP".
 
