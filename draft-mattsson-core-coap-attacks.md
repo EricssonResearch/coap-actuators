@@ -70,8 +70,9 @@ informative:
 
 --- abstract
 
-Being able to trust information from sensors and to securely control actuators
-are essential in a world of connected and networking things interacting with
+Being able to trust information from sensors, to securely control actuators, and
+to no enable distributed denial-of-service attacks are essential in a world of
+connected and networking things interacting with
 the physical world. This document summarizes a number of known attacks, and show that
 just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
 enough for secure operation. The goal with this document is motivating generic
