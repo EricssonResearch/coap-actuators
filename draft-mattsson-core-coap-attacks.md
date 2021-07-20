@@ -78,7 +78,7 @@ just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
 enough for secure operation. The goal with this document is motivating generic
 and protocol-specific recommendations on the usage of CoAP. Several of the
 discussed attacks can be mitigated with the solutions in
-{{I-D.ietf-core-echo-request-tag}}.
+draft-ietf-core-echo-request-tag.
 
 --- middle
 
