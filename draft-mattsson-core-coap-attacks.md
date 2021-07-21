@@ -12,7 +12,7 @@ pi:
   compact: 'yes'
   subcompact: 'no'
   iprnotified: 'no'
-title: Summarizing a Number of Known Attacks on CoAP
+title: CoAP Attacks
 abbrev: CoAP Attacks
 area: ''
 wg: ''
