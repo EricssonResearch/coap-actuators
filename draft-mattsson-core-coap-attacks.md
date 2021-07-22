@@ -66,6 +66,7 @@ informative:
   RFC9000:
   I-D.liu-core-coap-delay-attacks:
   I-D.ietf-lake-edhoc:
+  I-D.ietf-tls-dtls13:
 
   CoAP-Wild:
     target: https://www.netscout.com/blog/asert/coap-attacks-wild
@@ -86,7 +87,7 @@ informative:
 Being able to securely read information from sensors, to securely control actuators, and
 to not enable distributed denial-of-service attacks are essential in a world of
 connected and networking things interacting with
-the physical world. This document summarizes a number of known attacks on Coap,
+the physical world. This document summarizes a number of known attacks on CoAP,
 and show that just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
 enough for secure operation. The document also summarizes different denial-of-service
 attacks where CoAP deployments are used attack other networks or services.
@@ -104,10 +105,10 @@ are essential in a world of connected and networking things interacting with
 the physical world. One protocol used to interact with sensors and actuators
 is the Constrained Application Protocol (CoAP) {{RFC7252}}. Any
 Internet-of-Things (IoT) deployment valuing security and privacy would
-use a security protocol such as DTLS {{RFC6347}}, TLS {{RFC8446}}, or
+use a security protocol such as DTLS {{I-D.ietf-tls-dtls13}}, TLS {{RFC8446}}, or
 OSCORE {{RFC8613}} to protect CoAP, where the choice of security
 protocol depends on the transport protocol and the presence of intermediaries.
-The use of CoAP over UDP and DTLS is specified in {{RFC6347}} and the
+The use of CoAP over UDP and DTLS is specified in {{RFC7252}} and the
 use of CoAP over TCP and TLS is specified in {{RFC8323}}. OSCORE
 protects CoAP end-to-end with the use of COSE {{RFC8152}} and the CoAP
 Object-Security option {{RFC8613}}, and can therefore be used over any
@@ -700,26 +701,33 @@ more urgent:)
 
 ## Denial-of-Service Attacks {#dos}
 
-In a Denial-of-Service (DoS) attack a attacker sends a large number of requests
-or responses to a target endpoint. The denial-of-service might be caused be
+In a Denial-of-Service (DoS) attack, an attacker sends a large number of requests
+or responses to a target endpoint. The denial-of-service might be caused by
 the target endpoint receiving a large amount of data, sending a large amount
-of data, doing heavy processing, or using to much memory, etc. In a Distributed
+of data, doing heavy processing, or using too much memory, etc. In a Distributed
 Denial-of-Service (DDoS) attack, the request or responses come from a large
-amount of sources.
+number of sources.
 
-CoAP is susceptible to amplification attacks where an attacker sends a CoAP
-request to a server requesting as much information as possible. An amplification
-attack alone can be denial-of-service attack on the server, but often amplification
-attacks are combined with the attacker spoofing the source IP address of
-the targeted victim. Since the size of the response is significantly larger
-then the request, the attacker is able to multiply the amount of traffic
-sent to the target. When transported over UDP, CoAP is susceptible to source
-IP address spoofing.
+In an amplification attack, the amplification factor is the ratio between the
+size of the request and the total size of the response(s) to that request.
+An amplification attack alone can be denial-of-service attack on a server,
+but often amplification attacks are combined with the attacker spoofing the
+source IP address of the targeted victim. By requesting as much information
+as possible from several servers an attacker can multiply the amount of
+traffic and create a distributed denial-of-service attack on the target.
+When transported over UDP, the CoAP NoSec
+mode is susceptible to source IP address spoofing.
 
 Amplification attacks with CoAP is unfortunately not only theory, amplification
-factors of 10-100 are commonly reported from NoSec deployments. An amplification
-attack using a single response is illustrated in {{ampsingle}}.
+factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} and
+{{CoAP-Wild}} report average amplification factor of 27 and 34 respectively
+from a single response to a GET request for /.well-known/core to the default UDP port 5693.
+NoSec CoAP servers accessible over the Internet are mostly concentrated to a few countries
+and a few implementations, which do not really follow the recommendations in Section
+11.3 of [RFC7252] (but the requirements are a bit soft). 
 
+An amplification attack using a single response is illustrated in {{ampsingle}}.
+If the response is a times larger than the request, the amplification factor is a.
 
 ~~~~
 Client   Foe   Server
@@ -745,7 +753,8 @@ Amplification factors can be significantly worse when combined with
 observe {{RFC7641}} and multicast {{I-D.ietf-core-groupcomm-bis}}. An
 amplification attack using observe is illustrated in
 {{ampmulti_n}}. In this case a single request results in n responses
-from a single server.
+from a single server. If each response is a times larger than the request,
+the amplification factor is a * n.
 
 
 ~~~~
@@ -777,7 +786,9 @@ Client   Foe   Server
 
 An amplification attack using a multicast request is illustrated in
 {{ampmulti_m}}. In this case a single request results in m responses
-from m different servers.
+from m different servers. If each response is a times larger than the request,
+the amplification factor is a * m. Note that the servers usually do not know
+the variable m.
 
 
 ~~~~
@@ -802,7 +813,8 @@ Client   Foe   Server
 An amplification attack using a multicast request and observe is
 illustrated in {{ampmulti_mn}}. In this case a single request results
 in n responses each from m different servers giving a total of n \* m
-responses.
+responses. If each response is a times larger than the request,
+the amplification factor is a * n * m.
 
 
 ~~~~
@@ -838,6 +850,16 @@ Client   Foe   Server
 ~~~~
 {: #ampmulti_mn title='Amplification attack using multicast and observe' artwork-align="center"}
 
+While CoAP has always considered amplification attacks, the recommendations
+in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft.
+Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
+"large aplification factor" is, {{RFC7641}} requires validation but with spoofable messages, and
+in several cases the "SHOULD" level is further softened by “If possible" and "generally".
+
+QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
+
+Remedy: {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} should be augmented with strict normative requirements (MUST) on implementations similar to QUIC with a specified anti-amplification limit. It should be clear that any devices used
+in DDoS attacks are violating IETF requirements. 
 
 # Security Considerations
 
