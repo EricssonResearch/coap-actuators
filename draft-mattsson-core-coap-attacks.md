@@ -83,12 +83,14 @@ informative:
     
 --- abstract
 
-Being able to trust information from sensors, to securely control actuators, and
-to no enable distributed denial-of-service attacks are essential in a world of
+Being able to securely read information from sensors, to securely control actuators, and
+to not enable distributed denial-of-service attacks are essential in a world of
 connected and networking things interacting with
-the physical world. This document summarizes a number of known attacks, and show that
-just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
-enough for secure operation. The goal with this document is motivating generic
+the physical world. This document summarizes a number of known attacks on Coap,
+and show that just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
+enough for secure operation. The document also summarizes different denial-of-service
+attacks where CoAP deployments are used attack other networks or services.
+The goal with this document is motivating generic
 and protocol-specific recommendations on the usage of CoAP. Several of the
 discussed attacks can be mitigated with the solutions in
 draft-ietf-core-echo-request-tag.
@@ -97,7 +99,7 @@ draft-ietf-core-echo-request-tag.
 
 # Introduction
 
-Being able to trust information from sensors and to securely control actuators
+Being able to securely read information from sensors and to securely control actuators
 are essential in a world of connected and networking things interacting with
 the physical world. One protocol used to interact with sensors and actuators
 is the Constrained Application Protocol (CoAP) {{RFC7252}}. Any
@@ -158,15 +160,24 @@ cause unauthorized operations to be performed on the server, and
 responses to unauthorized operations to be mistaken for responses to
 authorized operations.
 
+Protecting the CoAP deployment itself is not enough. CoAP deployments
+need to make sure that they are not used for distributed denial-of-service
+attacks on other networks and services. {{dos}} summarizes different
+denial-of-service attacks using CoAP. When transported over UDP, the CoAP
+NoSec mode is susceptible to source IP address spoofing and as a single
+request can result in multiple responses from multiple servers, CoAP
+can have very large amplification factors.
+
+The goal with this document is motivating generic
+and protocol-specific recommendations on the usage of CoAP.
 Mechanisms mitigating some of the attacks discussed in this document can
-be found in {{I-D.ietf-core-echo-request-tag}} and
-{{I-D.liu-core-coap-delay-attacks}}.
+be found in {{I-D.ietf-core-echo-request-tag}}.
 
 ## Terminology
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
-# Attacks
+# Attacks on CoAP
 
 Internet-of-Things (IoT) deployments valuing security and privacy, MUST use
 a security protocol such as DTLS, TLS, or OSCORE to protect CoAP. This is
@@ -685,8 +696,9 @@ more urgent:)
 
 
 
+# Attacks using CoAP
 
-# Denial-of-Service Attacks {#dos}
+## Denial-of-Service Attacks {#dos}
 
 In a Denial-of-Service (DoS) attack a attacker sends a large number of requests
 or responses to a target endpoint. The denial-of-service might be caused be
@@ -845,4 +857,3 @@ This document has no actions for IANA.
 The authors would like to thank Carsten Bormann, Klaus Hartke, Ari Keränen,
 Matthias Kovatsch, Achim Kraus, Sandeep Kumar, and András Méhes for their valuable comments
 and feedback.
-
