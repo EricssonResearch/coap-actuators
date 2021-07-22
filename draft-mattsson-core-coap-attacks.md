@@ -723,7 +723,7 @@ factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} 
 {{CoAP-Wild}} report average amplification factor of 27 and 34 respectively
 from a single response to a GET request for /.well-known/core to the default UDP port 5693.
 NoSec CoAP servers accessible over the Internet are mostly concentrated to a few countries
-and a few implementations, which do not really follow the recommendations in Section
+and a few implementations, which do not follow the recommendations in Section
 11.3 of [RFC7252] (but the requirements are a bit soft). 
 
 An amplification attack using a single response is illustrated in {{ampsingle}}.
