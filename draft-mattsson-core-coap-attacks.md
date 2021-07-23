@@ -56,6 +56,7 @@ normative:
   RFC7252:
   RFC7641:
   I-D.ietf-core-echo-request-tag:
+  I-D.ietf-core-coap-pubsub:
   I-D.ietf-core-groupcomm-bis:
 informative:
   RFC6347:
