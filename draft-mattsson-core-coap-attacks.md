@@ -785,6 +785,38 @@ Client   Foe   Server
 ~~~~
 {: #ampmulti_n title='Amplification attack using observe' artwork-align="center"}
 
+With a Publish-Subscribe Broker for CoAP {{I-D.ietf-core-coap-pubsub}} an
+attacker can create an arbitrary large amplification factor. An
+amplification attack using a Publish-Subscribe Broker is illustrated in
+{{ampmulti_ps}}. Assuming requests and reponses have the same size (a = 1),
+and that the attacker sends k subscriptions and then publishes k times,
+the amplification factor is k / 2.
+
+~~~~
+Client   Foe   Server
+   |      |      |
+   |      +----->|      SUBSCRIBE
+   |      +----->|      SUBSCRIBE
+   |      +----->|      SUBSCRIBE
+     ....   ....
+   |      +----->|      PUBLISH
+   |<------------+      2.05 Content
+   |<------------+      2.05 Content
+   |<------------+      2.05 Content
+     ....   ....
+   |      +----->|      PUBLISH
+   |<------------+      2.05 Content
+   |<------------+      2.05 Content
+   |<------------+      2.05 Content
+     ....   ....
+   |      +----->|      PUBLISH
+   |<------------+      2.05 Content
+   |<------------+      2.05 Content
+   |<------------+      2.05 Content
+     ....   ....
+~~~~
+{: #ampmulti_ps title='Amplification attack using observe' artwork-align="center"}
+
 An amplification attack using a multicast request is illustrated in
 {{ampmulti_m}}. In this case a single request results in m responses
 from m different servers. If each response is a times larger than the request,
