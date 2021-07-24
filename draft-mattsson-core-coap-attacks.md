@@ -88,8 +88,8 @@ informative:
 Being able to securely read information from sensors, to securely control actuators, and
 to not enable distributed denial-of-service attacks are essential in a world of
 connected and networking things interacting with
-the physical world. This document summarizes a number of known attacks on CoAP,
-and show that just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
+the physical world. This document summarizes a number of known attacks on CoAP and
+show that just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
 enough for secure operation. The document also summarizes different denial-of-service
 attacks where CoAP deployments are used attack other networks or services.
 The goal with this document is motivating generic
@@ -132,7 +132,7 @@ In this document we show that protecting CoAP with a security protocol on
 another layer is not nearly enough to securely control actuators (and in
 many cases sensors) and that secure operation often demands far more than
 the four properties traditionally provided by security protocols. We describe
-several serious attacks any on-path attacker (i.e. not only "trusted intermediaries")
+several serious attacks any on-path attacker (i.e., not only "trusted intermediaries")
 can do and discusses tougher requirements and mechanisms to mitigate the
 attacks. In general, secure operation of actuators also requires the three
 properties:
@@ -143,9 +143,9 @@ properties:
 
 * Data-to-time binding
 
-"Data-to-Data binding" is e.g. binding of responses to a request or binding
+"Data-to-Data binding" is e.g., binding of responses to a request or binding
 of data fragments to each other. "Data-to-space binding" is the binding of
-data to an absolute or relative point in space (i.e. a location) and may
+data to an absolute or relative point in space (i.e., a location) and may
 in the relative case be referred to as proximity. "Data-to-time binding"
 is the binding of data to an absolute or relative point in time and may in
 the relative case be referred to as freshness. The two last properties may
@@ -711,7 +711,7 @@ number of sources.
 
 In an amplification attack, the amplification factor is the ratio between the
 total size of the data sent to the target and the total size of the data
-sent by the attacker. In the attacks decribed in this section, the
+sent by the attacker. In the attacks described in this section, the
 attacker sends one or more requests, and the target receives one or more
 requests. An amplification attack alone can be denial-of-service attack on a server,
 but often amplification attacks are combined with the attacker spoofing the
@@ -788,10 +788,10 @@ Client   Foe   Server
 ~~~~
 {: #ampmulti_n title='Amplification attack using observe' artwork-align="center"}
 
-By registering the same client several times, the bandwith can be increased.
+By registering the same client several times, the bandwidth can be increased.
 An amplification attack using several observe registrations is illustrated in
 {{ampmulti_nk}}. If the attacker registers the same client k times, each
-notification will results in k responses to the same client. If each response
+notification results in k responses to the same client. If each response
 is a times larger than the request, and the server sends n notifications,
 the amplification factor is still a * n.
 
@@ -935,7 +935,7 @@ Client   Foe   Server
 While CoAP has always considered amplification attacks, the recommendations
 in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft.
 Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
-"large aplification factor" is, {{RFC7641}} requires validation but with spoofable messages, and
+"large amplification factor" is, {{RFC7641}} requires validation but with spoofable messages, and
 in several cases the "SHOULD" level is further softened by “If possible" and "generally".
 {{I-D.ietf-core-coap-pubsub}} does not have any amplification attack considerations.
 
