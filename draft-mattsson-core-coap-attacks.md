@@ -834,7 +834,7 @@ Client   Foe   Server
 {: #ampmulti_nk title='Amplification attack using observe' artwork-align="center"}
 
 With publish-subscribe {{I-D.ietf-core-coap-pubsub}} an
-attacker gets increased control over the attacks and can create an arbitrary
+attacker gets increased control over the attack and can create an arbitrary
 large amplification factor. An amplification attack using publish-subscribe
 is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request,
 the attacker sends k subscriptions, and then publishes n times, and a * n >> k,
