@@ -751,12 +751,13 @@ Client   Foe   Server
 {: #ampsingle title='Amplification attack using a single response' artwork-align="center"}
 
 Amplification factors can be significantly worse when combined with
-observe {{RFC7641}} and multicast {{I-D.ietf-core-groupcomm-bis}}. An
-amplification attack using observe is illustrated in
+observe {{RFC7641}}, publish-subscribe {{I-D.ietf-core-coap-pubsub}},
+and multicast {{I-D.ietf-core-groupcomm-bis}}.
+
+An amplification attack using observe is illustrated in
 {{ampmulti_n}}. In this case a single request results in n responses
 from a single server. If each response is a times larger than the request,
 the amplification factor is a * n.
-
 
 ~~~~
 Client   Foe   Server
@@ -785,12 +786,58 @@ Client   Foe   Server
 ~~~~
 {: #ampmulti_n title='Amplification attack using observe' artwork-align="center"}
 
+By registering the same client several times, the bandwith can be increased.
+An amplification attack using several observe registrations is illustrated in
+{{ampmulti_nk}}. If the attacker registers the same client k times, each
+notification will results in k responses to the same client. If each response
+is a times larger than the request, and the server sends n notifications,
+the amplification factor is still a * n.
+
+~~~~
+Client   Foe   Server
+   |      |      |
+   |      +----->|      Code: 0.01 (GET)
+   |      | GET  |     Token: 0x83
+   |      |      |   Observe: 0
+   |      |      |  Uri-Path: stock market index 1 min
+   |      |      |
+   |      +----->|      Code: 0.01 (GET)
+   |      | GET  |     Token: 0x84
+   |      |      |   Observe: 0
+   |      |      |  Uri-Path: stock market index 1 min
+     ....   ....
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x83
+   |      |      |   Observe: 217362
+   |      |      |   Payload: 3749.7
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x84
+   |      |      |   Observe: 217362
+   |      |      |   Payload: 3749.7
+   |      |      |
+     ....   ....
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x83
+   |      |      |   Observe: 217363
+   |      |      |   Payload: 3745.33
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |     Token: 0x84
+   |      |      |   Observe: 217363
+   |      |      |   Payload: 3745.33
+   |      |      |
+     ....   ....
+~~~~
+{: #ampmulti_nk title='Amplification attack using observe' artwork-align="center"}
+
 With a Publish-Subscribe Broker for CoAP {{I-D.ietf-core-coap-pubsub}} an
-attacker can create an arbitrary large amplification factor. An
-amplification attack using a Publish-Subscribe Broker is illustrated in
-{{ampmulti_ps}}. Assuming requests and reponses have the same size (a = 1),
-and that the attacker sends k subscriptions and then publishes k times,
-the amplification factor is k / 2.
+attacker gets increased control over teh attacks and can create an arbitrary
+large amplification factor. An amplification attack using a Publish-Subscribe Broker
+is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request
+(controlled be the attacker), the attacker sends k subscriptions (controlled by the attacker),
+and then publishes n times (controlled by the attacker), and a * n >> k (controlled by the attacker),
+the amplification factor is k.
 
 ~~~~
 Client   Foe   Server
