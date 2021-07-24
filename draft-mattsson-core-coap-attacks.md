@@ -833,9 +833,9 @@ Client   Foe   Server
 ~~~~
 {: #ampmulti_nk title='Amplification attack using observe' artwork-align="center"}
 
-With a Publish-Subscribe Broker for CoAP {{I-D.ietf-core-coap-pubsub}} an
+With publish-subscribe {{I-D.ietf-core-coap-pubsub}} an
 attacker gets increased control over the attacks and can create an arbitrary
-large amplification factor. An amplification attack using a Publish-Subscribe Broker
+large amplification factor. An amplification attack using publish-subscribe
 is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request,
 the attacker sends k subscriptions, and then publishes n times, and a * n >> k,
 the amplification factor is k. Note that the attacker controls the variables a,
@@ -936,8 +936,8 @@ While CoAP has always considered amplification attacks, the recommendations
 in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft.
 Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
 "large aplification factor" is, {{RFC7641}} requires validation but with spoofable messages, and
-in several cases the "SHOULD" level is further softened by “If possible" and "generally". {{I-D.ietf-core-coap-pubsub}}
-does not have any amplification attack considerations.
+in several cases the "SHOULD" level is further softened by “If possible" and "generally".
+{{I-D.ietf-core-coap-pubsub}} does not have any amplification attack considerations.
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
 
