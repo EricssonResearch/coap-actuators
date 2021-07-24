@@ -710,8 +710,10 @@ Denial-of-Service (DDoS) attack, the request or responses come from a large
 number of sources.
 
 In an amplification attack, the amplification factor is the ratio between the
-size of the request and the total size of the response(s) to that request.
-An amplification attack alone can be denial-of-service attack on a server,
+total size of the data sent to the target and the total size of the data
+sent by the attacker. In the attacks decribed in this section, the
+attacker sends one or more requests, and the target receives one or more
+requests. An amplification attack alone can be denial-of-service attack on a server,
 but often amplification attacks are combined with the attacker spoofing the
 source IP address of the targeted victim. By requesting as much information
 as possible from several servers an attacker can multiply the amount of
@@ -832,12 +834,12 @@ Client   Foe   Server
 {: #ampmulti_nk title='Amplification attack using observe' artwork-align="center"}
 
 With a Publish-Subscribe Broker for CoAP {{I-D.ietf-core-coap-pubsub}} an
-attacker gets increased control over teh attacks and can create an arbitrary
+attacker gets increased control over the attacks and can create an arbitrary
 large amplification factor. An amplification attack using a Publish-Subscribe Broker
-is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request
-(controlled be the attacker), the attacker sends k subscriptions (controlled by the attacker),
-and then publishes n times (controlled by the attacker), and a * n >> k (controlled by the attacker),
-the amplification factor is k.
+is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request,
+the attacker sends k subscriptions, and then publishes n times, and a * n >> k,
+the amplification factor is k. Note that the attacker controls the variables a,
+k, and n.
 
 ~~~~
 Client   Foe   Server
@@ -934,7 +936,8 @@ While CoAP has always considered amplification attacks, the recommendations
 in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft.
 Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
 "large aplification factor" is, {{RFC7641}} requires validation but with spoofable messages, and
-in several cases the "SHOULD" level is further softened by “If possible" and "generally".
+in several cases the "SHOULD" level is further softened by “If possible" and "generally". {{I-D.ietf-core-coap-pubsub}}
+does not have any amplification attack considerations.
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
 
