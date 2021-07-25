@@ -753,7 +753,8 @@ Client   Foe   Server
 An attacker can increase the bandwidth by sending several requests. An attacker can
 also increase or control the amplification factor by creating or updating resources.
 An amplification attack where the attacker influences the amplification factor
-is illustrated in {{ampmulti_post}}.
+is illustrated in {{ampmulti_post}}. Note that the attacker controls the
+amplification factor a.
 
 ~~~~
 Client   Foe   Server
@@ -790,7 +791,7 @@ An amplification attack using observe is illustrated in
 from a single server. If each response is a times larger than the request,
 the amplification factor is a * n. If it is predictable when
 notifications are sent in non-confirmable and which Message ID are used
-the acknowledgements can be spoofed.
+any acknowledgements can be spoofed.
 
 ~~~~
 Client   Foe   Server
@@ -862,11 +863,12 @@ Client   Foe   Server
    |      |      |
      ....   ....
 ~~~~
-{: #ampmulti_nk title='Amplification attack using observe' artwork-align="center"}
+{: #ampmulti_nk title='Amplification attack using observe and registering the same client several times' artwork-align="center"}
 
 With publish-subscribe {{I-D.ietf-core-coap-pubsub}} an
 attacker gets increased control over the attack and can create an arbitrary
-large amplification factor. An amplification attack using publish-subscribe
+large amplification factor. The attacker can also control the timing of the
+notifications. An amplification attack using publish-subscribe
 is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request,
 the attacker sends k subscriptions, and then publishes n times, the amplification factor
 is larger than k * a * n / (k + a * n). Note that the attacker controls the variables a,
@@ -895,7 +897,7 @@ Client   Foe   Server
    |<------------+      2.05 Content
      ....   ....
 ~~~~
-{: #ampmulti_ps title='Amplification attack using observe' artwork-align="center"}
+{: #ampmulti_ps title='Amplification attack using publish-subscribe' artwork-align="center"}
 
 An amplification attack using a multicast request is illustrated in
 {{ampmulti_m}}. In this case a single request results in m responses
