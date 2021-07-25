@@ -871,7 +871,7 @@ large amplification factor. The attacker can also control the timing of the
 notifications. An amplification attack using publish-subscribe
 is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request,
 the attacker sends k subscriptions, and then publishes n times, the amplification factor
-is larger than k * a * n / (k + a * n). Note that the attacker controls the variables a,
+is k * a * n / (k + a * n). Note that the attacker controls the variables a,
 k, and n.
 
 ~~~~
