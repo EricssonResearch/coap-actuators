@@ -736,12 +736,10 @@ If the response is a times larger than the request, the amplification factor is 
 Client   Foe   Server
    |      |      |
    |      +----->|      Code: 0.01 (GET)
-   |      | GET  |     Token: 0x77
-   |      |      |  Uri-Path: random quote
+   |      | GET  |  Uri-Path: random quote
    |      |      |
    |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x77
-   |      |      |   Payload: "just because you own half the county
+   |      | 2.05 |   Payload: "just because you own half the county
    |      |      |             doesn't mean that you have the power
    |      |      |             to run the rest of us. For twenty-
    |      |      |             three years, I've been dying to tell
@@ -752,6 +750,37 @@ Client   Foe   Server
 ~~~~
 {: #ampsingle title='Amplification attack using a single response' artwork-align="center"}
 
+An attacker can increase the bandwidth by sending several requests. An attacker can
+also increase or control the amplification factor by creating or updating resources.
+An amplification attack where the attacker influences the amplification factor
+is illustrated in {{ampmulti_post}}.
+
+~~~~
+Client   Foe   Server
+   |      |      |
+   |      +----->|      Code: 0.02 (POST)
+   |      | POST |  Uri-Path: /member/
+   |      |      |   Payload: hampsterdance.hevc
+   |      |      |
+   |<------------+      Code: 2.04 (Changed)
+   |      | 2.04 |
+   |      |      |
+   |      +----->|      Code: 0.02 (GET)
+   |      | GET  |  Uri-Path: /member/
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |   Payload: hampsterdance.hevc
+   |      |      |
+   |      +----->|      Code: 0.02 (GET)
+   |      | GET  |  Uri-Path: /member/
+   |      |      |
+   |<------------+      Code: 2.05 (Content)
+   |      | 2.05 |   Payload: hampsterdance.hevc
+   |      |      |
+     ....   ....
+~~~~
+{: #ampmulti_post title='Amplification attack using a single response' artwork-align="center"}
+
 Amplification factors can be significantly worse when combined with
 observe {{RFC7641}}, publish-subscribe {{I-D.ietf-core-coap-pubsub}},
 and multicast {{I-D.ietf-core-groupcomm-bis}}.
@@ -759,7 +788,9 @@ and multicast {{I-D.ietf-core-groupcomm-bis}}.
 An amplification attack using observe is illustrated in
 {{ampmulti_n}}. In this case a single request results in n responses
 from a single server. If each response is a times larger than the request,
-the amplification factor is a * n.
+the amplification factor is a * n. If it is predictable when
+notifications are sent in non-confirmable and which Message ID are used
+the acknolegements can be spoofed.
 
 ~~~~
 Client   Foe   Server
@@ -837,8 +868,8 @@ With publish-subscribe {{I-D.ietf-core-coap-pubsub}} an
 attacker gets increased control over the attack and can create an arbitrary
 large amplification factor. An amplification attack using publish-subscribe
 is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request,
-the attacker sends k subscriptions, and then publishes n times, and a * n >> k,
-the amplification factor is k. Note that the attacker controls the variables a,
+the attacker sends k subscriptions, and then publishes n times, the amplification factor
+is larger than k * a * n / (k + a * n). Note that the attacker controls the variables a,
 k, and n.
 
 ~~~~
