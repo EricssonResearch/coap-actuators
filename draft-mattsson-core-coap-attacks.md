@@ -713,7 +713,7 @@ In an amplification attack, the amplification factor is the ratio between the
 total size of the data sent to the target and the total size of the data
 sent by the attacker. In the attacks described in this section, the
 attacker sends one or more requests, and the target receives one or more
-requests. An amplification attack alone can be denial-of-service attack on a server,
+responses. An amplification attack alone can be denial-of-service attack on a server,
 but often amplification attacks are combined with the attacker spoofing the
 source IP address of the targeted victim. By requesting as much information
 as possible from several servers an attacker can multiply the amount of
