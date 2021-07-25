@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-mattsson-core-coap-attacks-00
+docname: draft-mattsson-core-coap-attacks-latest
 cat: info
 pi:
   strict: 'yes'
