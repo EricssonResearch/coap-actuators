@@ -790,7 +790,7 @@ An amplification attack using observe is illustrated in
 from a single server. If each response is a times larger than the request,
 the amplification factor is a * n. If it is predictable when
 notifications are sent in non-confirmable and which Message ID are used
-the acknolegements can be spoofed.
+the acknowledgements can be spoofed.
 
 ~~~~
 Client   Foe   Server
