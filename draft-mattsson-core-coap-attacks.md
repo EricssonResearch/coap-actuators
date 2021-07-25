@@ -790,8 +790,8 @@ An amplification attack using observe is illustrated in
 {{ampmulti_n}}. In this case a single request results in n responses
 from a single server. If each response is a times larger than the request,
 the amplification factor is a * n. If it is predictable when
-notifications are sent in non-confirmable and which Message ID are used
-any acknowledgements can be spoofed.
+notifications are sent in non-confirmable and which Message ID are used 
+acknowledgements can be spoofed.
 
 ~~~~
 Client   Foe   Server
@@ -968,13 +968,15 @@ Client   Foe   Server
 While CoAP has always considered amplification attacks, the recommendations
 in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft.
 Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
-"large amplification factor" is, {{RFC7641}} requires validation but with spoofable messages, and
+"large amplification factor" is, {{RFC7641}} does not specify how many notifications
+that can be sent before a potentially spoofable acknoledgement must be sent, and
 in several cases the "SHOULD" level is further softened by “If possible" and "generally".
 {{I-D.ietf-core-coap-pubsub}} does not have any amplification attack considerations.
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
 
-Remedy: {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} should be augmented with strict normative requirements (MUST) on implementations similar to QUIC with a specified anti-amplification limit. It should be clear that any devices used
+Remedy: {{RFC7252}}, and perhaps {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} should be augmented with a strict normative requirement
+(MUST) on implementations similar to QUIC with a specified anti-amplification limit and no exceptions. It should be clear that any devices used
 in DDoS attacks are violating IETF requirements. 
 
 # Security Considerations
