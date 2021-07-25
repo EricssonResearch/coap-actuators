@@ -779,7 +779,7 @@ Client   Foe   Server
    |      |      |
      ....   ....
 ~~~~
-{: #ampmulti_post title='Amplification attack using a single response' artwork-align="center"}
+{: #ampmulti_post title='Amplification attack using a several requests and a chosen amplification factor' artwork-align="center"}
 
 Amplification factors can be significantly worse when combined with
 observe {{RFC7641}}, publish-subscribe {{I-D.ietf-core-coap-pubsub}},
