@@ -975,7 +975,7 @@ in several cases the "SHOULD" level is further softened by “If possible" and "
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
 
-Remedy: {{RFC7252}}, and perhaps {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} should be augmented with a strict normative requirement
+Remedy: {{RFC7252}}, and perhaps {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} should be updated with a strict normative requirement
 (MUST) on implementations similar to QUIC with a specified anti-amplification limit and no exceptions. It should be clear that any devices used
 in DDoS attacks are violating IETF requirements. 
 
