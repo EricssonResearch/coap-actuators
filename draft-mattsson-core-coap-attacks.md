@@ -905,7 +905,7 @@ in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft.
 Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
 "large amplification factor" is, {{RFC7641}} does not specify how many notifications
 that can be sent before a potentially spoofable acknowledgement must be sent, and
-in several cases the "SHOULD" level is further softened by “If possible" and "generally"
+in several cases the "SHOULD" level is further softened by “If possible" and "generally".
 {{I-D.ietf-core-conditional-attributes}} does not have any amplification attack considerations.
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
