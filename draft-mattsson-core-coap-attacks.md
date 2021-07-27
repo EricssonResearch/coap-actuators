@@ -787,7 +787,7 @@ By registering the same client several times using different Tokens or port numb
 the bandwidth can be increased. By updating the observed resource, the attacker
 may trigger notifications and increase the size of the notifications. By using
 conditional attributes {{I-D.ietf-core-conditional-attributes}} an attacker may increase the frequency of
-notifications and therefore the amplification factor and the bandwidth. The maximum period attribute pmax
+notifications and therefore the amplification factor. The maximum period attribute pmax
 indicates the maximum time, in seconds, between two consecutive notifications (whether or not the
 resource state has changed). If it is predictable when notifications
 are sent as confirmable and which Message ID are used the acknowledgements may be spoofed.
