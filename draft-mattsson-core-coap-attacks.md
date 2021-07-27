@@ -799,13 +799,13 @@ Client   Foe   Server
    |      | GET  |     Token: 0x83
    |      |      |   Observe: 0
    |      |      |  Uri-Path: temperature
-   |      |      |  Uri-Query: pmax="1"
+   |      |      |  Uri-Query: pmax="0.1"
    |      |      |
    |      +----->|      Code: 0.01 (GET)
    |      | GET  |     Token: 0x84
    |      |      |   Observe: 0
    |      |      |  Uri-Path: temperature
-   |      |      |  Uri-Query: pmax="1"
+   |      |      |  Uri-Query: pmax="0.1"
    |      |      |
      ....   ....
    |<------------+      Code: 2.05 (Content)
@@ -889,12 +889,12 @@ Client   Foe   Server
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |     Token: 0x44
    |      |      |   Observe: 218
-   |      |      |   Payload: "301.5 K"
+   |      |      |   Payload: "301.2 K"
    |      |      |
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |     Token: 0x44
    |      |      |   Observe: 364
-   |      |      |   Payload: "293.6 K"
+   |      |      |   Payload: "293.4 K"
    |      |      |
      ....   ....
 ~~~~
