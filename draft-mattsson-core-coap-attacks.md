@@ -142,7 +142,7 @@ properties:
 
 * Data-to-time binding
 
-"Data-to-Data binding" is e.g., binding of responses to a request or binding
+"Data-to-data binding" is e.g., binding of responses to a request or binding
 of data fragments to each other. "Data-to-space binding" is the binding of
 data to an absolute or relative point in space (i.e., a location) and may
 in the relative case be referred to as proximity. "Data-to-time binding"
