@@ -100,6 +100,10 @@ draft-ietf-core-echo-request-tag.
 
 # Introduction
 
+RFC EDITOR: PLEASE REMOVE THE FOLLOWING PARAGRAPH The source for this
+draft is maintained in GitHub. Issues and pull requests can be submitted
+at https://github.com/EricssonResearch/coap-actuators
+
 Being able to securely read information from sensors and to securely control actuators
 are essential in a world of connected and networking things interacting with
 the physical world. One protocol used to interact with sensors and actuators
