@@ -727,7 +727,7 @@ and a few implementations, which do not follow the recommendations in Section
 11.3 of [RFC7252] (but the requirements are a bit soft). 
 
 An amplification attack using a single response is illustrated in {{ampsingle}}.
-If the response is a times larger than the request, the amplification factor is a.
+If the response is c times larger than the request, the amplification factor is c.
 
 ~~~~
 Client   Foe   Server
@@ -781,8 +781,8 @@ request can result in multiple responses from multiple servers, the amplificatio
 factors can be very large.
 
 An amplification attack using observe is illustrated in
-{{ampmulti_nk}}. If each notification response is a times larger than the registration
-request and each request results in n notifications, the amplification factor is a * n. 
+{{ampmulti_nk}}. If each notification response is c times larger than the registration
+request and each request results in n notifications, the amplification factor is c * n. 
 By registering the same client several times using different Tokens or port numbers,
 the bandwidth can be increased. By updating the observed resource, the attacker
 may trigger notifications and increase the size of the notifications. By using
@@ -830,13 +830,13 @@ Client   Foe   Server
    |      |      |   Payload: "299.7 K"
      ....   ....
 ~~~~
-{: #ampmulti_nk title='Amplification attack using observe, registering the same client several times, and requesting notifications at least every second' artwork-align="center"}
+{: #ampmulti_nk title='Amplification attack using observe, registering the same client several times, and requesting notifications at least 10 times every second' artwork-align="center"}
 
 An amplification attack using a group request is illustrated in
 {{ampmulti_m}}. The group request is sent over multicast or broadcast
 and in this case a single request results in m responses
-from m different servers. If each response is a times larger than the request,
-the amplification factor is a * m. Note that the servers usually do not know
+from m different servers. If each response is c times larger than the request,
+the amplification factor is c * m. Note that the servers usually do not know
 the variable m.
 
 
@@ -862,8 +862,8 @@ Client   Foe   Server
 An amplification attack using a multicast request and observe is
 illustrated in {{ampmulti_mn}}. In this case a single request results
 in n responses each from m different servers giving a total of n \* m
-responses. If each response is a times larger than the request,
-the amplification factor is a * n * m.
+responses. If each response is c times larger than the request,
+the amplification factor is c * n * m.
 
 
 ~~~~
@@ -910,7 +910,7 @@ in several cases the "SHOULD" level is further softened by “If possible" and "
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
 
-In CoAP, an address can be validated with a security protocol like DTLS, TLS, OSCORE, or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Resticting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accesible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
+In CoAP, an address can be validated with a security protocol like DTLS, TLS, OSCORE, or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Resticting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accesible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
 
 Remedy: {{RFC7252}} should be updated with a strict normative requirement (MUST) on implementations similar to QUIC with a specified anti-amplification limit and no exceptions. It should be clear that any devices used in DDoS attacks are violating IETF requirements. 
 
