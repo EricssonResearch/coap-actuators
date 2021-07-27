@@ -1,12 +1,12 @@
-# Sumarizing a Number of Known Attacks on CoAP
+# CoAP Attacks
 
 Note that this repository is currently not compiling so all link below are outdated.
 
 This is the working area for the individual Internet-Draft, "Controlling Actuators with CoAP".
 
-* [Editor's Copy](https://EricssonResearch.github.io/coap-actuators/#go.draft-mattsson-core-coap-actuators.html)
-* [Working Group Draft](https://tools.ietf.org/html/draft-mattsson-core-coap-actuators)
-* [Compare Editor's Copy to Working Group Draft](https://EricssonResearch.github.io/coap-actuators/#go.draft-mattsson-core-coap-actuators.diff)
+* [Editor's Copy](https://EricssonResearch.github.io/coap-actuators/#go.draft-mattsson-core-coap-attacks.html)
+* [Working Group Draft](https://tools.ietf.org/html/draft-mattsson-core-coap-attacks)
+* [Compare Editor's Copy to Working Group Draft](https://EricssonResearch.github.io/coap-actuators/#go.draft-mattsson-core-coap-attacks).diff)
 
 ## Building the Draft
 
