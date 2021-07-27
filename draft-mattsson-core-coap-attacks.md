@@ -56,7 +56,7 @@ normative:
   RFC7252:
   RFC7641:
   I-D.ietf-core-echo-request-tag:
-  I-D.ietf-core-coap-pubsub:
+  I-D.ietf-core-conditional-attributes:
   I-D.ietf-core-groupcomm-bis:
 informative:
   RFC6347:
@@ -91,8 +91,7 @@ connected and networking things interacting with
 the physical world. This document summarizes a number of known attacks on CoAP and
 show that just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
 enough for secure operation. The document also summarizes different denial-of-service
-attacks where CoAP deployments are used attack other networks or services.
-The goal with this document is motivating generic
+attacks using CoAP. The goal with this document is motivating generic
 and protocol-specific recommendations on the usage of CoAP. Several of the
 discussed attacks can be mitigated with the solutions in
 draft-ietf-core-echo-request-tag.
@@ -137,7 +136,7 @@ can do and discusses tougher requirements and mechanisms to mitigate the
 attacks. In general, secure operation of actuators also requires the three
 properties:
 
-* Data-to-Data binding
+* Data-to-data binding
 
 * Data-to-space binding
 
@@ -162,9 +161,9 @@ cause unauthorized operations to be performed on the server, and
 responses to unauthorized operations to be mistaken for responses to
 authorized operations.
 
-Protecting the CoAP deployment itself is not enough. CoAP deployments
+Protecting CoAP against attacks is not enough. CoAP deployments
 need to make sure that they are not used for distributed denial-of-service
-attacks on other networks and services. {{dos}} summarizes different
+attacks. {{dos}} summarizes different
 denial-of-service attacks using CoAP. When transported over UDP, the CoAP
 NoSec mode is susceptible to source IP address spoofing and as a single
 request can result in multiple responses from multiple servers, CoAP
@@ -696,8 +695,6 @@ more urgent:)
 ~~~~
 {: #freethehitman title='Injecting a withheld first block'}
 
-
-
 # Attacks using CoAP
 
 ## Denial-of-Service Attacks {#dos}
@@ -713,7 +710,7 @@ In an amplification attack, the amplification factor is the ratio between the
 total size of the data sent to the target and the total size of the data
 sent by the attacker. In the attacks described in this section, the
 attacker sends one or more requests, and the target receives one or more
-responses. An amplification attack alone can be denial-of-service attack on a server,
+responses. An amplification attack alone can be a denial-of-service attack on a server,
 but often amplification attacks are combined with the attacker spoofing the
 source IP address of the targeted victim. By requesting as much information
 as possible from several servers an attacker can multiply the amount of
@@ -723,8 +720,8 @@ mode is susceptible to source IP address spoofing.
 
 Amplification attacks with CoAP is unfortunately not only theory, amplification
 factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} and
-{{CoAP-Wild}} report average amplification factor of 27 and 34 respectively
-from a single response to a GET request for /.well-known/core to the default UDP port 5693.
+{{CoAP-Wild}} report average amplification factors of 27 and 34 respectively
+from a single response to a GET request for /.well-known/core to the default UDP port 5683.
 NoSec CoAP servers accessible over the Internet are mostly concentrated to a few countries
 and a few implementations, which do not follow the recommendations in Section
 11.3 of [RFC7252] (but the requirements are a bit soft). 
@@ -746,15 +743,14 @@ Client   Foe   Server
    |      |      |             you what I thought of you! And now...
    |      |      |             well, being a Christian woman, I can't
    |      |      |             say it!"
-   |      |      |
 ~~~~
 {: #ampsingle title='Amplification attack using a single response' artwork-align="center"}
 
-An attacker can increase the bandwidth by sending several requests. An attacker can
+An attacker can increase the bandwidth by sending several GET requests. An attacker can
 also increase or control the amplification factor by creating or updating resources.
+By creating new resources, an attacker can increase the size of /.well-known/core. 
 An amplification attack where the attacker influences the amplification factor
-is illustrated in {{ampmulti_post}}. Note that the attacker controls the
-amplification factor a.
+is illustrated in {{ampmulti_post}}.
 
 ~~~~
 Client   Foe   Server
@@ -763,9 +759,7 @@ Client   Foe   Server
    |      | POST |  Uri-Path: /member/
    |      |      |   Payload: hampsterdance.hevc
    |      |      |
-   |<------------+      Code: 2.04 (Changed)
-   |      | 2.04 |
-   |      |      |
+     ....   ....
    |      +----->|      Code: 0.02 (GET)
    |      | GET  |  Uri-Path: /member/
    |      |      |
@@ -777,21 +771,24 @@ Client   Foe   Server
    |      |      |
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |   Payload: hampsterdance.hevc
-   |      |      |
      ....   ....
 ~~~~
-{: #ampmulti_post title='Amplification attack using a several requests and a chosen amplification factor' artwork-align="center"}
+{: #ampmulti_post title='Amplification attack using several requests and a chosen amplification factor' artwork-align="center"}
 
 Amplification factors can be significantly worse when combined with
-observe {{RFC7641}}, publish-subscribe {{I-D.ietf-core-coap-pubsub}},
-and multicast {{I-D.ietf-core-groupcomm-bis}}.
+observe {{RFC7641}} and group requests {{I-D.ietf-core-groupcomm-bis}}. As a single
+request can result in multiple responses from multiple servers, the amplification
+factors can be very large.
 
 An amplification attack using observe is illustrated in
-{{ampmulti_n}}. In this case a single request results in n responses
-from a single server. If each response is a times larger than the request,
-the amplification factor is a * n. If it is predictable when
-notifications are sent in non-confirmable and which Message ID are used 
-acknowledgements can be spoofed.
+{{ampmulti_nk}}. If each notification response is a times larger than the registration
+request and each request results in n notifications, the amplification factor is a * n. 
+By registering the same client several times using different Tokens or port numbers,
+the bandwidth can be increased. By updating the observed resource, the attacker
+may trigger notifications and increase the size of the notifications. By using
+conditional attributes {{I-D.ietf-core-conditional-attributes}} an attacker may increase the frequency of
+notifications and therefore the amplification factor and the bandwidth. If it is predictable when notifications
+are sent as confirmable and which Message ID are used the acknowledgements may be spoofed.
 
 ~~~~
 Client   Foe   Server
@@ -799,108 +796,43 @@ Client   Foe   Server
    |      +----->|      Code: 0.01 (GET)
    |      | GET  |     Token: 0x83
    |      |      |   Observe: 0
-   |      |      |  Uri-Path: stock market index 1 min
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x83
-   |      |      |   Observe: 217362
-   |      |      |   Payload: 3749.7
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x83
-   |      |      |   Observe: 217363
-   |      |      |   Payload: 3745.33
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x83
-   |      |      |   Observe: 217364
-   |      |      |   Payload: 3747.65
-   |      |      |
-     ....   ....
-~~~~
-{: #ampmulti_n title='Amplification attack using observe' artwork-align="center"}
-
-By registering the same client several times, the bandwidth can be increased.
-An amplification attack using several observe registrations is illustrated in
-{{ampmulti_nk}}. If the attacker registers the same client k times, each
-notification results in k responses to the same client. If each response
-is a times larger than the request, and the server sends n notifications,
-the amplification factor is still a * n.
-
-~~~~
-Client   Foe   Server
-   |      |      |
-   |      +----->|      Code: 0.01 (GET)
-   |      | GET  |     Token: 0x83
-   |      |      |   Observe: 0
-   |      |      |  Uri-Path: stock market index 1 min
+   |      |      |  Uri-Path: temperature
+   |      |      |  Uri-Query: pmax="1"
    |      |      |
    |      +----->|      Code: 0.01 (GET)
    |      | GET  |     Token: 0x84
    |      |      |   Observe: 0
-   |      |      |  Uri-Path: stock market index 1 min
+   |      |      |  Uri-Path: temperature
+   |      |      |  Uri-Query: pmax="1"
+   |      |      |
      ....   ....
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |     Token: 0x83
    |      |      |   Observe: 217362
-   |      |      |   Payload: 3749.7
+   |      |      |   Payload: "299.7 K"
    |      |      |
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |     Token: 0x84
    |      |      |   Observe: 217362
-   |      |      |   Payload: 3749.7
+   |      |      |   Payload: "299.7 K"
    |      |      |
      ....   ....
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |     Token: 0x83
    |      |      |   Observe: 217363
-   |      |      |   Payload: 3745.33
+   |      |      |   Payload: "299.7 K"
    |      |      |
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |     Token: 0x84
    |      |      |   Observe: 217363
-   |      |      |   Payload: 3745.33
-   |      |      |
+   |      |      |   Payload: "299.7 K"
      ....   ....
 ~~~~
-{: #ampmulti_nk title='Amplification attack using observe and registering the same client several times' artwork-align="center"}
+{: #ampmulti_nk title='Amplification attack using observe, registering the same client several times, and requesting notifications at least every second' artwork-align="center"}
 
-With publish-subscribe {{I-D.ietf-core-coap-pubsub}} an
-attacker gets increased control over the attack and can create an arbitrary
-large amplification factor. The attacker can also control the timing of the
-notifications. An amplification attack using publish-subscribe
-is illustrated in {{ampmulti_ps}}. If each response is a times larger than the request,
-the attacker sends k subscriptions, and then publishes n times, the amplification factor
-is k * a * n / (k + a * n). Note that the attacker controls the variables a,
-k, and n.
-
-~~~~
-Client   Foe   Server
-   |      |      |
-   |      +----->|      SUBSCRIBE
-   |      +----->|      SUBSCRIBE
-   |      +----->|      SUBSCRIBE
-     ....   ....
-   |      +----->|      PUBLISH
-   |<------------+      2.05 Content
-   |<------------+      2.05 Content
-   |<------------+      2.05 Content
-     ....   ....
-   |      +----->|      PUBLISH
-   |<------------+      2.05 Content
-   |<------------+      2.05 Content
-   |<------------+      2.05 Content
-     ....   ....
-   |      +----->|      PUBLISH
-   |<------------+      2.05 Content
-   |<------------+      2.05 Content
-   |<------------+      2.05 Content
-     ....   ....
-~~~~
-{: #ampmulti_ps title='Amplification attack using publish-subscribe' artwork-align="center"}
-
-An amplification attack using a multicast request is illustrated in
-{{ampmulti_m}}. In this case a single request results in m responses
+An amplification attack using a group request is illustrated in
+{{ampmulti_m}}. The group request is sent over multicast or broadcast
+and in this case a single request results in m responses
 from m different servers. If each response is a times larger than the request,
 the amplification factor is a * m. Note that the servers usually do not know
 the variable m.
@@ -970,14 +902,14 @@ in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft.
 Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
 "large amplification factor" is, {{RFC7641}} does not specify how many notifications
 that can be sent before a potentially spoofable acknoledgement must be sent, and
-in several cases the "SHOULD" level is further softened by “If possible" and "generally".
-{{I-D.ietf-core-coap-pubsub}} does not have any amplification attack considerations.
+in several cases the "SHOULD" level is further softened by “If possible" and "generally"
+{{I-D.ietf-core-conditional-attributes}} does not have any amplification attack considerations.
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
 
-Remedy: {{RFC7252}}, and perhaps {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} should be updated with a strict normative requirement
-(MUST) on implementations similar to QUIC with a specified anti-amplification limit and no exceptions. It should be clear that any devices used
-in DDoS attacks are violating IETF requirements. 
+In CoAP, an address can be validated with a security protocol like DTLS, TLS, OSCORE, or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Resticting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accesible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
+
+Remedy: {{RFC7252}} should be updated with a strict normative requirement (MUST) on implementations similar to QUIC with a specified anti-amplification limit and no exceptions. It should be clear that any devices used in DDoS attacks are violating IETF requirements. 
 
 # Security Considerations
 
@@ -994,6 +926,6 @@ This document has no actions for IANA.
 # Acknowledgements
 {: numbered="false"}
 
-The authors would like to thank Carsten Bormann, Klaus Hartke, Ari Keränen,
+The authors would like to thank Carsten Bormann, Klaus Hartke, Jaime Jiménez, Ari Keränen,
 Matthias Kovatsch, Achim Kraus, Sandeep Kumar, and András Méhes for their valuable comments
 and feedback.
