@@ -65,9 +65,9 @@ informative:
   RFC8446:
   RFC8613:
   RFC9000:
-  I-D.liu-core-coap-delay-attacks:
   I-D.ietf-lake-edhoc:
   I-D.ietf-tls-dtls13:
+  I-D.liu-core-coap-delay-attacks:
 
   CoAP-Wild:
     target: https://www.netscout.com/blog/asert/coap-attacks-wild
