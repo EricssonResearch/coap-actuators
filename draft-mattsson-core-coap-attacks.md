@@ -256,7 +256,6 @@ Remedy: Any IoT deployment of actuators where syncronised state is important nee
 use confirmable messages and the client need to take appropriate actions when a response
 is not received and it loses information about the server's status.
 
-
 ##  The Request Delay Attack {#reqdelay}
 
 An on-path attacker may not only block packets, but can also delay the delivery
@@ -269,7 +268,7 @@ delayed packet is delivered inside the replay window. When CoAP is used over
 UDP, both DTLS and OSCORE allow out-of-order delivery and uses sequence numbers
 together with a replay window to protect against replay attacks. The replay
 window has a default length of 64 in DTLS and 32 in OSCORE. The attacker
-can control the replay window by blocking some or all other packets. By first
+can influence the replay window by blocking and delaying packets. By first
 delaying a request, and then later, after delivery, blocking the response
 to the request, the client is not made aware of the delayed delivery except
 by the missing response. The server has in general, no way of knowing that
