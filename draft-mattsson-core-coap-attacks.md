@@ -67,7 +67,6 @@ informative:
   RFC9000:
   I-D.ietf-lake-edhoc:
   I-D.ietf-tls-dtls13:
-  I-D.liu-core-coap-delay-attacks:
 
   CoAP-Wild:
     target: https://www.netscout.com/blog/asert/coap-attacks-wild
@@ -256,6 +255,10 @@ Remedy: Any IoT deployment of actuators where syncronised state is important nee
 use confirmable messages and the client need to take appropriate actions when a response
 is not received and it loses information about the server's status.
 
+
+
+
+
 ##  The Request Delay Attack {#reqdelay}
 
 An on-path attacker may not only block packets, but can also delay the delivery
@@ -381,24 +384,28 @@ problem, but requires larger messages and more processing
 than a dedicated solution. Security solutions based on exchanging timestamps
 require exactly synchronized time between client and server, and this may
 be hard to control with complications such as time zones and daylight saving.
-Wall clock time SHOULD NOT be used as it is not monotonic, may reveal that
+Wall clock time is not monotonic, may reveal that
 the endpoints will accept expired certificates, or reveal the endpoint's
 location. Use of non-monotonic clocks is not secure as the server will accept
 requests if the clock is moved backward and reject requests if the clock
 is moved forward. Even if the clocks are synchronized at one point in time,
 they may easily get out-of-sync and an attacker may even be able to affect
 the client or the server time in various ways such as setting up a fake NTP
-server, broadcasting false time signals to radio controlled clocks, or expose
+server, broadcasting false time signals to radio controlled clocks, or exposing
 one of them to a strong gravity field. As soon as client falsely believes
 it is time synchronized with the server, delay attacks are possible. A challenge
 response mechanism where the server does not need to synchronize its time
 with the client is easier to analyze but require more roundtrips. The challenges,
 responses, and timestamps may be sent in a CoAP option or in the CoAP payload.
 
-Remedy: The mechanisms specified in {{I-D.ietf-core-echo-request-tag}}
-or {{I-D.liu-core-coap-delay-attacks}} SHALL be used for controlling
-actuators unless another application specific
+Remedy: Any IoT deployment of actuators where freshness is important should use
+the mechanisms specified in {{I-D.ietf-core-echo-request-tag}} unless another application specific
 challenge-response or timestamp mechanism is used.
+
+
+
+
+
 
 
 ##  The Response Delay and Mismatch Attack {#resdelay}
