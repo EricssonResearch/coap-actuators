@@ -580,15 +580,10 @@ possible distance based on the speed of light, or using radio with an extremely
 short range like NFC (centimeters instead of meters). Another option is to
 include geographical coordinates
 (from e.g. GPS) in the messages and calculate proximity based on these, but
-in this case the location measurements MUST be very precise and the system
-need to make sure that an attacker cannot influence the location estimation,
-something that is very hard in practice.
-
-
-
-
-
-
+in this case the location measurements need to be very precise and the system
+need to make sure that an attacker cannot influence the location estimation.
+Note that some global navigation satellite systems (GNSS) receiver are
+vulnerable to spoofing attacks.
 
 
 ## The Request Fragment Rearrangement Attack {#fragment}
