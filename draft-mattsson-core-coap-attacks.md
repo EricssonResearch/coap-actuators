@@ -464,8 +464,7 @@ in fact confirming an earlier unlock of the door. As the client is likely
 to leave the (believed to be locked) door unattended, the attacker may enter
 the home, enterprise, or car protected by the lock.
 
-The same attack may be performed on sensors, also this with serious consequences.
-As illustrated in {{delayresGET}}, an attacker may convince the client
+The same attack may be performed on sensors. As illustrated in {{delayresGET}}, an attacker may convince the client
 that the lock is locked, when it in fact is not. The "Unlock" request
 may be also be sent by another client authorized to control the lock.
 
@@ -532,11 +531,11 @@ Client   Foe   Server
 ~~~~
 {: #delayresother title='Delaying and mismatching response from other resource' artwork-align="center"}
 
-Remedy: If CoAP is protected with a security protocol not providing bindings
-between requests and responses (e.g. DTLS and TLS) the client MUST NOT reuse
-any tokens until the traffic keys have been replaced. The easiest way to
-accomplish this is to implement the Token as a counter, this approach SHOULD
-be followed.
+Remedy: {{I-D.ietf-core-echo-request-tag}} formally updates the client token processing for CoAP {{RFC7252}}.
+Following this updated processing mitages the attack.
+
+
+
 
 
 ##  The Relay Attack
