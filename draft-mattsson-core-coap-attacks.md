@@ -154,6 +154,15 @@ is the binding of data to an absolute or relative point in time and may in
 the relative case be referred to as freshness. The two last properties may
 be bundled together as "Data-to-spacetime binding".
 
+Freshness is a measure of when a message was sent on a timescale of the
+recipient. A server that receives a request can either verify that the
+request is fresh or determine that it cannot be verified that the request
+is fresh.  What is considered a fresh is application dependent. Freshness
+is completely different from replay protection, but most replay protection
+mechanism use a sequence number. Assuming the client is well-behaving, such
+a sequence numner that can be used by the server as a relative measure of
+when a message was sent on a timescale of the sender.
+
 The request delay attack (valid for DTLS, TLS, and OSCORE and
 described in {{reqdelay}}) lets an attacker control an actuator at a
 much later time than the client anticipated. The response delay and
