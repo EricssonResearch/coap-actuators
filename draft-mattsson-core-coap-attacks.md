@@ -667,6 +667,8 @@ outcomes could have occurred:
    Request Entity incomplete, indicating that the server does not have
    the start of the operation any more.
 
+
+
 ### Injecting a Withheld First Block
 
 If the first block of a request is withheld by the attacker for later use,
@@ -674,19 +676,19 @@ it can be used to have the server process a different request body than
 intended by the client. Unlike in the previous scenario, it will return a
 response based on that body to the client.
 
-Again, a first operation (that would go like “Homeless stole
-apples. What shall we do with him?” – “Set him free.”) is aborted by
+Again, a first operation (that would go like “Girl stole
+apple. What shall we do with her?” – “Set her free.”) is aborted by
 the proxy, and a part of that operation is later used in a different
 operation to prime the server for responding leniently to another
-operation that would originally have been “Hitman killed someone. What
-shall we do with him?” – “Hang him.”. The attack is illustrated in
+operation that would originally have been “Evil Queen poisened apple. What
+shall we do with her?” – “Lock her up.”. The attack is illustrated in
 {{freethehitman}}.
 
 
 ~~~~
 Client   Foe   Server
    |      |      |
-   +----->@      |    POST "Homeless stole apples. Wh"
+   +----->@      |    POST "Girl stole apple. Wh"
    |      |      |        (Block1: 0, more to come)
 
 (Client: We'll try that one later again; for now, we have something
@@ -698,20 +700,25 @@ more urgent:)
    |      |      |
    |      @<-----+    2.31 Continue (Block1: 0 received, send more)
    |      |      |
-   |      @------>    POST "Homeless stole apples. Wh"
+   |      @------>    POST "Evil Queen poisened apple. Wh"
    |      |      |        (Block1: 0, more to come)
    |      |      |
    |      X<-----+    2.31 Continue (Block1: 0 received, send more)
    |      |      |
    <------@      |    2.31 Continue (Block1: 0 received, send more)
    |      |      |
-   +------------->    POST "at shall we do with him?"
+   +------------->    POST "at shall we do with her?"
    |      |      |        (Block1: 1, last block)
    |      |      |
-   <-------------+    2.05 "Set him free."
+   <-------------+    2.05 "Set her free."
    |      |      |        (Block1: 1 received and this is the result)
 ~~~~
 {: #freethehitman title='Injecting a withheld first block'}
+
+
+
+
+
 
 # Attacks using CoAP
 
