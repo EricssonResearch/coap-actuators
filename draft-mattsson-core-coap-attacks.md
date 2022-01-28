@@ -178,13 +178,9 @@ and protocol-specific recommendations on the usage of CoAP.
 Mechanisms mitigating some of the attacks discussed in this document can
 be found in {{I-D.ietf-core-echo-request-tag}}.
 
-## Terminology
-
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
-
 # Attacks on CoAP
 
-Internet-of-Things (IoT) deployments valuing security and privacy, MUST use
+Internet-of-Things (IoT) deployments valuing security and privacy, need to use
 a security protocol such as DTLS, TLS, or OSCORE to protect CoAP. This is
 especially true for deployments of actuators where attacks often (but not
 always) have serious consequences. The attacks described in this section
@@ -198,7 +194,7 @@ An on-path attacker can block the delivery of any number of requests or response
 The attack can also be performed by an attacker jamming the lower layer radio
 protocol. This is true even if a security protocol like DTLS, TLS, or OSCORE
 is used. Encryption makes selective blocking of messages harder, but not
-impossible or even infeasible. With DTLS and TLS, proxies have access to
+impossible or even infeasible. With DTLS and TLS, proxies can read
 the complete CoAP message, and with OSCORE, the CoAP header and several CoAP
 options are not encrypted. In both security protocols, the IP-addresses,
 ports, and CoAP message lengths are available to all on-path attackers, which
@@ -219,7 +215,6 @@ Client   Foe   Server
 
 Where 'X' means the attacker is blocking delivery of the message.
 
-
 ~~~~
 Client   Foe   Server
    |      |      |
@@ -239,14 +234,14 @@ of service attack, blocking a request to, or a response from, an actuator
 results in the client losing information about the server's status. If the
 actuator e.g. is a lock (door, car, etc.), the attack results in the client
 not knowing (except by using out-of-band information) whether the lock is
-unlocked or locked, just like the observer in the famous Schrodinger’s cat
+unlocked or locked, just like the observer in the famous Schrödinger’s cat
 thought experiment. Due to the nature of the attack, the client cannot distinguish
 the attack from connectivity problems, offline servers, or unexpected behavior
 from middle boxes such as NATs and firewalls.
 
-Remedy: Any IoT deployment of actuators where confirmation is important MUST
-notify the user upon reception of the response, or warn the user when a response
-is not received.
+Remedy: Any IoT deployment of actuators where syncronised state is important need to
+use confirmable messages and the client need to take appropriate actions when a response
+is not received and it loses information about the server's status.
 
 
 ##  The Request Delay Attack {#reqdelay}
