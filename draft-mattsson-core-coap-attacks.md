@@ -583,8 +583,11 @@ include geographical coordinates
 (from e.g., GPS) in the messages and calculate proximity based on these, but
 in this case the location measurements need to be very precise and the system
 need to make sure that an attacker cannot influence the location estimation.
-Note that some global navigation satellite systems (GNSS) receiver are
+Some types of global navigation satellite systems (GNSS) receivers are
 vulnerable to spoofing attacks.
+
+
+
 
 
 ## The Request Fragment Rearrangement Attack {#fragment}
