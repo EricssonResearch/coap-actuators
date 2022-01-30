@@ -266,13 +266,13 @@ An on-path attacker may not only block packets, but can also delay the delivery
 of any packet (request or response) by a chosen amount of time. If CoAP is
 used over a reliable and ordered transport such as TCP with TLS or OSCORE,
 no messages can be delivered before the delayed message. If CoAP is used
-over an unreliable and unordered transport such as UDP with DTLS, or OSCORE,
+over an unreliable and unordered transport such as UDP with DTLS or OSCORE,
 other messages can be delivered before the delayed message as long as the
 delayed packet is delivered inside the replay window. When CoAP is used over
 UDP, both DTLS and OSCORE allow out-of-order delivery and uses sequence numbers
-together with a replay window to protect against replay attacks. The replay
-window has a default length of 64 in DTLS and 32 in OSCORE. The attacker
-can influence the replay window by blocking and delaying packets. By first
+together with a replay window to protect against replay attacks against requests.
+The replay window has a default length of 64 in DTLS and 32 in OSCORE. The attacker
+can influence the replay window state by blocking and delaying packets. By first
 delaying a request, and then later, after delivery, blocking the response
 to the request, the client is not made aware of the delayed delivery except
 by the missing response. The server has in general, no way of knowing that
@@ -385,9 +385,9 @@ problem, but requires larger messages and more processing
 than a dedicated solution. Security solutions based on exchanging timestamps
 require exactly synchronized time between client and server, and this may
 be hard to control with complications such as time zones and daylight saving.
-Wall clock time is not monotonic, may reveal that
-the endpoints will accept expired certificates, or reveal the endpoint's
-location. Use of non-monotonic clocks is not secure as the server will accept
+Wall clock time is not monotonic, may reveal that the endpoints will accept
+expired certificates, or reveal the endpoint's
+location. Use of non-monotonic clocks is problematic the server will accept
 requests if the clock is moved backward and reject requests if the clock
 is moved forward. Even if the clocks are synchronized at one point in time,
 they may easily get out-of-sync and an attacker may even be able to affect
@@ -400,8 +400,8 @@ with the client is easier to analyze but require more roundtrips. The challenges
 responses, and timestamps may be sent in a CoAP option or in the CoAP payload.
 
 Remedy: Any IoT deployment of actuators where freshness is important should use
-the mechanisms specified in {{I-D.ietf-core-echo-request-tag}} unless another application specific
-challenge-response or timestamp mechanism is used.
+the mechanisms specified in {{I-D.ietf-core-echo-request-tag}} unless another
+application specific challenge-response or timestamp mechanism is used.
 
 
 
