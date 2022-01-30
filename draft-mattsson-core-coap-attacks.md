@@ -948,12 +948,9 @@ The whole document can be seen as security considerations for CoAP.
 
 This document has no actions for IANA.
 
-
 --- back
 
 # Acknowledgements
 {: numbered="false"}
 
-The authors would like to thank Carsten Bormann, Klaus Hartke, Jaime Jiménez, Ari Keränen,
-Matthias Kovatsch, Achim Kraus, Sandeep Kumar, and András Méhes for their valuable comments
-and feedback.
+The authors would like to thank Carsten Bormann, Christian Amsüss, Klaus Hartke, Jaime Jiménez, Ari Keränen, Matthias Kovatsch, Achim Kraus, Sandeep Kumar, and András Méhes for their valuable comments and feedback.
