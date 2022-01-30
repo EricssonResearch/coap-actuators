@@ -245,7 +245,7 @@ Client   Foe   Server
 While blocking requests to, or responses from, a sensor is just a denial
 of service attack, blocking a request to, or a response from, an actuator
 results in the client losing information about the server's status. If the
-actuator e.g. is a lock (door, car, etc.), the attack results in the client
+actuator e.g., is a lock (door, car, etc.), the attack results in the client
 not knowing (except by using out-of-band information) whether the lock is
 unlocked or locked, just like the observer in the famous Schrödinger’s cat
 thought experiment. Due to the nature of the attack, the client cannot distinguish
@@ -426,7 +426,7 @@ can be delivered before the delayed message. If CoAP is used over an unreliable
 and unordered transport such as UDP with DTLS, other messages can be delivered
 before the delayed message as long as the delayed packet is delivered inside
 the replay window. Note that mismatches can also happen for other reasons
-than a malicious attacker, e.g. delayed delivery or a server sending notifications
+than a malicious attacker, e.g., delayed delivery or a server sending notifications
 to an uninterested client.
 
 The attack can be performed by an attacker on the wire, or an attacker simultaneously
@@ -504,7 +504,7 @@ responses from different resources as long as the two resources share
 the same (D)TLS connection on some part of the path towards the
 client. This can happen if the resources are located behind a common
 gateway, or are served by the same CoAP proxy. An on-path attacker
-(not necessarily a (D)TLS endpoint such as a proxy) may e.g. deceive a
+(not necessarily a (D)TLS endpoint such as a proxy) may e.g., deceive a
 client that the living room is on fire by responding with an earlier
 delayed response from the oven (temperatures in degree Celsius).
 
@@ -543,11 +543,11 @@ Following this updated processing mitages the attack.
 
 Yet another type of attack can be performed in deployments where actuator
 actions are triggered automatically based on proximity and without any user
-interaction, e.g. a car (the client) constantly polling for the car key (the
+interaction, e.g., a car (the client) constantly polling for the car key (the
 server) and unlocking both doors and engine as soon as the car key responds.
 An attacker (or pair of attackers) may simply relay the CoAP messages out-of-band,
 using for examples some other radio technology. By doing this, the actuator
-(i.e. the car) believes that the client is close by and performs actions
+(i.e., the car) believes that the client is close by and performs actions
 based on that false assumption. The attack is illustrated in
 {{relay}}. In this example the car is using an application specific
 challenge-response mechanism transferred as CoAP payloads.
@@ -580,7 +580,7 @@ can be used are: measuring the round-trip time and calculate the maximum
 possible distance based on the speed of light, or using radio with an extremely
 short range like NFC (centimeters instead of meters). Another option is to
 include geographical coordinates
-(from e.g. GPS) in the messages and calculate proximity based on these, but
+(from e.g., GPS) in the messages and calculate proximity based on these, but
 in this case the location measurements need to be very precise and the system
 need to make sure that an attacker cannot influence the location estimation.
 Note that some global navigation satellite systems (GNSS) receiver are
