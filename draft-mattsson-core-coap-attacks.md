@@ -252,7 +252,7 @@ thought experiment. Due to the nature of the attack, the client cannot distingui
 the attack from connectivity problems, offline servers, or unexpected behavior
 from middle boxes such as NATs and firewalls.
 
-Remedy: Any IoT deployment of actuators where syncronised state is important need to
+Remedy: Any IoT deployment of actuators where syncronized state is important need to
 use confirmable messages and the client need to take appropriate actions when a response
 is not received and it loses information about the server's status.
 
@@ -392,7 +392,7 @@ requests if the clock is moved backward and reject requests if the clock
 is moved forward. Even if the clocks are synchronized at one point in time,
 they may easily get out-of-sync and an attacker may even be able to affect
 the client or the server time in various ways such as setting up a fake NTP
-server, broadcasting false time signals to radio controlled clocks, or exposing
+server, broadcasting false time signals to radio-controlled clocks, or exposing
 one of them to a strong gravity field. As soon as client falsely believes
 it is time synchronized with the server, delay attacks are possible. A challenge
 response mechanism where the server does not need to synchronize its time
