@@ -533,7 +533,7 @@ Client   Foe   Server
 {: #delayresother title='Delaying and mismatching response from other resource' artwork-align="center"}
 
 Remedy: {{I-D.ietf-core-echo-request-tag}} formally updates the client token processing for CoAP {{RFC7252}}.
-Following this updated processing mitages the attack.
+Following this updated processing mitigates the attack.
 
 
 
@@ -681,7 +681,7 @@ Again, a first operation (that would go like “Girl stole
 apple. What shall we do with her?” – “Set her free.”) is aborted by
 the proxy, and a part of that operation is later used in a different
 operation to prime the server for responding leniently to another
-operation that would originally have been “Evil Queen poisened apple. What
+operation that would originally have been “Evil Queen poisoned apple. What
 shall we do with her?” – “Lock her up.”. The attack is illustrated in
 {{freethehitman}}.
 
