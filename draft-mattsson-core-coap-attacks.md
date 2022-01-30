@@ -52,8 +52,6 @@ author:
   org: Energy Harvesting Solutions
   email: c.amsuess@energyharvesting.at
 normative:
-  RFC2119:
-  RFC8174:
   RFC7252:
   RFC7641:
   I-D.ietf-core-echo-request-tag:
