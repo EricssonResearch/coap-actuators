@@ -209,7 +209,7 @@ protocol. This is true even if a security protocol like DTLS, TLS, or OSCORE
 is used. Encryption makes selective blocking of messages harder, but not
 impossible or even infeasible. With DTLS and TLS, proxies can read
 the complete CoAP message, and with OSCORE, the CoAP header and several CoAP
-options are not encrypted. In both security protocols, the IP-addresses,
+options are not encrypted. In all three security protocols, the IP-addresses,
 ports, and CoAP message lengths are available to all on-path attackers, which
 may be enough to determine the server, resource, and command.  The block
 attack is illustrated in Figures {{blockreq}}{: format="counter"} and {{blockres}}{: format="counter"}.
