@@ -254,7 +254,7 @@ from middle boxes such as NATs and firewalls.
 
 Remedy: Any IoT deployment of actuators where syncronized state is important need to
 use confirmable messages and the client need to take appropriate actions when a response
-is not received and it loses information about the server's status.
+is not received and it therefore loses information about the server's status.
 
 
 
