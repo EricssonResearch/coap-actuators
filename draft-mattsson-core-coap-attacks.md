@@ -242,8 +242,8 @@ Client   Foe   Server
 ~~~~
 {: #blockres title='Blocking a response' artwork-align="center"}
 
-While blocking requests to, or responses from, a sensor is just a denial
-of service attack, blocking a request to, or a response from, an actuator
+While blocking requests to, or responses from, a sensor is just a denial-of-service attack,
+blocking a request to, or a response from, an actuator
 results in the client losing information about the server's status. If the
 actuator e.g., is a lock (door, car, etc.), the attack results in the client
 not knowing (except by using out-of-band information) whether the lock is
