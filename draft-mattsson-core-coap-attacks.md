@@ -539,53 +539,6 @@ Following this updated processing mitigates the attack.
 
 
 
-##  The Relay Attack
-
-Yet another type of attack can be performed in deployments where actuator
-actions are triggered automatically based on proximity and without any user
-interaction, e.g., a car (the client) constantly polling for the car key (the
-server) and unlocking both doors and engine as soon as the car key responds.
-An attacker (or pair of attackers) may simply relay the CoAP messages out-of-band,
-using for examples some other radio technology. By doing this, the actuator
-(i.e., the car) believes that the client is close by and performs actions
-based on that false assumption. The attack is illustrated in
-{{relay}}. In this example the car is using an application specific
-challenge-response mechanism transferred as CoAP payloads.
-
-
-~~~~
-Client   Foe         Foe   Server
-   |      |           |      |
-   +----->| ......... +----->|      Code: 0.02 (POST)
-   | POST |           | POST |     Token: 0x3a
-   |      |           |      |  Uri-Path: lock
-   |      |           |      |   Payload: JwePR2iCe8b0ux (Challenge)
-   |      |           |      |
-   |<-----+ ......... |<-----+      Code: 2.04 (Changed)
-   | 2.04 |           | 2.04 |     Token: 0x3a
-   |      |           |      |   Payload: RM8i13G8D5vfXK (Response)
-   |      |           |      |
-~~~~
-{: #relay title='Relay attack (the client is the actuator)' artwork-align="center"}
-
-The consequences may be severe, and in the case of a car, lead to the attacker
-unlocking and driving away with the car, an attack that unfortunately is
-happening in practice.
-
-Remedy: Getting a response over a short-range radio cannot be taken as
-proof of proximity and can therefore not be used to take actions based on
-such proximity. Any automatically triggered mechanisms relying on proximity
-need to use other stronger mechanisms to guarantee proximity. Mechanisms that
-can be used are: measuring the round-trip time and calculate the maximum
-possible distance based on the speed of light, or using radio with an extremely
-short range like NFC (centimeters instead of meters). Another option is to
-include geographical coordinates
-(from e.g., GPS) in the messages and calculate proximity based on these, but
-in this case the location measurements need to be very precise and the system
-need to make sure that an attacker cannot influence the location estimation.
-Some types of global navigation satellite systems (GNSS) receivers are
-vulnerable to spoofing attacks.
-
 
 
 
@@ -718,6 +671,56 @@ more urgent:)
    |      |      |        (Block1: 1 received and this is the result)
 ~~~~
 {: #freethehitman title='Injecting a withheld first block'}
+
+
+
+
+##  The Relay Attack
+
+Yet another type of attack can be performed in deployments where actuator
+actions are triggered automatically based on proximity and without any user
+interaction, e.g., a car (the client) constantly polling for the car key (the
+server) and unlocking both doors and engine as soon as the car key responds.
+An attacker (or pair of attackers) may simply relay the CoAP messages out-of-band,
+using for examples some other radio technology. By doing this, the actuator
+(i.e., the car) believes that the client is close by and performs actions
+based on that false assumption. The attack is illustrated in
+{{relay}}. In this example the car is using an application specific
+challenge-response mechanism transferred as CoAP payloads.
+
+
+~~~~
+Client   Foe         Foe   Server
+   |      |           |      |
+   +----->| ......... +----->|      Code: 0.02 (POST)
+   | POST |           | POST |     Token: 0x3a
+   |      |           |      |  Uri-Path: lock
+   |      |           |      |   Payload: JwePR2iCe8b0ux (Challenge)
+   |      |           |      |
+   |<-----+ ......... |<-----+      Code: 2.04 (Changed)
+   | 2.04 |           | 2.04 |     Token: 0x3a
+   |      |           |      |   Payload: RM8i13G8D5vfXK (Response)
+   |      |           |      |
+~~~~
+{: #relay title='Relay attack (the client is the actuator)' artwork-align="center"}
+
+The consequences may be severe, and in the case of a car, lead to the attacker
+unlocking and driving away with the car, an attack that unfortunately is
+happening in practice.
+
+Remedy: Getting a response over a short-range radio cannot be taken as
+proof of proximity and can therefore not be used to take actions based on
+such proximity. Any automatically triggered mechanisms relying on proximity
+need to use other stronger mechanisms to guarantee proximity. Mechanisms that
+can be used are: measuring the round-trip time and calculate the maximum
+possible distance based on the speed of light, or using radio with an extremely
+short range like NFC (centimeters instead of meters). Another option is to
+include geographical coordinates
+(from e.g., GPS) in the messages and calculate proximity based on these, but
+in this case the location measurements need to be very precise and the system
+need to make sure that an attacker cannot influence the location estimation.
+Some types of global navigation satellite systems (GNSS) receivers are
+vulnerable to spoofing attacks.
 
 
 
