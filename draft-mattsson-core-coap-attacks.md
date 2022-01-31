@@ -639,7 +639,7 @@ the proxy, and a part of that operation is later used in a different
 operation to prime the server for responding leniently to another
 operation that would originally have been “Evil Queen poisoned apple. What
 shall we do with her?” – “Lock her up.”. The attack is illustrated in
-{{freethehitman}}.
+{{freethequeen}}.
 
 
 ~~~~
@@ -652,12 +652,12 @@ Client   Foe   Server
 more urgent:)
 
    |      |      |
-   +------------->    POST "Hitman killed someone. Wh"
+   +------------->    POST "Evil Queen poisened apple. Wh"
    |      |      |        (Block1: 0, more to come)
    |      |      |
    |      @<-----+    2.31 Continue (Block1: 0 received, send more)
    |      |      |
-   |      @------>    POST "Evil Queen poisened apple. Wh"
+   |      @------>    POST "Girl stole apple. Wh"
    |      |      |        (Block1: 0, more to come)
    |      |      |
    |      X<-----+    2.31 Continue (Block1: 0 received, send more)
@@ -670,7 +670,7 @@ more urgent:)
    <-------------+    2.05 "Set her free."
    |      |      |        (Block1: 1 received and this is the result)
 ~~~~
-{: #freethehitman title='Injecting a withheld first block'}
+{: #freethequeen title='Injecting a withheld first block'}
 
 
 
