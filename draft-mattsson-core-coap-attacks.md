@@ -387,7 +387,7 @@ require exactly synchronized time between client and server, and this may
 be hard to control with complications such as time zones and daylight saving.
 Wall clock time is not monotonic, may reveal that the endpoints will accept
 expired certificates, or reveal the endpoint's
-location. Use of non-monotonic clocks is problematic the server will accept
+location. Use of non-monotonic clocks is problematic as the server will accept
 requests if the clock is moved backward and reject requests if the clock
 is moved forward. Even if the clocks are synchronized at one point in time,
 they may easily get out-of-sync and an attacker may even be able to affect
