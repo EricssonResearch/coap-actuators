@@ -155,7 +155,7 @@ be bundled together as "Data-to-spacetime binding".
 Freshness is a measure of when a message was sent on a timescale of
 the recipient.  A client or server that receives a message can either
 verify that the message is fresh or determine that it cannot be
-verified that the message is fresh.  What is considered a fresh is
+verified that the message is fresh.  What is considered fresh is
 application dependent.  Freshness is completely different from replay
 protection, but most replay protection mechanism use a sequence
 number.  Assuming the client is well-behaving, such a sequence number
