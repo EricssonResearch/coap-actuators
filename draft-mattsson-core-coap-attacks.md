@@ -960,4 +960,4 @@ This document has no actions for IANA.
 # Acknowledgements
 {: numbered="false"}
 
-The authors would like to thank Carsten Bormann, Christian Amsüss, Klaus Hartke, Jaime Jiménez, Ari Keränen, Matthias Kovatsch, Achim Kraus, Sandeep Kumar, and András Méhes for their valuable comments and feedback.
+The authors would like to thank Carsten Bormann, Klaus Hartke, Jaime Jiménez, Ari Keränen, Matthias Kovatsch, Achim Kraus, Sandeep Kumar, and András Méhes for their valuable comments and feedback.
