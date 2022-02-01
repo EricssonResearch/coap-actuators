@@ -573,7 +573,7 @@ provided the attacker is on the network path and can correctly guess which
 operations the respective packages belong to.
 
 The attacks can be performed on any security protocol where the attacker can
-delay the delivery of a message. This incluses DTLS, IPsec, and most OSCORE
+delay the delivery of a message unnoticed. This incluses DTLS, IPsec, and most OSCORE
 configurations. The attacks does not work on TCP with TLS or OSCORE (with
 TLS-like sequence number handling) as in these cases no messages can be
 delivered before the delayed message.
