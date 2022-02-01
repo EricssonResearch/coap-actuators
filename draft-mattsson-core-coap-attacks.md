@@ -418,7 +418,11 @@ as DTLS, TLS, and IPsec, but not OSCORE. CoAP {{RFC7252}} uses a
 client generated token that the server echoes to match responses to
 request, but does not give any guidelines for the use of token with DTLS
 and TLS, except that the tokens currently "in use" SHOULD (not SHALL) be
-unique. The attacker performs the attack by delaying delivery of a response
+unique. In HTTPS, this type of binding is always assured by the ordered
+and reliable delivery, as well as mandating that the server sends
+responses in the same order that the requests were received.
+
+The attacker performs the attack by delaying delivery of a response
 until the client sends a request with the same token, the response will be
 accepted by the client as a valid response to the later request. If CoAP
 is used over a reliable and ordered transport such as TCP with TLS, no messages
@@ -431,8 +435,14 @@ to an uninterested client.
 
 The attack can be performed by an attacker on the wire, or an attacker simultaneously
 recording what the server transmits while at the same time jamming the client.
-The response delay and mismatch attack is illustrated in {{delayresPUT}}.
+As (D)TLS encrypts the Token, the attacker needs to predict when the Token is resused.
+How hard that is depends on the CoAP library, but some implementations are known
+to omit the Token as much as possible and others lets the application chose the
+Token. If the response is a "piggybacked response", the client may additionally check
+the Message ID and drop it on mismatch. That doesn't make the attack impossible,
+but lowers the probability.
 
+The response delay and mismatch attack is illustrated in {{delayresPUT}}.
 
 ~~~~
 Client   Foe   Server
