@@ -164,7 +164,7 @@ message was sent on a timescale of the sender.  Replay protection is
 mandatory in TLS and OSCORE and optional in DTLS.  DTLS and TLS 
 use sequence numbers for both requests and responses. In TLS the
 sequence numbers are implicit and not sent in the record.
-OSCORE use sequence numbers only for requests and some responses.
+OSCORE use sequence numbers for requests and some responses.
 Most OSCORE responses are bound to the request and therefore,
 enable the client to determine if the response is fresh or not.
 
