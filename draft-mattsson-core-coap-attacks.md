@@ -161,11 +161,12 @@ protection, but most replay protection mechanism use a sequence
 number.  Assuming the client is well-behaving, such a sequence number
 that can be used by the server as a relative measure of when a
 message was sent on a timescale of the sender.  Replay protection is
-mandatory in TLS and OSCORE and optional in DTLS.  (D)TLS use
-sequence numbers for both requests and responses, OSCORE use sequence
-numbers only for requests.  OSCORE responses are bound to the request
-and therefore, enable the client to determine if the response is fresh
-or not.
+mandatory in TLS and OSCORE and optional in DTLS.  DTLS and TLS 
+use sequence numbers for both requests and responses. In TLS the
+sequence numbers are implicit and not sent in the record.
+OSCORE use sequence numbers only for requests and some responses.
+Most OSCORE responses are bound to the request and therefore,
+enable the client to determine if the response is fresh or not.
 
 The request delay attack (valid for DTLS, TLS, and OSCORE and
 described in {{reqdelay}}) lets an attacker control an actuator at a
