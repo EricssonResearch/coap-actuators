@@ -579,7 +579,7 @@ TLS-like sequence number handling) as in these cases no messages can be
 delivered before the delayed message.
 
 
-### Completing an Operation with an Earlier Final Block
+### Completing an Operation with an Earlier Final Block {#fragment-earlierfinal}
 
 In this scenario (illustrated in {{promotevaljean}}), blocks from two
 operations on a POST-accepting resource are combined to make the
@@ -691,7 +691,9 @@ more urgent:)
 ~~~~
 {: #freethequeen title='Injecting a withheld first block'}
 
-
+The remedy described in {{fragment-earlierfinal}} works also for this case.
+Note that merely requiring that blocks of an operation should have incrementing sequence numbers
+would be insufficient to remedy this attack.
 
 
 ##  The Relay Attack
