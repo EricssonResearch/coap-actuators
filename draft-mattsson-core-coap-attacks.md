@@ -571,6 +571,13 @@ authenticated and protected against the Response Delay and Mismatch Attack,
 provided the attacker is on the network path and can correctly guess which
 operations the respective packages belong to.
 
+The attacks can be performed on any security protocol where the attacker can
+delay the delivery of a message. This incluses DTLS, IPsec, and most OSCORE
+configurations. The attacks does not work on TCP with TLS or OSCORE (with
+TLS-like sequence number handling) as in these cases no messages can be
+delivered before the delayed message.
+
+
 ### Completing an Operation with an Earlier Final Block
 
 In this scenario (illustrated in {{promotevaljean}}), blocks from two
