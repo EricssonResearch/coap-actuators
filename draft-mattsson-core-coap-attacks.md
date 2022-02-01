@@ -248,7 +248,7 @@ blocking a request to, or a response from, an actuator
 results in the client losing information about the server's status. If the
 actuator e.g., is a lock (door, car, etc.), the attack results in the client
 not knowing (except by using out-of-band information) whether the lock is
-unlocked or locked, just like the observer in the famous Schrödinger’s cat
+unlocked or locked, just like the observer in the famous Schrodinger’s cat
 thought experiment. Due to the nature of the attack, the client cannot distinguish
 the attack from connectivity problems, offline servers, or unexpected behavior
 from middle boxes such as NATs and firewalls.
