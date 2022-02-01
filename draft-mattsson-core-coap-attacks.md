@@ -264,8 +264,9 @@ is not received and it therefore loses information about the server's status.
 
 An on-path attacker may not only block packets, but can also delay the delivery
 of any packet (request or response) by a chosen amount of time. If CoAP is
-used over a reliable and ordered transport such as TCP with TLS or OSCORE,
-no messages can be delivered before the delayed message. If CoAP is used
+used over a reliable and ordered transport such as TCP with TLS or OSCORE (with
+TLS-like sequence number handling), no messages can be delivered before the
+delayed message. If CoAP is used
 over an unreliable and unordered transport such as UDP with DTLS or OSCORE,
 other messages can be delivered before the delayed message as long as the
 delayed packet is delivered inside the replay window. When CoAP is used over
