@@ -695,6 +695,47 @@ The remedy described in {{fragment-earlierfinal}} works also for this case.
 Note that merely requiring that blocks of an operation should have incrementing sequence numbers
 would be insufficient to remedy this attack.
 
+### Attack difficulty
+
+The success of any fragment rearrangement attack has multiple prerequisites:
+
+* A client sends different block-wise requests that are only distinguished by their content.
+
+  This is generally rare in typical CoRE applications,
+  but can happen when the bodies of FETCH requests exceed the fragmentation threshold,
+  or when SOAP patterns are emulated.
+
+* A client starts later block-wise operations after an earlier one has failed.
+
+  This happens regularly as a consequence of operating in a low-power and lossy network:
+  Losses can cause failed operation (especially when the network is unavailable for time exceeding the "few expected round-trips" they may be limited to per {{RFC7959}}),
+  and the cost of reestablishing a security context.
+
+* The attacker needs to be able to determine which packets contain which fragments.
+
+  This can be achieved by an on-path attacker by observing request timing,
+  or simply by observing request sizes in the case when a body is split into precisely two blocks.
+
+It is *not* a prerequisite that the resulting misassembled request body is syntactically correct:
+As the server erroneously expects the body to be integrity protected from an authorized source,
+it might be using a parser not suitable for untrusted input.
+Such a parser might crash the server in extreme cases,
+but might also produce a valid but incorrect response to the request the client associates the response with.
+Note that many constrained applications aim to minimize traffic and thus employ compact data formats;
+that compactness leaves little room for syntactically invalid messages.
+
+The attack is easier if the attacker has control over the request bodies
+(which would be the case when a trusted proxy validates the attacker's authorization to perform two given requests,
+and an attack on the path between the proxy and the server recombines the blocks to a semantically different request).
+Attacks of that shape can easily result in reassembled bodies chosen by the attacker,
+but no services are currently known that operate in this way.
+
+Summarizing,
+it is unlikely that an attacker can perform any of the fragment rearrangement attacks on any given system --
+but given the diversity of applications built on CoAP, it is easily to imagine that single applications would be vulnerable.
+As block-wise transfer is a basic feature of CoAP and its details are sometimes hidden behind abstractions or proxies,
+application authors can not be expected to design their applications with these attacks in mind,
+and mitigation on the protocol level is prudent.
 
 ##  The Relay Attack
 
