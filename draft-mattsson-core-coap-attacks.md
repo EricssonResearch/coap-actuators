@@ -3,6 +3,7 @@ stand_alone: true
 ipr: trust200902
 docname: draft-mattsson-core-coap-attacks-latest
 cat: info
+submissiontype: IETF
 pi:
   strict: 'yes'
   toc: 'yes'
@@ -80,7 +81,13 @@ informative:
     seriesinfo:
       "Shadowserver Foundation"
     date: June 2020
-    
+
+venue:
+  group: Constrained RESTful Environments (CoRE)
+  mail: core@ietf.org
+  github: EricssonResearch/coap-actuators
+
+
 --- abstract
 
 Being able to securely read information from sensors, to securely control actuators, and
@@ -97,10 +104,6 @@ draft-ietf-core-echo-request-tag.
 --- middle
 
 # Introduction
-
-RFC EDITOR: PLEASE REMOVE THE FOLLOWING PARAGRAPH The source for this
-draft is maintained in GitHub. Issues and pull requests can be submitted
-at https://github.com/EricssonResearch/coap-actuators
 
 Being able to securely read information from sensors and to securely control actuators
 are essential in a world of connected and networking things interacting with
@@ -161,7 +164,7 @@ protection, but most replay protection mechanism use a sequence
 number.  Assuming the client is well-behaving, such a sequence number
 that can be used by the server as a relative measure of when a
 message was sent on a timescale of the sender.  Replay protection is
-mandatory in TLS and OSCORE and optional in DTLS.  DTLS and TLS 
+mandatory in TLS and OSCORE and optional in DTLS.  DTLS and TLS
 use sequence numbers for both requests and responses. In TLS the
 sequence numbers are implicit and not sent in the record.
 OSCORE use sequence numbers for requests and some responses.
@@ -248,12 +251,12 @@ blocking a request to, or a response from, an actuator
 results in the client losing information about the server's status. If the
 actuator e.g., is a lock (door, car, etc.), the attack results in the client
 not knowing (except by using out-of-band information) whether the lock is
-unlocked or locked, just like the observer in the famous Schrodinger’s cat
+unlocked or locked, just like the observer in the famous {{{Schrödinger’s}}} cat
 thought experiment. Due to the nature of the attack, the client cannot distinguish
 the attack from connectivity problems, offline servers, or unexpected behavior
 from middle boxes such as NATs and firewalls.
 
-Remedy: Any IoT deployment of actuators where syncronized state is important need to
+Remedy: Any IoT deployment of actuators where synchronized state is important need to
 use confirmable messages and the client need to take appropriate actions when a response
 is not received and it therefore loses information about the server's status.
 
@@ -277,7 +280,7 @@ The replay window has a default length of 64 in DTLS and 32 in OSCORE. The attac
 can influence the replay window state by blocking and delaying packets. By first
 delaying a request, and then later, after delivery, blocking the response
 to the request, the client is not made aware of the delayed delivery except
-by the missing response. The server has in general, no way of knowing that
+by the missing response. In general, the server has no way of knowing that
 the request was delayed and will therefore happily process the request.
 Note that delays can also happen for other reasons than a malicious attacker.
 
@@ -559,7 +562,7 @@ Following this updated processing mitigates the attack.
 
 These attack scenarios show that the Request Delay and Block Attacks can
 be
-used against blockwise transfers to cause unauthorized operations to be
+used against block-wise transfers to cause unauthorized operations to be
 performed on the server, and responses to unauthorized operations to be
 mistaken for responses to authorized operations.
 The combination of these attacks is described as a separate attack because
@@ -573,8 +576,8 @@ provided the attacker is on the network path and can correctly guess which
 operations the respective packages belong to.
 
 The attacks can be performed on any security protocol where the attacker can
-delay the delivery of a message. This incluses DTLS, IPsec, and most OSCORE
-configurations. The attacks does not work on TCP with TLS or OSCORE (with
+delay the delivery of a message. This includes DTLS, IPsec, and most OSCORE
+configurations. The attacks do not work on TCP with TLS or OSCORE (with
 TLS-like sequence number handling) as in these cases no messages can be
 delivered before the delayed message.
 
@@ -617,8 +620,8 @@ Client   Foe   Server
 ~~~~
 {: #promotevaljean title='Completing an operation with an earlier final block'}
 
-Remedy: If a client starts new blockwise operations on a security
-context that has lost packages, it needs to label the fragments in
+Remedy: If a client starts new block-wise operations on a security
+context that has lost packets, it needs to label the fragments in
 such a way that the server will not mix them up.
 
 A mechanism to that effect is described as Request-Tag
@@ -730,8 +733,8 @@ happening in practice.
 Remedy: Getting a response over a short-range radio cannot be taken as
 proof of proximity and can therefore not be used to take actions based on
 such proximity. Any automatically triggered mechanisms relying on proximity
-need to use other stronger mechanisms to guarantee proximity. Mechanisms that
-can be used are: measuring the round-trip time and calculate the maximum
+need to use other stronger mechanisms to guarantee[^strong] proximity. Mechanisms that
+can be used are: measuring the round-trip time and calculating the maximum
 possible distance based on the speed of light, or using radio with an extremely
 short range like NFC (centimeters instead of meters). Another option is to
 include geographical coordinates
@@ -741,7 +744,7 @@ need to make sure that an attacker cannot influence the location estimation.
 Some types of global navigation satellite systems (GNSS) receivers are
 vulnerable to spoofing attacks.
 
-
+[^strong]: [[This is a strong word -- the mitigations offered are weaker.]]
 
 
 
@@ -761,7 +764,7 @@ In an amplification attack, the amplification factor is the ratio between the
 total size of the data sent to the target and the total size of the data
 sent by the attacker. In the attacks described in this section, the
 attacker sends one or more requests, and the target receives one or more
-responses. An amplification attack alone can be a denial-of-service attack on a server,
+responses. An amplification attack alone [^alone] can be a denial-of-service attack on a server,
 but often amplification attacks are combined with the attacker spoofing the
 source IP address of the targeted victim. By requesting as much information
 as possible from several servers an attacker can multiply the amount of
@@ -769,13 +772,17 @@ traffic and create a distributed denial-of-service attack on the target.
 When transported over UDP, the CoAP NoSec
 mode is susceptible to source IP address spoofing.
 
-Amplification attacks with CoAP is unfortunately not only theory, amplification
+[^alone]: [[What would that be?]]
+
+Amplification attacks with CoAP unfortunately are not only theory, amplification
 factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} and
 {{CoAP-Wild}} report average amplification factors of 27 and 34 respectively
 from a single response to a GET request for /.well-known/core to the default UDP port 5683.
 NoSec CoAP servers accessible over the Internet are mostly concentrated to a few countries
 and a few implementations, which do not follow the recommendations in Section
-11.3 of [RFC7252] (but the requirements are a bit soft). 
+11.3 of [RFC7252] (but the requirements are a bit soft [^invalid]).
+
+[^invalid]: [[We can argue about that.]]
 
 An amplification attack using a single response is illustrated in {{ampsingle}}.
 If the response is c times larger than the request, the amplification factor is c.
@@ -799,7 +806,7 @@ Client   Foe   Server
 
 An attacker can increase the bandwidth by sending several GET requests. An attacker can
 also increase or control the amplification factor by creating or updating resources.
-By creating new resources, an attacker can increase the size of /.well-known/core. 
+By creating new resources, an attacker can increase the size of /.well-known/core.
 An amplification attack where the attacker influences the amplification factor
 is illustrated in {{ampmulti_post}}.
 
@@ -833,7 +840,7 @@ factors can be very large.
 
 An amplification attack using observe is illustrated in
 {{ampmulti_nk}}. If each notification response is c times larger than the registration
-request and each request results in n notifications, the amplification factor is c * n. 
+request and each request results in n notifications, the amplification factor is c * n.
 By registering the same client several times using different Tokens or port numbers,
 the bandwidth can be increased. By updating the observed resource, the attacker
 may trigger notifications and increase the size of the notifications. By using
@@ -952,7 +959,7 @@ Client   Foe   Server
 {: #ampmulti_mn title='Amplification attack using multicast and observe' artwork-align="center"}
 
 While CoAP has always considered amplification attacks, the recommendations
-in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft.
+in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft [^invalid].
 Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
 "large amplification factor" is, {{RFC7641}} does not specify how many notifications
 that can be sent before a potentially spoofable acknowledgement must be sent, and
@@ -960,14 +967,13 @@ in several cases the "SHOULD" level is further softened by “If possible" and "
 {{I-D.ietf-core-conditional-attributes}} does not have any amplification attack considerations.
 {{I-D.ietf-core-echo-request-tag}} updates {{RFC7252}} by stating that CoAP servers SHOULD mitigate
 potential amplification attacks by responding to unauthenticated clients with 4.01 (Unauthorized)
-including an Echo option. This is still a soft requirement. 
+including an Echo option. This is still a soft requirement.
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
 
 In CoAP, an address can be validated with a security protocol like DTLS, TLS, OSCORE, or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
 
-Remedy: {{RFC7252}} should be updated with a strict normative requirement (MUST) on implementations similar to QUIC with a specified anti-amplification limit and no exceptions. It should be clear that any devices used in DDoS attacks are violating IETF requirements. 
-
+Remedy: {{RFC7252}} should [^invalid] be updated with a strict normative requirement (MUST) on implementations similar to QUIC with a specified anti-amplification limit and no exceptions. It should be clear that any devices used in DDoS attacks are violating IETF requirements.
 
 
 # Security Considerations
@@ -984,4 +990,14 @@ This document has no actions for IANA.
 # Acknowledgements
 {: numbered="false"}
 
-The authors would like to thank Carsten Bormann, Klaus Hartke, Jaime Jiménez, Ari Keränen, Matthias Kovatsch, Achim Kraus, Sandeep Kumar, and András Méhes for their valuable comments and feedback.
+The authors would like to thank
+{{{Carsten Bormann}}},
+{{{Klaus Hartke}}},
+{{{Jaime Jiménez}}},
+{{{Ari Keränen}}},
+{{{Matthias Kovatsch}}},
+{{{Achim Kraus}}},
+{{{Sandeep Kumar}}},
+and
+{{{András Méhes}}}
+for their valuable comments and feedback.
