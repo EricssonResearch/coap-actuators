@@ -13,8 +13,8 @@ pi:
   compact: 'yes'
   subcompact: 'no'
   iprnotified: 'no'
-title: CoAP Attacks
-abbrev: CoAP Attacks
+title: Attacks on the Constrained Application Protocol (CoAP)
+abbrev: Attacks on CoAP
 area: ''
 wg: ''
 kw: ''
@@ -95,9 +95,7 @@ to not enable distributed denial-of-service attacks are essential in a world of
 connected and networking things interacting with
 the physical world. This document summarizes a number of known attacks on CoAP and
 show that just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
-enough for secure operation. The document also summarizes different denial-of-service
-attacks using CoAP. The goal with this document is motivating generic
-and protocol-specific recommendations on the usage of CoAP. Several of the
+enough for secure operation. Several of the
 discussed attacks can be mitigated with the solutions in
 draft-ietf-core-echo-request-tag.
 
@@ -181,14 +179,6 @@ DTLS, TLS, and OSCORE and described in {{fragment}}) lets an attacker
 cause unauthorized operations to be performed on the server, and
 responses to unauthorized operations to be mistaken for responses to
 authorized operations.
-
-Protecting CoAP against attacks is not enough. CoAP deployments
-need to make sure that they are not used for distributed denial-of-service
-attacks. {{dos}} summarizes different
-denial-of-service attacks using CoAP. When transported over UDP, the CoAP
-NoSec mode is susceptible to source IP address spoofing and as a single
-request can result in multiple responses from multiple servers, CoAP
-can have very large amplification factors.
 
 The goal with this document is motivating generic
 and protocol-specific recommendations on the usage of CoAP.
@@ -788,235 +778,6 @@ Some types of global navigation satellite systems (GNSS) receivers are
 vulnerable to spoofing attacks.
 
 [^strong]: [[This is a strong word -- the mitigations offered are weaker.]]
-
-
-
-
-# Attacks using CoAP
-
-## Denial-of-Service Attacks {#dos}
-
-In a Denial-of-Service (DoS) attack, an attacker sends a large number of requests
-or responses to a target endpoint. The denial-of-service might be caused by
-the target endpoint receiving a large amount of data, sending a large amount
-of data, doing heavy processing, or using too much memory, etc. In a Distributed
-Denial-of-Service (DDoS) attack, the request or responses come from a large
-number of sources.
-
-In an amplification attack, the amplification factor is the ratio between the
-total size of the data sent to the target and the total size of the data
-sent by the attacker. In the attacks described in this section, the
-attacker sends one or more requests, and the target receives one or more
-responses. An amplification attack alone [^alone] can be a denial-of-service attack on a server,
-but often amplification attacks are combined with the attacker spoofing the
-source IP address of the targeted victim. By requesting as much information
-as possible from several servers an attacker can multiply the amount of
-traffic and create a distributed denial-of-service attack on the target.
-When transported over UDP, the CoAP NoSec
-mode is susceptible to source IP address spoofing.
-
-[^alone]: [[What would that be?]]
-
-Amplification attacks with CoAP unfortunately are not only theory, amplification
-factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} and
-{{CoAP-Wild}} report average amplification factors of 27 and 34 respectively
-from a single response to a GET request for /.well-known/core to the default UDP port 5683.
-NoSec CoAP servers accessible over the Internet are mostly concentrated to a few countries
-and a few implementations, which do not follow the recommendations in Section
-11.3 of [RFC7252] (but the requirements are a bit soft [^invalid]).
-
-[^invalid]: [[We can argue about that.]]
-
-An amplification attack using a single response is illustrated in {{ampsingle}}.
-If the response is c times larger than the request, the amplification factor is c.
-
-~~~~
-Client   Foe   Server
-   |      |      |
-   |      +----->|      Code: 0.01 (GET)
-   |      | GET  |  Uri-Path: random quote
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |   Payload: "just because you own half the county
-   |      |      |             doesn't mean that you have the power
-   |      |      |             to run the rest of us. For twenty-
-   |      |      |             three years, I've been dying to tell
-   |      |      |             you what I thought of you! And now...
-   |      |      |             well, being a Christian woman, I can't
-   |      |      |             say it!"
-~~~~
-{: #ampsingle title='Amplification attack using a single response' artwork-align="center"}
-
-An attacker can increase the bandwidth by sending several GET requests. An attacker can
-also increase or control the amplification factor by creating or updating resources.
-By creating new resources, an attacker can increase the size of /.well-known/core.
-An amplification attack where the attacker influences the amplification factor
-is illustrated in {{ampmulti_post}}.
-
-~~~~
-Client   Foe   Server
-   |      |      |
-   |      +----->|      Code: 0.02 (POST)
-   |      | POST |  Uri-Path: /member/
-   |      |      |   Payload: hampsterdance.hevc
-   |      |      |
-     ....   ....
-   |      +----->|      Code: 0.02 (GET)
-   |      | GET  |  Uri-Path: /member/
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |   Payload: hampsterdance.hevc
-   |      |      |
-   |      +----->|      Code: 0.02 (GET)
-   |      | GET  |  Uri-Path: /member/
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |   Payload: hampsterdance.hevc
-     ....   ....
-~~~~
-{: #ampmulti_post title='Amplification attack using several requests and a chosen amplification factor' artwork-align="center"}
-
-Amplification factors can be significantly worse when combined with
-observe {{RFC7641}} and group requests {{I-D.ietf-core-groupcomm-bis}}. As a single
-request can result in multiple responses from multiple servers, the amplification
-factors can be very large.
-
-An amplification attack using observe is illustrated in
-{{ampmulti_nk}}. If each notification response is c times larger than the registration
-request and each request results in n notifications, the amplification factor is c * n.
-By registering the same client several times using different Tokens or port numbers,
-the bandwidth can be increased. By updating the observed resource, the attacker
-may trigger notifications and increase the size of the notifications. By using
-conditional attributes {{I-D.ietf-core-conditional-attributes}} an attacker may increase the frequency of
-notifications and therefore the amplification factor. The maximum period attribute pmax
-indicates the maximum time, in seconds, between two consecutive notifications (whether or not the
-resource state has changed). If it is predictable when notifications
-are sent as confirmable and which Message ID are used the acknowledgements may be spoofed.
-
-~~~~
-Client   Foe   Server
-   |      |      |
-   |      +----->|      Code: 0.01 (GET)
-   |      | GET  |     Token: 0x83
-   |      |      |   Observe: 0
-   |      |      |  Uri-Path: temperature
-   |      |      |  Uri-Query: pmax="0.1"
-   |      |      |
-   |      +----->|      Code: 0.01 (GET)
-   |      | GET  |     Token: 0x84
-   |      |      |   Observe: 0
-   |      |      |  Uri-Path: temperature
-   |      |      |  Uri-Query: pmax="0.1"
-   |      |      |
-     ....   ....
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x83
-   |      |      |   Observe: 217362
-   |      |      |   Payload: "299.7 K"
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x84
-   |      |      |   Observe: 217362
-   |      |      |   Payload: "299.7 K"
-   |      |      |
-     ....   ....
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x83
-   |      |      |   Observe: 217363
-   |      |      |   Payload: "299.7 K"
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x84
-   |      |      |   Observe: 217363
-   |      |      |   Payload: "299.7 K"
-     ....   ....
-~~~~
-{: #ampmulti_nk title='Amplification attack using observe, registering the same client several times, and requesting notifications at least 10 times every second' artwork-align="center"}
-
-An amplification attack using a group request is illustrated in
-{{ampmulti_m}}. The group request is sent over multicast or broadcast
-and in this case a single request results in m responses
-from m different servers. If each response is c times larger than the request,
-the amplification factor is c * m. Note that the servers usually do not know
-the variable m.
-
-
-~~~~
-Client   Foe   Server
-   |      |      |
-   |      +----->|      Code: 0.01 (GET)
-   |      | GET  |     Token: 0x69
-   |      |      |  Uri-Path: </c>
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x69
-   |      |      |   Payload: { 1721 : { ...
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x69
-   |      |      |   Payload: { 1721 : { ...
-   |      |      |
-     ....   ....
-~~~~
-{: #ampmulti_m title='Amplification attack using multicast' artwork-align="center"}
-
-An amplification attack using a multicast request and observe is
-illustrated in {{ampmulti_mn}}. In this case a single request results
-in n responses each from m different servers giving a total of n \* m
-responses. If each response is c times larger than the request,
-the amplification factor is c * n * m.
-
-
-~~~~
-Client   Foe   Server
-   |      |      |
-   |      +----->|      Code: 0.01 (GET)
-   |      | GET  |     Token: 0x44
-   |      |      |   Observe: 0
-   |      |      |  Uri-Path: temperature
-   |      |      |  Uri-Query: pmax="0.1"
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x44
-   |      |      |   Observe: 217
-   |      |      |   Payload: "301.2 K"
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x44
-   |      |      |   Observe: 363
-   |      |      |   Payload: "293.4 K"
-   |      |      |
-     ....   ....
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x44
-   |      |      |   Observe: 218
-   |      |      |   Payload: "301.2 K"
-   |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x44
-   |      |      |   Observe: 364
-   |      |      |   Payload: "293.4 K"
-   |      |      |
-     ....   ....
-~~~~
-{: #ampmulti_mn title='Amplification attack using multicast and observe' artwork-align="center"}
-
-While CoAP has always considered amplification attacks, the recommendations
-in {{RFC7252}}, {{RFC7641}}, and {{I-D.ietf-core-groupcomm-bis}} are a bit soft [^invalid].
-Most of the requirements are "SHOULD" instead of "MUST", it is undefined what a
-"large amplification factor" is, {{RFC7641}} does not specify how many notifications
-that can be sent before a potentially spoofable acknowledgement must be sent, and
-in several cases the "SHOULD" level is further softened by “If possible" and "generally".
-{{I-D.ietf-core-conditional-attributes}} does not have any amplification attack considerations.
-{{I-D.ietf-core-echo-request-tag}} updates {{RFC7252}} by stating that CoAP servers SHOULD mitigate
-potential amplification attacks by responding to unauthenticated clients with 4.01 (Unauthorized)
-including an Echo option. This is still a soft requirement.
-
-QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends to the unvalidated address to three times the amount of data received from that address” without any exceptions. This approach should be seen as current best practice.
-
-In CoAP, an address can be validated with a security protocol like DTLS, TLS, OSCORE, or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
-
-Remedy: {{RFC7252}} should [^invalid] be updated with a strict normative requirement (MUST) on implementations similar to QUIC with a specified anti-amplification limit and no exceptions. It should be clear that any devices used in DDoS attacks are violating IETF requirements.
 
 
 # Security Considerations
