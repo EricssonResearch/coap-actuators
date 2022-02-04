@@ -52,14 +52,11 @@ author:
   surname: Amsüss
   org: Energy Harvesting Solutions
   email: c.amsuess@energyharvesting.at
-normative:
-  RFC7252:
-  RFC7641:
-  I-D.ietf-core-echo-request-tag:
-  I-D.ietf-core-conditional-attributes:
-  I-D.ietf-core-groupcomm-bis:
 informative:
   RFC6347:
+  RFC7252:
+  RFC7641:
+  RFC7959:
   RFC8152:
   RFC8323:
   RFC8446:
@@ -67,6 +64,9 @@ informative:
   RFC9000:
   I-D.ietf-lake-edhoc:
   I-D.ietf-tls-dtls13:
+  I-D.ietf-core-groupcomm-bis:
+  I-D.ietf-core-echo-request-tag:
+  I-D.ietf-core-conditional-attributes:
 
   CoAP-Wild:
     target: https://www.netscout.com/blog/asert/coap-attacks-wild
