@@ -55,32 +55,14 @@ author:
 informative:
   RFC6347:
   RFC7252:
-  RFC7641:
   RFC7959:
   RFC8152:
   RFC8323:
   RFC8446:
   RFC8613:
-  RFC9000:
   I-D.ietf-lake-edhoc:
   I-D.ietf-tls-dtls13:
-  I-D.ietf-core-groupcomm-bis:
   I-D.ietf-core-echo-request-tag:
-  I-D.ietf-core-conditional-attributes:
-
-  CoAP-Wild:
-    target: https://www.netscout.com/blog/asert/coap-attacks-wild
-    title: "CoAP Attacks In The Wild"
-    seriesinfo:
-      "Netscout"
-    date: January 2019
-
-  CoAP-Report:
-    target: https://www.shadowserver.org/news/accessible-coap-report-scanning-for-exposed-constrained-application-protocol-services/
-    title: "Accessible CoAP Report"
-    seriesinfo:
-      "Shadowserver Foundation"
-    date: June 2020
 
 venue:
   group: Constrained RESTful Environments (CoRE)
