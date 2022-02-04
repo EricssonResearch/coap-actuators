@@ -166,6 +166,8 @@ The goal with this document is motivating generic
 and protocol-specific recommendations on the usage of CoAP.
 Mechanisms mitigating some of the attacks discussed in this document can
 be found in {{I-D.ietf-core-echo-request-tag}}.
+This document is a companion document to {{I-D.ietf-core-echo-request-tag}}
+giving more information on the attacks motivating the mechanisms.
 
 # Attacks on CoAP
 
