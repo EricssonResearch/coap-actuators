@@ -748,18 +748,15 @@ happening in practice.
 Remedy: Getting a response over a short-range radio cannot be taken as
 proof of proximity and can therefore not be used to take actions based on
 such proximity. Any automatically triggered mechanisms relying on proximity
-need to use other stronger mechanisms to guarantee[^strong] proximity. Mechanisms that
+need to use other stronger mechanisms to establish proximity. Mechanisms that
 can be used are: measuring the round-trip time and calculating the maximum
 possible distance based on the speed of light, or using radio with an extremely
 short range like NFC (centimeters instead of meters). Another option is to
-include geographical coordinates
-(from e.g., GPS) in the messages and calculate proximity based on these, but
-in this case the location measurements need to be very precise and the system
-need to make sure that an attacker cannot influence the location estimation.
-Some types of global navigation satellite systems (GNSS) receivers are
-vulnerable to spoofing attacks.
-
-[^strong]: [[This is a strong word -- the mitigations offered are weaker.]]
+include geographical coordinates (from e.g., GPS) in the messages and calculate
+proximity based on these, but in this case the location measurements need to be
+very precise and the system need to make sure that an attacker cannot
+influence the location estimation. Some types of global navigation satellite
+systems (GNSS) receivers are vulnerable to spoofing attacks.
 
 
 # Security Considerations
