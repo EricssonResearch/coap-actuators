@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-mattsson-core-coap-attacks-latest
+docname: draft-mattsson-t2trg-amplification-attacks-latest
 cat: info
 submissiontype: IRTF
 pi:
@@ -13,8 +13,8 @@ pi:
   compact: 'yes'
   subcompact: 'no'
   iprnotified: 'no'
-title: CoAP Attacks
-abbrev: CoAP Attacks
+title: Aplification Attacks Using the Constrained Application Protocol (CoAP)
+abbrev: CoAP Aplification Attacks
 area: ''
 wg: ''
 kw: ''
@@ -76,13 +76,14 @@ venue:
 
 --- abstract
 
-Being able to securely read information from sensors, to securely control actuators, and
-to not enable distributed denial-of-service attacks are essential in a world of
-connected and networking things interacting with
-the physical world. This document summarizes a number of known attacks on CoAP and
-show that just using CoAP with a security protocol like DTLS, TLS, or OSCORE is not
-enough for secure operation. The document also summarizes different denial-of-service
-attacks using CoAP. The goal with this document is motivating generic
+Protecting CoAP against attacks is not enough. CoAP deployments
+need to make sure that they are not used for distributed denial-of-service
+attacks. The document summarizes different amplification attacks using CoAP.
+When transported over UDP, the CoAP
+NoSec mode is susceptible to source IP address spoofing and as a single
+request can result in multiple responses from multiple servers, CoAP
+can have very large amplification factors.
+The goal with this document is motivating generic
 and protocol-specific recommendations on the usage of CoAP. Several of the
 discussed attacks can be mitigated with the solutions in
 draft-ietf-core-echo-request-tag.
