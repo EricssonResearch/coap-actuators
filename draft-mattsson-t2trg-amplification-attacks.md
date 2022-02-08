@@ -132,15 +132,14 @@ In an amplification attack, the amplification factor is the ratio between the
 total size of the data sent to the target and the total size of the data
 sent by the attacker. In the attacks described in this section, the
 attacker sends one or more requests, and the target receives one or more
-responses. An amplification attack alone [^alone] can be a denial-of-service attack on a server,
-but often amplification attacks are combined with the attacker spoofing the
+responses. An amplification attack alone can be a denial-of-service attack
+on a server by making it send a large amount of data. But often amplification
+attacks are combined with the attacker spoofing the
 source IP address of the targeted victim. By requesting as much information
 as possible from several servers an attacker can multiply the amount of
 traffic and create a distributed denial-of-service attack on the target.
 When transported over UDP, the CoAP NoSec
 mode is susceptible to source IP address spoofing.
-
-[^alone]: [[What would that be?]]
 
 Amplification attacks with CoAP unfortunately are not only theory, amplification
 factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} and
