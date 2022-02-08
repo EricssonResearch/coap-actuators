@@ -90,33 +90,32 @@ NoSec or with the Echo option specified in draft-ietf-core-echo-request-tag.
 
 # Introduction
 
-Being able to securely read information from sensors and to securely control actuators
-are essential in a world of connected and networking things interacting with
-the physical world. One protocol used to interact with sensors and actuators
-is the Constrained Application Protocol (CoAP) {{RFC7252}}. Any
-Internet-of-Things (IoT) deployment valuing security and privacy would
-use a security protocol such as DTLS {{I-D.ietf-tls-dtls13}}, TLS {{RFC8446}}, or
-OSCORE {{RFC8613}} to protect CoAP, where the choice of security
-protocol depends on the transport protocol and the presence of intermediaries.
-The use of CoAP over UDP and DTLS is specified in {{RFC7252}} and the
-use of CoAP over TCP and TLS is specified in {{RFC8323}}. OSCORE
-protects CoAP end-to-end with the use of COSE {{RFC8152}} and the CoAP
+One important protocol used to interact with Internet of Things (IoT)
+sensors and actuators is the Constrained Application Protocol (CoAP) {{RFC7252}}.
+CoAP can be used without security in the so called NoSec mode but any
+Internet-of-Things (IoT) deployment valuing security and privacy would use a
+security protocol such as DTLS {{I-D.ietf-tls-dtls13}}, TLS {{RFC8446}}, or OSCORE {{RFC8613}}
+to protect CoAP, where the choice of security protocol depends on the transport
+protocol and the presence of intermediaries. The use of CoAP over UDP and DTLS is
+specified in {{RFC7252}} and the use of CoAP over TCP and TLS is specified in {{RFC8323}}.
+OSCORE protects CoAP end-to-end with the use of COSE {{RFC8152}} and the CoAP
 Object-Security option {{RFC8613}}, and can therefore be used over any
-transport.
+transport. Group OSCORE {{ I-D.ietf-core-oscore-groupcomm}} can be used to
+protect CoAP Group Communication.
 
-Protecting CoAP against attacks is not enough. CoAP deployments
-need to make sure that they are not used for distributed denial-of-service
-attacks. {{dos}} summarizes different
-denial-of-service attacks using CoAP. When transported over UDP, the CoAP
-NoSec mode is susceptible to source IP address spoofing and as a single
-request can result in multiple responses from multiple servers, CoAP
-can have very large amplification factors.
+Protecting Internet of Things (IoT) devices against attacks is not enough.
+IoT deployments need to make sure that they are not used for
+Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
+typically done with compromised devices or with amplification attacks.
+The document summarizes different amplification attacks using CoAP.
+When transported over UDP, the CoAP NoSec mode is susceptible to source
+IP address spoofing and as a single request can result in multiple responses
+from multiple servers, CoAP can have very large amplification factors.
+The goal with this document is motivating generic and protocol-specific
+recommendations on the usage of CoAP.
 
-The goal with this document is motivating generic
-and protocol-specific recommendations on the usage of CoAP.
-Mechanisms mitigating some of the attacks discussed in this document can
-be found in {{I-D.ietf-core-echo-request-tag}}.
-
+Several of the discussed attacks can be mitigated by not using
+NoSec or with the Echo option specified in {{draft-ietf-core-echo-request-tag}}.
 
 # Attacks using CoAP
 
