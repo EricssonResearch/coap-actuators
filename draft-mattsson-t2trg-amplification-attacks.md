@@ -117,9 +117,7 @@ recommendations on the usage of CoAP.
 Several of the discussed attacks can be mitigated by not using
 NoSec or by using the Echo option {{I-D.ietf-core-echo-request-tag}}.
 
-# Attacks using CoAP
-
-## Denial-of-Service Attacks {#dos}
+# Amplification Attacks using CoAP {#dos}
 
 In a Denial-of-Service (DoS) attack, an attacker sends a large number of requests
 or responses to a target endpoint. The denial-of-service might be caused by
@@ -147,9 +145,7 @@ factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} 
 from a single response to a GET request for /.well-known/core to the default UDP port 5683.
 NoSec CoAP servers accessible over the Internet are mostly concentrated to a few countries
 and a few implementations, which do not follow the recommendations in Section
-11.3 of [RFC7252] (but the requirements are a bit soft [^invalid]).
-
-[^invalid]: [[We can argue about that.]]
+11.3 of [RFC7252].
 
 An amplification attack using a single response is illustrated in {{ampsingle}}.
 If the response is c times larger than the request, the amplification factor is c.
