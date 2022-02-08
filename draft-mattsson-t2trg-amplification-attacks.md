@@ -115,7 +115,7 @@ from multiple servers, CoAP can have very large amplification factors.
 The goal with this document is motivating generic and protocol-specific
 recommendations on the usage of CoAP.
 
-Several of the discussed attacks can be mitigated by not using
+Some of the discussed attacks can be mitigated by not using
 NoSec or by using the Echo option {{I-D.ietf-core-echo-request-tag}}.
 
 # Amplification Attacks using CoAP {#dos}
