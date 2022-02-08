@@ -79,7 +79,8 @@ venue:
 Protecting Internet of Things (IoT) devices against attacks is not enough.
 IoT deployments need to make sure that they are not used for
 Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
-typically done with compromised devices or with amplification attacks.
+typically done with compromised devices or with amplification attacks
+using a spoofed source address.
 This document summarizes different amplification attacks using the
 Constrained Application Protocol (CoAP). The goal with this document is
 motivating generic and protocol-specific recommendations on the usage of
