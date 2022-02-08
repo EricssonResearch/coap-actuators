@@ -336,8 +336,8 @@ QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it s
 to the unvalidated address to three times the amount of data received from that
 address” without any exceptions. This approach should be seen as current best practice.
 
-While it is clear when an QUIC implementation violate the requirement in {{RFC9000}}, it
-is not clear when an CoAP implementation ahs violated the requirement in {{RFC7252}},
+While it is clear when an QUIC implementation violates the requirement in {{RFC9000}}, it
+is not clear when an CoAP implementation violates the requirement in {{RFC7252}},
 {{RFC7641}}, {{I-D.ietf-core-echo-request-tag}}, and {{I-D.ietf-core-groupcomm-bis}}.
 
 In CoAP, an address can be validated with a security protocol like DTLS, TLS, OSCORE, or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
