@@ -84,7 +84,7 @@ using a spoofed source address.
 This document summarizes different amplification attacks using the
 Constrained Application Protocol (CoAP). The goal with this document is
 motivating generic and protocol-specific recommendations on the usage of
-CoAP. Several of the discussed attacks can be mitigated by not using
+CoAP. Some of the discussed attacks can be mitigated by not using
 NoSec or by using the Echo option.
 
 --- middle
