@@ -100,7 +100,7 @@ to protect CoAP, where the choice of security protocol depends on the transport
 protocol and the presence of intermediaries. The use of CoAP over UDP and DTLS is
 specified in {{RFC7252}} and the use of CoAP over TCP and TLS is specified in {{RFC8323}}.
 OSCORE protects CoAP end-to-end with the use of COSE {{RFC8152}} and the CoAP
-Object-Security option {{RFC8613}}, and can therefore be used over any
+Object-Security option {{RFC8613}} and can therefore be used over any
 transport. Group OSCORE {{ I-D.ietf-core-oscore-groupcomm}} can be used to
 protect CoAP Group Communication {{I-D.ietf-core-oscore-groupcomm}}.
 
