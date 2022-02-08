@@ -13,8 +13,8 @@ pi:
   compact: 'yes'
   subcompact: 'no'
   iprnotified: 'no'
-title: Aplification Attacks Using the Constrained Application Protocol (CoAP)
-abbrev: CoAP Aplification Attacks
+title: Amplification Attacks Using the Constrained Application Protocol (CoAP)
+abbrev: CoAP Amplification Attacks
 area: ''
 wg: ''
 kw: ''
