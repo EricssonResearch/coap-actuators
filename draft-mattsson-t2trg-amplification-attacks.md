@@ -50,6 +50,7 @@ informative:
   I-D.ietf-core-groupcomm-bis:
   I-D.ietf-core-echo-request-tag:
   I-D.ietf-core-oscore-groupcomm:
+  I-D.ietf-tls-dtls-connection-id:
   I-D.ietf-core-conditional-attributes:
   I-D.ietf-lake-edhoc:
   I-D.ietf-tls-dtls13:
