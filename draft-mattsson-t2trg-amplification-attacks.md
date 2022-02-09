@@ -333,6 +333,51 @@ Client   Foe   Server
 ~~~~
 {: #ampmulti_mn title='Amplification attack using multicast and observe' artwork-align="center"}
 
+TLS and DTLS without Connection ID {{I-D.ietf-tls-dtls-connection-id}} validate the IP address and port of the other peer, binds them to the connection, and do not allow them to change. DTLS with Connection ID allows the IP address and port to change at any time. As the source address is not protected, an MITM attacker can change the address. DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records”, DTLS 1.3 with Connection ID does not require such a strategy. OSCORE {{RFC8613}} does not discuss updates of the addresses, but it can be assumed that the server always sends responses to the address it received the request from. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future messages, while in OSCORE a new address is only used for responses to a specific request.
+
+~~~~
+Client   Foe  Victim  Server
+   |      |      |      |
+   +----->#------------>|      Code: 0.01 (GET)
+   | GET  | GET  |      |   Observe: 0
+   |      |      |      |  Uri-Path: humidity
+   |      |      |      |
+     ....   ....   ....
+   |      |      |<-----+      Code: 2.05 (Content)
+   |      |      | 2.05 |   Observe: 263712
+   |      |      |      |   Payload: "68 %"
+   |      |      |      |
+   |      |      |<-----+      Code: 2.05 (Content)
+   |      |      | 2.05 |   Observe: 263713
+   |      |      |      |   Payload: "69 %"
+     ....   ....   ....
+~~~~
+{: #amp_mitm_client title='MITM Amplification attack by updating the client's source address in a observe registration request' artwork-align="center"}
+
+Where '#' means the MITM attacker is changing the source address of the message.
+
+~~~~
+Client   Foe  Victim  Server
+   |      |      |      |
+   +------------------->|      Code: 0.01 (POST)
+   | POST |      |      |  Uri-Path: video/
+   |      |      |      |   Payload: survailance_1138.hevc
+   |      |      |      |
+   |<-----#<------------|      Code: 2.04 (Changed)
+   |      |      | 2.04 |  Uri-Path: video/
+   |      |      |      |
+     ....   ....   ....
+   +------------>|      |      Code: 0.01 (POST)
+   | POST |      |      |  Uri-Path: video/
+   |      |      |      |   Payload: survailance_1139.hevc
+   |      |      |      |
+   +------------>|      |      Code: 0.01 (POST)
+   | POST |      |      |  Uri-Path: video/
+   |      |      |      |   Payload: survailance_1140.hevc
+     ....   ....   ....
+~~~~
+{: #amp_mitm_server title='MITM Amplification attack by updating the server's source address in a response' artwork-align="center"}
+
 CoAP has always considered amplification attacks, but most of the requirements in 
 {{RFC7252}}, {{RFC7641}}, {{I-D.ietf-core-echo-request-tag}}, and
 {{I-D.ietf-core-groupcomm-bis}} are "SHOULD" instead of "MUST", it is
