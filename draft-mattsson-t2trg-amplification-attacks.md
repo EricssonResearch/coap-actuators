@@ -339,7 +339,7 @@ TLS and DTLS without Connection ID {{I-D.ietf-tls-dtls-connection-id}} validate 
 Client   Foe  Victim  Server
    |      |      |      |
    +----->#------------>|      Code: 0.01 (GET)
-   | GET  | GET  |      |   Observe: 0
+   | GET  |      |      |   Observe: 0
    |      |      |      |  Uri-Path: humidity
    |      |      |      |
      ....   ....   ....
@@ -361,10 +361,9 @@ Client   Foe  Victim  Server
    |      |      |      |
    +------------------->|      Code: 0.01 (POST)
    | POST |      |      |  Uri-Path: video/
-   |      |      |      |   Payload: survailance_1138.hevc
    |      |      |      |
-   |<-----#<------------|      Code: 2.04 (Changed)
-   |      |      | 2.04 |  Uri-Path: video/
+   |<-----#<------------|      Code: 2.01 (Created)
+   |      |      | 2.01 |
    |      |      |      |
      ....   ....   ....
    +------------>|      |      Code: 0.01 (POST)
