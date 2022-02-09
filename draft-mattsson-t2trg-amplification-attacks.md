@@ -333,7 +333,9 @@ Client   Foe   Server
 ~~~~
 {: #ampmulti_mn title='Amplification attack using multicast and observe' artwork-align="center"}
 
-TLS and DTLS without Connection ID {{I-D.ietf-tls-dtls-connection-id}} validate the IP address and port of the other peer, binds them to the connection, and do not allow them to change. DTLS with Connection ID allows the IP address and port to change at any time. As the source address is not protected, an MITM attacker can change the address. Note that an MITM attacker is a more capable attacker then an attacker just spoofing the source address. DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records” but does not gie more details than that. DTLS 1.3 with Connection ID does not require such a strategy. OSCORE {{RFC8613}} does not discuss address updates, but it can be assumed that the server always sends responses to the address it received the request from. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future messages, while in OSCORE a new address is only used for responses to a specific request.
+TLS and DTLS without Connection ID {{I-D.ietf-tls-dtls-connection-id}} validate the IP address and port of the other peer, binds them to the connection, and do not allow them to change. DTLS with Connection ID allows the IP address and port to change at any time. As the source address is not protected, an MITM attacker can change the address. Note that an MITM attacker is a more capable attacker then an attacker just spoofing the source address. DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records” but does not give more details than that. DTLS 1.3 with Connection ID does not require such a strategy. OSCORE {{RFC8613}} does not discuss address updates, but it can be assumed that the server always sends responses to the address it received the request from. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future messages, while in OSCORE a new address is only used for responses to a specific request.
+
+An MITM amplification attack updating the client's source address in a observe registration is illustrated in {{amp_mitm_client}}. This attack is possible in OSCORE and DTLS 1.3 with Connection ID. In DTLS 1.2 with Connection ID the server will at some point stop sending notifications to the Victim when it cannot ensure that the new peer address is able to receive and process DTLS records. It is unspecified if such a DTLS 1.2 server just terminates the connection or if it has saved the old address and starts to send notifications to the legitimate client.
 
 ~~~~
 Client   Foe  Victim  Server
@@ -355,6 +357,8 @@ Client   Foe  Victim  Server
 {: #amp_mitm_client title='MITM Amplification attack by updating the client's source address in a observe registration request' artwork-align="center"}
 
 Where '#' means the MITM attacker is changing the source address of the message.
+
+An MITM amplification attack updating the server's source address is illustrated in {{amp_mitm_server}}. This attack is possible in DTLS 1.3 with Connection ID. In DTLS 1.2 with Connection ID the client will at some point stop sending notifications to the Victim when it cannot ensure that the new peer address is able to receive and process DTLS records. It is unspecified if such a DTLS 1.2 client just terminates the connection or if it has saved the old address and starts to send notifications to the legitimate server. If the client has not saved the old address and it does not use DNS it might not even be able to reconnect to the server.
 
 ~~~~
 Client   Foe  Victim  Server
@@ -394,7 +398,7 @@ While it is clear when a QUIC implementation violates the requirement in {{RFC90
 is not clear when a CoAP implementation violates the requirement in {{RFC7252}},
 {{RFC7641}}, {{I-D.ietf-core-echo-request-tag}}, and {{I-D.ietf-core-groupcomm-bis}}.
 
-In CoAP, an address can be validated with a security protocol like DTLS, TLS, OSCORE, or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
+In CoAP, an address can be validated with a security protocol like TLS or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
 
 # Security Considerations
 
