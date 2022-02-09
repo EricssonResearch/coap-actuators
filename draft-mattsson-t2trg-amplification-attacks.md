@@ -109,7 +109,7 @@ specified in {{RFC7252}} and the use of CoAP over TCP and TLS is specified in {{
 OSCORE protects CoAP end-to-end with the use of COSE {{RFC8152}} and the CoAP
 Object-Security option {{RFC8613}} and can therefore be used over any
 transport. Group OSCORE {{ I-D.ietf-core-oscore-groupcomm}} can be used to
-protect CoAP Group Communication {{I-D.ietf-core-oscore-groupcomm}}.
+protect CoAP Group Communication {{I-D.ietf-core-groupcomm-bis}}.
 
 Protecting Internet of Things (IoT) devices against attacks is not enough.
 IoT deployments need to make sure that they are not used for
