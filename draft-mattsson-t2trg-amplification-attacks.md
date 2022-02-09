@@ -141,7 +141,7 @@ total size of the data sent to the target and the total size of the data
 sent by the attacker. In the attacks described in this section, the
 attacker sends one or more requests, and the target receives one or more
 responses. An amplification attack alone can be a denial-of-service attack
-on a server by making it send a large amount of data. But often amplification
+on a CoAP server by making it send a large amount of data. But often amplification
 attacks are combined with the attacker spoofing the
 source IP address of the targeted victim. By requesting as much information
 as possible from several servers an attacker can multiply the amount of
