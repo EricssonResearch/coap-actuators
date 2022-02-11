@@ -88,9 +88,9 @@ Protecting Internet of Things (IoT) devices against attacks is not enough.
 IoT deployments need to make sure that they are not used for
 Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
 typically done with compromised devices or with amplification attacks
-using a spoofed source address.
-This document summarizes different amplification attacks using the
-Constrained Application Protocol (CoAP). The goal with this document is
+using a spoofed source address. This document summarizes different
+theoretical amplification attacks using the Constrained Application Protocol
+(CoAP). The goal with this document is to raise awareness and
 to motivate generic and protocol-specific recommendations on the usage of
 CoAP. Some of the discussed attacks can be mitigated by not using
 NoSec or by using the Echo option.
@@ -117,12 +117,12 @@ IoT deployments need to make sure that they are not used for
 Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
 typically done with compromised devices or with amplification attacks
 using a spoofed source address.
-The document summarizes different amplification attacks using CoAP.
+The document summarizes different theoretical amplification attacks using CoAP.
 When transported over UDP, the CoAP NoSec mode is susceptible to source
 IP address spoofing and as a single request can result in multiple responses
 from multiple servers, CoAP can have very large amplification factors.
-The goal with this document is to motivate generic and protocol-specific
-recommendations on the usage of CoAP. 
+The goal with this document is to raise awareness and to motivate generic
+and protocol-specific recommendations on the usage of CoAP. 
 
 Some of the discussed attacks can be mitigated by not using
 NoSec or by using the Echo option {{I-D.ietf-core-echo-request-tag}}.
