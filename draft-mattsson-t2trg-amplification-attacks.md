@@ -55,11 +55,32 @@ informative:
   I-D.ietf-lake-edhoc:
   I-D.ietf-tls-dtls13:
 
-  DDoS-Report:
+  DDoS-ZDNET:
+    target: https://www.zdnet.com/article/the-coap-protocol-is-the-next-big-thing-for-ddos-attacks/
+    title: "The CoAP protocol is the next big thing for DDoS attacks"
+    seriesinfo:
+      "ZDNet"
+    date: December 2018
+
+  DDoS-2019:
+    target: https://www.link11.com/en/blog/threat-landscape/ddos-attacks-2019-a-look-back-at-the-developments-over-the-year/
+    title: "DDoS Attacks 2019: A look back at the Developments over the Year"
+    seriesinfo:
+      "Link11"
+    date: December 2019
+
+  DDoS-FBI:
+    target: https://image.communications.cyber.nj.gov/lib/fe3e15707564047c7c1270/m/2/FBI+PIN+-+7.21.2020.pdf
+    title: "Private Industry Notification"
+    seriesinfo:
+      "FBI Cyber Division"
+    date: July 2020
+
+  DDoS-2021:
     target: https://www.radware.com/2021q3-ddos-report/
     title: "Quarterly DDoS and Application Attack Report"
     seriesinfo:
-      "radware"
+      "Radware"
     date: October 2021
 
 venue:
@@ -134,6 +155,17 @@ as possible from several servers an attacker can multiply the amount of
 traffic and create a distributed denial-of-service attack on the target.
 When transported over UDP, the CoAP NoSec
 mode is susceptible to source IP address spoofing.
+
+Amplification attacks with CoAP are unfortunately not only theory. CoAP amplification
+attacks made headlines in 2018 with and was very powerful, reaching 55 Gbps on average,
+and with the largest one clocking at 320 Gbps {{DDoS-ZDNET}}. But in 2019, they were
+hardly seen anymore {{DDoS-2019}}. In 2020, the FBI cyber division mentioned CoAP in
+a public notification warning that cyber actors are increasingly likely to abuse
+network protocols for DDoS attacks {{DDoS-FBI}}. CoAP amplification attacks made
+a comeback in 2020 and CoAP was behind a significant part of global DDoS attacks
+in Q4 2020 and Q1 2021, but not at all in Q2 and Q3 of 2021 {{DDoS-2021}}. It
+seems unclear exactly how the attacks were done, why they stopped, and how likely
+CoAP amplifications attacks are to come back in the future.
 
 An amplification attack using a single response is illustrated in {{ampsingle}}.
 If the response is c times larger than the request, the amplification factor is c.
