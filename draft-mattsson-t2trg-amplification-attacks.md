@@ -156,8 +156,8 @@ traffic and create a distributed denial-of-service attack on the target.
 When transported over UDP, the CoAP NoSec
 mode is susceptible to source IP address spoofing.
 
-Amplification attacks with CoAP are unfortunately not only theory. CoAP amplification
-attacks made headlines in 2018 with and was very powerful, reaching 55 Gbps on average,
+Amplification attacks with CoAP are unfortunately not only theory. Powerful CoAP amplification
+attacks made headlines in 2018, reaching 55 Gbps on average,
 and with the largest one clocking at 320 Gbps {{DDoS-ZDNET}}. But in 2019, they were
 hardly seen anymore {{DDoS-2019}}. In 2020, the FBI cyber division mentioned CoAP in
 a public notification warning that cyber actors are increasingly likely to abuse
