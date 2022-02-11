@@ -76,12 +76,12 @@ informative:
       "FBI Cyber Division"
     date: July 2020
 
-  DDoS-2021:
-    target: https://www.radware.com/2021q3-ddos-report/
-    title: "Quarterly DDoS and Application Attack Report"
+  DDoS-Infra:
+    target: https://www.darkreading.com/attacks-breaches/critical-infrastructure-under-attack-/a/d-id/1340960
+    title: "Critical Infrastructure Under Attack"
     seriesinfo:
-      "Radware"
-    date: October 2021
+      "Dark Reading"
+    date: November 2021
 
 venue:
   group: Thing-to-Thing (t2trg)
@@ -117,13 +117,15 @@ specified in {{RFC7252}} and the use of CoAP over TCP and TLS is specified in {{
 OSCORE protects CoAP end-to-end with the use of COSE {{RFC8152}} and the CoAP
 Object-Security option {{RFC8613}} and can therefore be used over any
 transport. Group OSCORE {{ I-D.ietf-core-oscore-groupcomm}} can be used to
-protect CoAP Group Communication {{I-D.ietf-core-groupcomm-bis}}.
+protect CoAP Group Communication {{I-D.ietf-core-groupcomm-bis}}.ac
 
 Protecting Internet of Things (IoT) devices against attacks is not enough.
 IoT deployments need to make sure that they are not used for
 Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
 typically done with compromised devices or with amplification attacks
-using a spoofed source address.
+using a spoofed source address. DDoS attacks is a huge and
+growing problem for critical infrastucture and services {{DDoS-Infra}}.
+
 The document summarizes different theoretical amplification attacks using CoAP.
 When transported over UDP, the CoAP NoSec mode is susceptible to source
 IP address spoofing and as a single request can result in multiple responses
