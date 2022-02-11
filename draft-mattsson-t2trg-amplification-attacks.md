@@ -55,20 +55,6 @@ informative:
   I-D.ietf-lake-edhoc:
   I-D.ietf-tls-dtls13:
 
-  CoAP-Wild:
-    target: https://www.netscout.com/blog/asert/coap-attacks-wild
-    title: "CoAP Attacks In The Wild"
-    seriesinfo:
-      "Netscout"
-    date: January 2019
-
-  CoAP-Report:
-    target: https://www.shadowserver.org/news/accessible-coap-report-scanning-for-exposed-constrained-application-protocol-services/
-    title: "Accessible CoAP Report"
-    seriesinfo:
-      "Shadowserver Foundation"
-    date: June 2020
-
   DDoS-Report:
     target: https://www.radware.com/2021q3-ddos-report/
     title: "Quarterly DDoS and Application Attack Report"
@@ -148,16 +134,6 @@ as possible from several servers an attacker can multiply the amount of
 traffic and create a distributed denial-of-service attack on the target.
 When transported over UDP, the CoAP NoSec
 mode is susceptible to source IP address spoofing.
-
-Amplification attacks with CoAP are unfortunately not only theory, amplification
-factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} and
-{{CoAP-Wild}} report average amplification factors of 27 and 34 respectively
-from a single response to a GET request for /.well-known/core to the default UDP port 5683.
-NoSec CoAP servers accessible over the Internet are mostly concentrated to a few countries
-and a few implementations, which do not follow the recommendations in Section
-11.3 of {{RFC7252}}. According to Radware {{DDoS-Report}}, CoAP was behind a
-significant part of DDoS attacks in Q4 2020 and Q1 2021, but not in Q2 and Q3 of
-2021. 
 
 An amplification attack using a single response is illustrated in {{ampsingle}}.
 If the response is c times larger than the request, the amplification factor is c.
