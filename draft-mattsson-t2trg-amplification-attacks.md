@@ -370,11 +370,11 @@ Client  Victim  Foe   Server
    +------------>S----->|
    |      |      |      |
      ....   ....   ....
-   |      |      |<-----+      Code: 2.05 (Content)
+   |      |<------------+      Code: 2.05 (Content)
    |      |      | 2.05 |   Observe: 263712
    |      |      |      |   Payload: "68 %"
    |      |      |      |
-   |      |      |<-----+      Code: 2.05 (Content)
+   |      |<------------+      Code: 2.05 (Content)
    |      |      | 2.05 |   Observe: 263713
    |      |      |      |   Payload: "69 %"
      ....   ....   ....
