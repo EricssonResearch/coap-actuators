@@ -357,7 +357,7 @@ TLS and DTLS without Connection ID {{I-D.ietf-tls-dtls-connection-id}} validate 
 
 DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that "the receiver MUST NOT replace the address" unless “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records” but does not give more details than that. It seems like the receiver can start using the new peer address and test that it is able to receive and process DTLS records at some later point. DTLS 1.3 with Connection ID requires that "implementations MUST NOT update the address" unless “they first perform some reachability test” but does not give more details than that. OSCORE {{RFC8613}} does not discuss address updates, but it can be assumed that most server send responses to the address it received the request from. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future records, while in OSCORE a new address is only used for responses to a specific request.
 
-An MITM amplification attack updating the client's source address in an observe registration is illustrated in {{amp_mitm_client}}. This attack is possible in OSCORE and to a more limited degree in DTLS 1.2. With OSCORE the server will send notifications to the Victim until it at some unspecified point requires an acknowledgement {{RFC7641}}. In DTLS 1.2 with Connection ID the server might stop sending notifications earlier when it cannot ensure that the new peer address is able to receive and process DTLS records. It is unspecified if such a DTLS 1.2 server just terminates the connection or if it has saved the old address and starts to send notifications to the legitimate client.
+An MITM amplification attack updating the client's source address in an observe registration is illustrated in {{amp_mitm_client}}. This attack is possible in OSCORE and DTLS with Connection ID. The server will send notifications to the Victim until it at some unspecified point requires an acknowledgement {{RFC7641}}.
 
 ~~~~
 Client  Victim  Foe   Server
@@ -366,7 +366,7 @@ Client  Victim  Foe   Server
    | GET  |      |      |   Observe: 0
    |      |      |      |  Uri-Path: humidity
    |      |      |      |
-   +<------------D<-----|  DTLS reachability test
+   |<------------D<-----+  DTLS reachability test 
    +------------>S----->|
    |      |      |      |
      ....   ....   ....
@@ -395,7 +395,7 @@ Client   Foe  Victim  Server
    |      |      | 2.01 |
    |      |      |      |
    +----->D------------>|  DTLS reachability test
-   +<-----S<------------|
+   |<-----S<------------+
    |      |      |      |
      ....   ....   ....
    +------------>|      |      Code: 0.01 (POST)
