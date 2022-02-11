@@ -155,7 +155,7 @@ factors of 10-100 are commonly reported from NoSec deployments. {{CoAP-Report}} 
 from a single response to a GET request for /.well-known/core to the default UDP port 5683.
 NoSec CoAP servers accessible over the Internet are mostly concentrated to a few countries
 and a few implementations, which do not follow the recommendations in Section
-11.3 of [RFC7252]. According to Radware {{DDoS-Report}}, CoAP was behind a
+11.3 of {{RFC7252}}. According to Radware {{DDoS-Report}}, CoAP was behind a
 significant part of DDoS attacks in Q4 2020 and Q1 2021, but not in Q2 and Q3 of
 2021. 
 
