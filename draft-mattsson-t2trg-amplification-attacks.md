@@ -355,9 +355,9 @@ Client   Foe   Server
 
 TLS and DTLS without Connection ID {{I-D.ietf-tls-dtls-connection-id}} validate the IP address and port of the other peer, binds them to the connection, and do not allow them to change. DTLS with Connection ID allows the IP address and port to change at any time. As the source address is not protected, an MITM attacker can change the address. Note that an MITM attacker is a more capable attacker then an attacker just spoofing the source address. It can be discussed if and how much such an attack is reasonable for DDoS, but DTLS 1.3 states that "This attack is of concern when there is a large asymmetry of request/response message sizes." {{I-D.ietf-tls-dtls13}}.
 
-DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that "the receiver MUST NOT replace the address" unless “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records” but does not give more details than that. It seems like the receiver can start using the new peer address and test that it is able to receive and process DTLS records at some later point. DTLS 1.3 with Connection ID requires that "implementations MUST NOT update the address" unless “they first perform some reachability test” but does not give more details than that. OSCORE {{RFC8613}} does not discuss address updates, but it can be assumed that most server send responses to the address it received the request from. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future records, while in OSCORE a new address is only used for responses to a specific request.
+DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that "the receiver MUST NOT replace the address" unless “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records” but does not give more details than that. It seems like the receiver can start using the new peer address and test that it is able to receive and process DTLS records at some later point. DTLS 1.3 with Connection ID requires that "implementations MUST NOT update the address" unless “they first perform some reachability test” but does not give more details than that. OSCORE {{RFC8613}} does not discuss address updates, but it can be assumed that most server send responses to the address it received the request from without any reachability test. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future records, while in OSCORE a new address is only used for responses to a specific request.
 
-An MITM amplification attack updating the client's source address in an observe registration is illustrated in {{amp_mitm_client}}. This attack is possible in OSCORE and DTLS with Connection ID. The server will send notifications to the Victim until it at some unspecified point requires an acknowledgement {{RFC7641}}.
+An MITM amplification attack updating the client's source address in an observe registration is illustrated in {{amp_mitm_client}}. This attack is possible in OSCORE and DTLS with Connection ID. The server will send notifications to the Victim until it at some unspecified point requires an acknowledgement {{RFC7641}}. In DTLS 1.2 the reachability test might be done at a later point. In OSCORE a reachability test is likely not done.
 
 ~~~~
 Client  Victim  Foe   Server
@@ -366,7 +366,7 @@ Client  Victim  Foe   Server
    | GET  |      |      |   Observe: 0
    |      |      |      |  Uri-Path: humidity
    |      |      |      |
-   |<------------D<-----+  DTLS reachability test 
+   |<------------D<-----+  Reachability test (DTLS)
    +------------>S----->|
    |      |      |      |
      ....   ....   ....
@@ -383,7 +383,7 @@ Client  Victim  Foe   Server
 
 Where 'S' means the MITM attacker is changing the source address of the message and 'D' means the MITM attacker is changing the destination address of the message.
 
-An MITM amplification attack updating the server's source address is illustrated in {{amp_mitm_server}}. This attack is possible in DTLS with Connection ID.
+An MITM amplification attack updating the server's source address is illustrated in {{amp_mitm_server}}. This attack is possible in DTLS with Connection ID. In DTLS 1.2 the reachability test might be done at a later point.
 
 ~~~~
 Client   Foe  Victim  Server
@@ -394,7 +394,7 @@ Client   Foe  Victim  Server
    |<-----S<------------|      Code: 2.01 (Created)
    |      |      | 2.01 |
    |      |      |      |
-   +----->D------------>|  DTLS reachability test
+   +----->D------------>|  Reachability test (DTLS)
    |<-----S<------------+
    |      |      |      |
      ....   ....   ....
