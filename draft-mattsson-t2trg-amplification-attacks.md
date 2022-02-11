@@ -124,7 +124,7 @@ IoT deployments need to make sure that they are not used for
 Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
 typically done with compromised devices or with amplification attacks
 using a spoofed source address. DDoS attacks is a huge and
-growing problem for critical infrastucture and services {{DDoS-Infra}}.
+growing problem for services and critical infrastucture {{DDoS-Infra}}.
 
 The document summarizes different theoretical amplification attacks using CoAP.
 When transported over UDP, the CoAP NoSec mode is susceptible to source
