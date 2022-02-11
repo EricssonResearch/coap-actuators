@@ -381,7 +381,7 @@ Client  Victim  Foe   Server
 ~~~~
 {: #amp_mitm_client title='MITM Amplification attack by updating the client's source address in a observe registration request' artwork-align="center"}
 
-Where '#' means the MITM attacker is changing the source address of the message.
+Where 'S' means the MITM attacker is changing the source address of the message and 'D' means the MITM attacker is changing the destination address of the message.
 
 An MITM amplification attack updating the server's source address is illustrated in {{amp_mitm_server}}. This attack is possible in DTLS 1.2 with Connection ID unless the . The client will at some point stop sending requests to the Victim when it cannot ensure that the new peer address is able to receive and process DTLS records. It is unspecified if such a DTLS 1.2 client just terminates the connection or if it has saved the old address and starts to send notifications to the legitimate server. If the client has not saved the old address and it does not use DNS it might not even be able to reconnect to the server.
 
