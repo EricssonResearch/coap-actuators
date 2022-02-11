@@ -396,6 +396,7 @@ Client   Foe  Victim  Server
    |      |      |      |
    +----->D------------>|  DTLS reachability test
    +<-----S<------------|
+   |      |      |      |
      ....   ....   ....
    +------------>|      |      Code: 0.01 (POST)
    | POST |      |      |  Uri-Path: video/
