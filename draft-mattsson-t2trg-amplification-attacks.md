@@ -167,6 +167,8 @@ in Q4 2020 and Q1 2021, but not at all in Q2 and Q3 of 2021 {{DDoS-2021}}. It
 seems unclear exactly how the attacks were done, why they stopped, and how likely
 CoAP amplifications attacks are to come back in the future.
 
+## Simple Amplification Attacks
+
 An amplification attack using a single response is illustrated in {{ampsingle}}.
 If the response is c times larger than the request, the amplification factor is c.
 
@@ -215,6 +217,8 @@ Client   Foe   Server
      ....   ....
 ~~~~
 {: #ampmulti_post title='Amplification attack using several requests and a chosen amplification factor' artwork-align="center"}
+
+## Amplification Attacks using Observe
 
 Amplification factors can be significantly worse when combined with
 observe {{RFC7641}} and group requests {{I-D.ietf-core-groupcomm-bis}}. As a single
@@ -272,6 +276,8 @@ Client   Foe   Server
      ....   ....
 ~~~~
 {: #ampmulti_nk title='Amplification attack using observe, registering the same client several times, and requesting notifications at least 10 times every second' artwork-align="center"}
+
+## Amplification Attacks using Group Requests
 
 An amplification attack using a group request is illustrated in
 {{ampmulti_m}}. The group request is sent over multicast or broadcast
@@ -341,6 +347,8 @@ Client   Foe   Server
 ~~~~
 {: #ampmulti_mn title='Amplification attack using multicast and observe' artwork-align="center"}
 
+## MITM Amplification Attacks
+
 TLS and DTLS without Connection ID {{I-D.ietf-tls-dtls-connection-id}} validate the IP address and port of the other peer, binds them to the connection, and do not allow them to change. DTLS with Connection ID allows the IP address and port to change at any time. As the source address is not protected, an MITM attacker can change the address. Note that an MITM attacker is a more capable attacker then an attacker just spoofing the source address. It can be discussed if and how much such an attack is reasonable for DDoS, but DTLS 1.3 states that "This attack is of concern when there is a large asymmetry of request/response message sizes." {{I-D.ietf-tls-dtls13}}.
 
 DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that "the receiver MUST NOT replace the address" unless “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records” but does not give more details than that. It seems like the receiver can start using the new peer address and test that it is able to receive and process DTLS records at some later point. DTLS 1.3 with Connection ID requires that "implementations MUST NOT update the address" unless “they first perform some reachability test” but does not give more details than that. OSCORE {{RFC8613}} does not discuss address updates, but it can be assumed that most server send responses to the address it received the request from. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future records, while in OSCORE a new address is only used for responses to a specific request.
@@ -368,7 +376,7 @@ Client   Foe  Victim  Server
 
 Where '#' means the MITM attacker is changing the source address of the message.
 
-An MITM amplification attack updating the server's source address is illustrated in {{amp_mitm_server}}. This attack is possible in DTLS 1.2 with Connection ID. The client will at some point stop sending requests to the Victim when it cannot ensure that the new peer address is able to receive and process DTLS records. It is unspecified if such a DTLS 1.2 client just terminates the connection or if it has saved the old address and starts to send notifications to the legitimate server. If the client has not saved the old address and it does not use DNS it might not even be able to reconnect to the server.
+An MITM amplification attack updating the server's source address is illustrated in {{amp_mitm_server}}. This attack is possible in DTLS 1.2 with Connection ID unless the . The client will at some point stop sending requests to the Victim when it cannot ensure that the new peer address is able to receive and process DTLS records. It is unspecified if such a DTLS 1.2 client just terminates the connection or if it has saved the old address and starts to send notifications to the legitimate server. If the client has not saved the old address and it does not use DNS it might not even be able to reconnect to the server.
 
 ~~~~
 Client   Foe  Victim  Server
@@ -390,6 +398,8 @@ Client   Foe  Victim  Server
      ....   ....   ....
 ~~~~
 {: #amp_mitm_server title='MITM Amplification attack by updating the server's source address in a response' artwork-align="center"}
+
+# Summary
 
 CoAP has always considered amplification attacks, but most of the requirements in 
 {{RFC7252}}, {{RFC7641}}, {{I-D.ietf-core-echo-request-tag}}, and
