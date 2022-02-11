@@ -76,6 +76,13 @@ informative:
       "FBI Cyber Division"
     date: July 2020
 
+  DDoS-2021:
+    target: https://www.radware.com/2021q3-ddos-report/
+    title: "Quarterly DDoS and Application Attack Report"
+    seriesinfo:
+      "Radware"
+    date: October 2021
+
   DDoS-Infra:
     target: https://www.darkreading.com/attacks-breaches/critical-infrastructure-under-attack-/a/d-id/1340960
     title: "Critical Infrastructure Under Attack"
