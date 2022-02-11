@@ -95,7 +95,7 @@ Protecting Internet of Things (IoT) devices against attacks is not enough.
 IoT deployments need to make sure that they are not used for
 Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
 typically done with compromised devices or with amplification attacks
-using a spoofed source address. This document summarizes different
+using a spoofed source address. This document gives examples of different
 theoretical amplification attacks using the Constrained Application Protocol
 (CoAP). The goal with this document is to raise awareness and
 to motivate generic and protocol-specific recommendations on the usage of
@@ -126,7 +126,7 @@ typically done with compromised devices or with amplification attacks
 using a spoofed source address. DDoS attacks is a huge and
 growing problem for services and critical infrastucture {{DDoS-Infra}}.
 
-The document summarizes different theoretical amplification attacks using CoAP.
+The document gives examples of different theoretical amplification attacks using CoAP.
 When transported over UDP, the CoAP NoSec mode is susceptible to source
 IP address spoofing and as a single request can result in multiple responses
 from multiple servers, CoAP can have very large amplification factors.
@@ -168,6 +168,8 @@ a comeback in 2020 and CoAP was behind a significant part of global DDoS attacks
 in Q4 2020 and Q1 2021, but not at all in Q2 and Q3 of 2021 {{DDoS-2021}}. It
 seems unclear exactly how the attacks were done, why they stopped, and how likely
 CoAP amplifications attacks are to come back in the future.
+
+The following sections give examples of different theoretical amplification attacks using CoAP.
 
 ## Simple Amplification Attacks
 
