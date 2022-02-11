@@ -428,7 +428,7 @@ While it is clear when a QUIC implementation violates the requirement in {{RFC90
 is not clear when a CoAP implementation violates the requirement in {{RFC7252}},
 {{RFC7641}}, {{I-D.ietf-core-echo-request-tag}}, and {{I-D.ietf-core-groupcomm-bis}}.
 
-In CoAP, an address can be validated with a security protocol like TLS or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
+In CoAP, an address can be validated with a security protocol or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network might use local CoAP servers to attack targets on the Internet or on the local network.
 
 # Security Considerations
 
