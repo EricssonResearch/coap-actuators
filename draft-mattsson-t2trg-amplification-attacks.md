@@ -360,11 +360,14 @@ DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that "t
 An MITM amplification attack updating the client's source address in an observe registration is illustrated in {{amp_mitm_client}}. This attack is possible in OSCORE and to a more limited degree in DTLS 1.2. With OSCORE the server will send notifications to the Victim until it at some unspecified point requires an acknowledgement {{RFC7641}}. In DTLS 1.2 with Connection ID the server might stop sending notifications earlier when it cannot ensure that the new peer address is able to receive and process DTLS records. It is unspecified if such a DTLS 1.2 server just terminates the connection or if it has saved the old address and starts to send notifications to the legitimate client.
 
 ~~~~
-Client   Foe  Victim  Server
+Client  Victim  Foe   Server
    |      |      |      |
-   +----->#------------>|      Code: 0.01 (GET)
+   +------------>S----->|      Code: 0.01 (GET)
    | GET  |      |      |   Observe: 0
    |      |      |      |  Uri-Path: humidity
+   |      |      |      |
+   +<------------D<-----|  DTLS reachability test
+   +------------>S----->|
    |      |      |      |
      ....   ....   ....
    |      |      |<-----+      Code: 2.05 (Content)
@@ -388,9 +391,11 @@ Client   Foe  Victim  Server
    +------------------->|      Code: 0.01 (POST)
    | POST |      |      |  Uri-Path: video/
    |      |      |      |
-   |<-----#<------------|      Code: 2.01 (Created)
+   |<-----S<------------|      Code: 2.01 (Created)
    |      |      | 2.01 |
    |      |      |      |
+   +----->D------------>|  DTLS reachability test
+   +<-----S<------------|
      ....   ....   ....
    +------------>|      |      Code: 0.01 (POST)
    | POST |      |      |  Uri-Path: video/
