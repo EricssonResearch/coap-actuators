@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-mattsson-core-coap-attacks-latest
+docname: draft-ietf-core-attacks-on-coap-latest
 cat: info
 submissiontype: IETF
 pi:
