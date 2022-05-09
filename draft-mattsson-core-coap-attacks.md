@@ -60,9 +60,9 @@ informative:
   RFC8323:
   RFC8446:
   RFC8613:
+  RFC9147:
+  RFC9175:
   I-D.ietf-lake-edhoc:
-  I-D.ietf-tls-dtls13:
-  I-D.ietf-core-echo-request-tag:
 
 venue:
   group: Constrained RESTful Environments (CoRE)
@@ -90,7 +90,7 @@ are essential in a world of connected and networking things interacting with
 the physical world. One protocol used to interact with sensors and actuators
 is the Constrained Application Protocol (CoAP) {{RFC7252}}. Any
 Internet-of-Things (IoT) deployment valuing security and privacy would
-use a security protocol such as DTLS {{I-D.ietf-tls-dtls13}}, TLS {{RFC8446}}, or
+use a security protocol such as DTLS {{RFC9147}}, TLS {{RFC8446}}, or
 OSCORE {{RFC8613}} to protect CoAP, where the choice of security
 protocol depends on the transport protocol and the presence of intermediaries.
 The use of CoAP over UDP and DTLS is specified in {{RFC7252}} and the
@@ -165,8 +165,7 @@ authorized operations.
 The goal with this document is motivating generic
 and protocol-specific recommendations on the usage of CoAP.
 Mechanisms mitigating some of the attacks discussed in this document can
-be found in {{I-D.ietf-core-echo-request-tag}}.
-This document is a companion document to {{I-D.ietf-core-echo-request-tag}}
+be found in {{RFC9175}}. This document is a companion document to {{RFC9175}}
 giving more information on the attacks motivating the mechanisms.
 
 # Attacks on CoAP
@@ -379,7 +378,7 @@ with the client is easier to analyze but require more roundtrips. The challenges
 responses, and timestamps may be sent in a CoAP option or in the CoAP payload.
 
 Remedy: Any IoT deployment of actuators where freshness is important should use
-the mechanisms specified in {{I-D.ietf-core-echo-request-tag}} unless another
+the mechanisms specified in {{RFC9175}} unless another
 application specific challenge-response or timestamp mechanism is used.
 
 
@@ -521,7 +520,7 @@ Client   Foe   Server
 ~~~~
 {: #delayresother title='Delaying and mismatching response from other resource' artwork-align="center"}
 
-Remedy: Section 4.2 of {{I-D.ietf-core-echo-request-tag}} formally updates the client token processing for CoAP {{RFC7252}}.
+Remedy: Section 4.2 of {{RFC9175}} formally updates the client token processing for CoAP {{RFC7252}}.
 Following this updated processing mitigates the attack.
 
 
@@ -599,7 +598,7 @@ context that has lost packets, it needs to label the fragments in
 such a way that the server will not mix them up.
 
 A mechanism to that effect is described as Request-Tag
-{{I-D.ietf-core-echo-request-tag}}. Had it been in place in the
+{{RFC9175}}. Had it been in place in the
 example and used for body integrity protection, the client would have
 set the Request-Tag option in the "promote" request.
 Depending on the server's capabilities and setup, either of four
