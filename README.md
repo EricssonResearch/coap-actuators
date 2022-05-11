@@ -1,8 +1,8 @@
 # Amplification Attacks Using the Constrained Application Protocol (CoAP) 
 
-Note that this repository is currently not compiling so all link below are outdated.
-
 This is the working area for the individual Internet-Draft, "Amplification Attacks Using the Constrained Application Protocol (CoAP)" submited to IETF T2TRG.
+
+Note that this repository is currently not compiling so all link below are outdated.
 
 * [Editor's Copy](https://EricssonResearch.github.io/coap-actuators/#go.draft-mattsson-core-coap-attacks.html)
 * [Working Group Draft](https://tools.ietf.org/html/draft-mattsson-core-coap-attacks)
