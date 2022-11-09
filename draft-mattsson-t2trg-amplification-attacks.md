@@ -39,7 +39,6 @@ author:
   org: Energy Harvesting Solutions
   email: c.amsuess@energyharvesting.at
 informative:
-  RFC6347:
   RFC7252:
   RFC7641:
   RFC8152:
@@ -47,13 +46,12 @@ informative:
   RFC8446:
   RFC8613:
   RFC9000:
-  I-D.ietf-core-groupcomm-bis:
-  I-D.ietf-core-echo-request-tag:
-  I-D.ietf-core-oscore-groupcomm:
-  I-D.ietf-tls-dtls-connection-id:
+  RFC9146:
+  RFC9147:
+  RFC9175:
   I-D.ietf-core-conditional-attributes:
-  I-D.ietf-lake-edhoc:
-  I-D.ietf-tls-dtls13:
+  I-D.ietf-core-groupcomm-bis:
+  I-D.ietf-core-oscore-groupcomm:
 
   DDoS-ZDNET:
     target: https://www.zdnet.com/article/the-coap-protocol-is-the-next-big-thing-for-ddos-attacks/
@@ -117,7 +115,7 @@ One important protocol used to interact with Internet of Things (IoT)
 sensors and actuators is the Constrained Application Protocol (CoAP) {{RFC7252}}.
 CoAP can be used without security in the so called NoSec mode but any
 Internet-of-Things (IoT) deployment valuing security and privacy would use a
-security protocol such as DTLS {{I-D.ietf-tls-dtls13}}, TLS {{RFC8446}}, or OSCORE {{RFC8613}}
+security protocol such as DTLS {{RFC9147}}, TLS {{RFC8446}}, or OSCORE {{RFC8613}}
 to protect CoAP, where the choice of security protocol depends on the transport
 protocol and the presence of intermediaries. The use of CoAP over UDP and DTLS is
 specified in {{RFC7252}} and the use of CoAP over TCP and TLS is specified in {{RFC8323}}.
@@ -131,7 +129,7 @@ IoT deployments need to make sure that they are not used for
 Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
 typically done with compromised devices or with amplification attacks
 using a spoofed source address. DDoS attacks is a huge and
-growing problem for services and critical infrastucture {{DDoS-Infra}}.
+growing problem for services and critical infrastructure {{DDoS-Infra}}.
 
 The document gives examples of different theoretical amplification attacks using CoAP.
 When transported over UDP, the CoAP NoSec mode is susceptible to source
@@ -141,7 +139,7 @@ The goal with this document is to raise awareness and to motivate generic
 and protocol-specific recommendations on the usage of CoAP. 
 
 Some of the discussed attacks can be mitigated by not using
-NoSec or by using the Echo option {{I-D.ietf-core-echo-request-tag}}.
+NoSec or by using the Echo option {{RFC9175}}.
 
 # Amplification Attacks using CoAP {#dos}
 
@@ -360,9 +358,9 @@ Client   Foe   Server
 
 ## MITM Amplification Attacks
 
-TLS and DTLS without Connection ID {{I-D.ietf-tls-dtls-connection-id}} validate the IP address and port of the other peer, binds them to the connection, and do not allow them to change. DTLS with Connection ID allows the IP address and port to change at any time. As the source address is not protected, an MITM attacker can change the address. Note that an MITM attacker is a more capable attacker then an attacker just spoofing the source address. It can be discussed if and how much such an attack is reasonable for DDoS, but DTLS 1.3 states that "This attack is of concern when there is a large asymmetry of request/response message sizes." {{I-D.ietf-tls-dtls13}}.
+TLS and DTLS without Connection ID {{RFC9146}}{{RFC9147}} validate the IP address and port of the other peer, binds them to the connection, and do not allow them to change. DTLS with Connection ID allows the IP address and port to change at any time. As the source address is not protected, an MITM attacker can change the address. Note that an MITM attacker is a more capable attacker then an attacker just spoofing the source address. It can be discussed if and how much such an attack is reasonable for DDoS, but DTLS 1.3 states that "This attack is of concern when there is a large asymmetry of request/response message sizes." {{RFC9147}}.
 
-DTLS 1.2 with Connection ID {{I-D.ietf-tls-dtls-connection-id}} requires that "the receiver MUST NOT replace the address" unless “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records” but does not give more details than that. It seems like the receiver can start using the new peer address and test that it is able to receive and process DTLS records at some later point. DTLS 1.3 with Connection ID requires that "implementations MUST NOT update the address" unless “they first perform some reachability test” but does not give more details than that. OSCORE {{RFC8613}} does not discuss address updates, but it can be assumed that most servers send responses to the address it received the request from without any reachability test. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future records, while in OSCORE a new address is only used for responses to a specific request.
+DTLS 1.2 with Connection ID {{RFC9146}} requires that "the receiver MUST NOT replace the address" unless “there is a strategy for ensuring that the new peer address is able to receive and process DTLS records” but does not give more details than that. It seems like the receiver can start using the new peer address and test that it is able to receive and process DTLS records at some later point. DTLS 1.3 with Connection ID {{RFC9147}} requires that "implementations MUST NOT update the address" unless “they first perform some reachability test” but does not give more details than that. OSCORE {{RFC8613}} does not discuss address updates, but it can be assumed that most servers send responses to the address it received the request from without any reachability test. A difference between (D)TLS and OSCORE is that in DTLS the updated address is used for all future records, while in OSCORE a new address is only used for responses to a specific request.
 
 An MITM amplification attack updating the client's source address in an observe registration is illustrated in {{amp_mitm_client}}. This attack is possible in OSCORE and DTLS with Connection ID. The server will send notifications to the Victim until it at some unspecified point requires an acknowledgement {{RFC7641}}. In DTLS 1.2 the reachability test might be done at a later point. In OSCORE a reachability test is likely not done.
 
@@ -419,7 +417,7 @@ Client   Foe  Victim  Server
 # Summary
 
 CoAP has always considered amplification attacks, but most of the requirements in 
-{{RFC7252}}, {{RFC7641}}, {{I-D.ietf-core-echo-request-tag}}, and
+{{RFC7252}}, {{RFC7641}}, {{RFC9175}}, and
 {{I-D.ietf-core-groupcomm-bis}} are "SHOULD" instead of "MUST", it is
 undefined what a "large amplification factor" is, {{RFC7641}} does not specify
 how many notifications that can be sent before a potentially spoofable
@@ -433,9 +431,9 @@ address” without any exceptions. This approach should be seen as current best 
 
 While it is clear when a QUIC implementation violates the requirement in {{RFC9000}}, it
 is not clear when a CoAP implementation violates the requirement in {{RFC7252}},
-{{RFC7641}}, {{I-D.ietf-core-echo-request-tag}}, and {{I-D.ietf-core-groupcomm-bis}}.
+{{RFC7641}}, {{RFC9175}}, and {{I-D.ietf-core-groupcomm-bis}}.
 
-In CoAP, an address can be validated with a security protocol or by using the Echo Option {{I-D.ietf-core-echo-request-tag}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network (e.g, a compromised node) might use local CoAP servers to attack targets on the Internet or on the local network.
+In CoAP, an address can be validated with a security protocol or by using the Echo Option {{RFC9175}}. Restricting the bandwidth per server is not enough as the number of servers the attacker can use is typically unknown. For multicast requests, anti-amplification limits and the Echo Option do not really work unless the number of servers sending responses is known. Even if the responses have the same size as the request, the amplification factor from m servers is m, where m is typically unknown. While DoS attacks from CoAP servers accessible over the Internet pose the largest threat, an attacker on a local network (e.g., a compromised node) might use local CoAP servers to attack targets on the Internet or on the local network.
 
 # Security Considerations
 
