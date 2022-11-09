@@ -152,7 +152,7 @@ number of sources.
 
 In an amplification attack, the amplification factor is the ratio between the
 total size of the data sent to the target and the total size of the data
-sent by the attacker. In the attacks described in this section, the
+received from the attacker. In the attacks described in this section, the
 attacker sends one or more requests, and the target receives one or more
 responses. An amplification attack alone can be a denial-of-service attack
 on a CoAP server by making it send a large amount of data. But often amplification
