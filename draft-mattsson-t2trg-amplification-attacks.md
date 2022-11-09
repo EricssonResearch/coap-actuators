@@ -129,14 +129,15 @@ IoT deployments need to make sure that they are not used for
 Distributed Denial-of-Service (DDoS) attacks. DDoS attacks are
 typically done with compromised devices or with amplification attacks
 using a spoofed source address. DDoS attacks is a huge and
-growing problem for services and critical infrastructure {{DDoS-Infra}}.
+growing problem for services and critical infrastructure {{DDoS-Infra}}
+and mitigations are costly.
 
 The document gives examples of different theoretical amplification attacks using CoAP.
 When transported over UDP, the CoAP NoSec mode is susceptible to source
 IP address spoofing and as a single request can result in multiple responses
 from multiple servers, CoAP can have very large amplification factors.
-The goal with this document is to raise awareness and to motivate generic
-and protocol-specific recommendations on the usage of CoAP. 
+The goal with this document is to raise awareness and understanding of amplification
+attacks and to motivate mitigations suitable for constrained devices and networks.
 
 Some of the discussed attacks can be mitigated by not using
 NoSec or by using the Echo option {{RFC9175}}.
@@ -438,7 +439,8 @@ does not have any amplification attack considerations.
 
 QUIC {{RFC9000}} mandates that ”an endpoint MUST limit the amount of data it sends
 to the unvalidated address to three times the amount of data received from that
-address” without any exceptions. This approach should be seen as current best practice.
+address” without any exceptions. This approach should be seen as current best practice
+for non-constrained devices.
 
 While it is clear when a QUIC implementation violates the requirement in {{RFC9000}}, it
 is not clear when a CoAP implementation violates the requirement in {{RFC7252}},
