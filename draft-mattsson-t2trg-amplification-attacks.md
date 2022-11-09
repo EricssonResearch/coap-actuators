@@ -179,6 +179,12 @@ in Q4 2020 and Q1 2021, but not at all in Q2 and Q3 of 2021 {{DDoS-2021}}. It
 seems unclear exactly how the attacks were done, why they stopped, and how likely
 CoAP amplifications attacks are to come back in the future.
 
+The amplification factor and the bandwidth depend on the layer in the protocol stack that
+is used for the calculation. The amplification factor and bandwidth can e.g., be calculated
+using whole IP packets, UPD payloads, or CoAP payloads. The bandwidth decreases and the
+amplification factor typically increases higher up in the protocol stack. The bandwidth
+should be calculated using the layer that is considered to be under attack.
+
 The following sections give examples of different theoretical amplification attacks using CoAP.
 
 ## Simple Amplification Attacks
