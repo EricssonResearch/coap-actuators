@@ -262,41 +262,41 @@ are sent as confirmable and which Message ID are used the acknowledgements may b
 ~~~~ aasvg
 Victim   Foe   Server
    |      |      |
-   |      +----->|      Code: 0.01 (GET)
-   |      | GET  |     Token: 0x83
-   |      |      |   Observe: 0
-   |      |      |  Uri-Path: temperature
+   |      +----->|       Code: 0.01 (GET)
+   |      | GET  |      Token: 0x83
+   |      |      |    Observe: 0
+   |      |      |   Uri-Path: temperature
    |      |      |  Uri-Query: pmax="0.1"
    |      |      |
-   |      +----->|      Code: 0.01 (GET)
-   |      | GET  |     Token: 0x84
-   |      |      |   Observe: 0
-   |      |      |  Uri-Path: temperature
+   |      +----->|       Code: 0.01 (GET)
+   |      | GET  |      Token: 0x84
+   |      |      |    Observe: 0
+   |      |      |   Uri-Path: temperature
    |      |      |  Uri-Query: pmax="0.1"
    |      |      |
      ....   ....
    |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x83
-   |      |      |   Observe: 217362
-   |      |      |   Payload: "299.7 K"
+   |<------------+       Code: 2.05 (Content)
+   |      | 2.05 |      Token: 0x83
+   |      |      |    Observe: 217362
+   |      |      |    Payload: "299.7 K"
    |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x84
-   |      |      |   Observe: 217362
-   |      |      |   Payload: "299.7 K"
+   |<------------+       Code: 2.05 (Content)
+   |      | 2.05 |      Token: 0x84
+   |      |      |    Observe: 217362
+   |      |      |    Payload: "299.7 K"
    |      |      |
      ....   ....
    |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x83
-   |      |      |   Observe: 217363
-   |      |      |   Payload: "299.7 K"
+   |<------------+       Code: 2.05 (Content)
+   |      | 2.05 |      Token: 0x83
+   |      |      |    Observe: 217363
+   |      |      |    Payload: "299.7 K"
    |      |      |
-   |<------------+      Code: 2.05 (Content)
-   |      | 2.05 |     Token: 0x84
-   |      |      |   Observe: 217363
-   |      |      |   Payload: "299.7 K"
+   |<------------+       Code: 2.05 (Content)
+   |      | 2.05 |      Token: 0x84
+   |      |      |    Observe: 217363
+   |      |      |    Payload: "299.7 K"
      ....   ....
 ~~~~
 {: #ampmulti_nk title='Amplification attack using observe, registering the same client several times, and requesting notifications at least 10 times every second' artwork-align="center"}
@@ -338,33 +338,33 @@ the amplification factor is c * n * m.
 ~~~~ aasvg
 Victim   Foe   Servers
    |      |      | |
-   |      +----->| |      Code: 0.01 (GET)
-   |      | GET  | |     Token: 0x44
-   |      |      | |   Observe: 0
-   |      |      | |  Uri-Path: temperature
+   |      +----->| |       Code: 0.01 (GET)
+   |      | GET  | |      Token: 0x44
+   |      |      | |    Observe: 0
+   |      |      | |   Uri-Path: temperature
    |      |      | |  Uri-Query: pmax="0.1"
    |      |      | |
-   |<------------+ |      Code: 2.05 (Content)
-   |      | 2.05 | |     Token: 0x44
-   |      |      | |   Observe: 217
-   |      |      | |   Payload: "301.2 K"
+   |<------------+ |       Code: 2.05 (Content)
+   |      | 2.05 | |      Token: 0x44
+   |      |      | |    Observe: 217
+   |      |      | |    Payload: "301.2 K"
    |      |      | |
-   |<--------------+      Code: 2.05 (Content)
-   |      | 2.05 | |     Token: 0x44
-   |      |      | |   Observe: 363
-   |      |      | |   Payload: "293.4 K"
+   |<--------------+       Code: 2.05 (Content)
+   |      | 2.05 | |      Token: 0x44
+   |      |      | |    Observe: 363
+   |      |      | |    Payload: "293.4 K"
    |      |      | |
      ....   ....
    |      |      | |
-   |<------------+ |      Code: 2.05 (Content)
-   |      | 2.05 | |     Token: 0x44
-   |      |      | |   Observe: 218
-   |      |      | |   Payload: "301.2 K"
+   |<------------+ |       Code: 2.05 (Content)
+   |      | 2.05 | |      Token: 0x44
+   |      |      | |    Observe: 218
+   |      |      | |    Payload: "301.2 K"
    |      |      | |
-   |<--------------+      Code: 2.05 (Content)
-   |      | 2.05 | |     Token: 0x44
-   |      |      | |   Observe: 364
-   |      |      | |   Payload: "293.4 K"
+   |<--------------+       Code: 2.05 (Content)
+   |      | 2.05 | |      Token: 0x44
+   |      |      | |    Observe: 364
+   |      |      | |    Payload: "293.4 K"
    |      |      | |
      ....   ....
 ~~~~
