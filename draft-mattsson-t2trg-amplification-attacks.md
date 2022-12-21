@@ -273,19 +273,19 @@ the variable m.
 
 ~~~~ aasvg
 Victim   Foe   Servers
-   |      |      | |
-   |      +----->| |      Code: 0.01 (GET)
-   |      | GET  | |     Token: 0x69
-   |      |      | |  Uri-Path: </c>
-   |      |      | |
-   |<------------+ |      Code: 2.05 (Content)
-   |      | 2.05 | |     Token: 0x69
-   |      |      | |   Payload: { 1721 : { ...
-   |      |      | |
-   |<--------------+      Code: 2.05 (Content)
-   |      | 2.05 | |     Token: 0x69
-   |      |      | |   Payload: { 1721 : { ...
-   |      |      | |
+   |      |      |  |
+   |      +-+--->|  |      Code: 0.01 (GET)
+   |      |  '----->|     Token: 0x69
+   |      | GET  |  |  Uri-Path: </c>
+   |      |      |  |
+   |<------------+  |      Code: 2.05 (Content)
+   |      | 2.05 |  |     Token: 0x69
+   |      |      |  |   Payload: { 1721 : { ...
+   |      |      |  |
+   |<---------------+      Code: 2.05 (Content)
+   |      | 2.05 |  |     Token: 0x69
+   |      |      |  |   Payload: { 1721 : { ...
+   |      |      |  |
      ....   ....
 ~~~~
 {: #ampmulti_m title='Amplification attack using multicast' artwork-align="center"}
@@ -298,35 +298,34 @@ the amplification factor is c * n * m.
 
 ~~~~ aasvg
 Victim   Foe   Servers
-   |      |      | |
-   |      +----->| |       Code: 0.01 (GET)
-   |      | GET  | |      Token: 0x44
-   |      |      | |    Observe: 0
-   |      |      | |   Uri-Path: temperature
-   |      |      | |  Uri-Query: pmax="0.1"
-   |      |      | |
-   |<------------+ |       Code: 2.05 (Content)
-   |      | 2.05 | |      Token: 0x44
-   |      |      | |    Observe: 217
-   |      |      | |    Payload: "301.2 K"
-   |      |      | |
-   |<--------------+       Code: 2.05 (Content)
-   |      | 2.05 | |      Token: 0x44
-   |      |      | |    Observe: 363
-   |      |      | |    Payload: "293.4 K"
-   |      |      | |
+   |      |      |  |
+   |      +-+--->|  |      Code: 0.01 (GET)
+   |      |  '----->|     Token: 0x44
+   |      | GET  |  |  Uri-Path: temperature
+   |      |      |  |  Uri-Query: pmax="0.1"
+   |      |      |  |
+   |<------------+  |       Code: 2.05 (Content)
+   |      | 2.05 |  |      Token: 0x44
+   |      |      |  |    Observe: 217
+   |      |      |  |    Payload: "301.2 K"
+   |      |      |  |
+   |<---------------+       Code: 2.05 (Content)
+   |      | 2.05 |  |      Token: 0x44
+   |      |      |  |    Observe: 363
+   |      |      |  |    Payload: "293.4 K"
+   |      |      |  |
      ....   ....
-   |      |      | |
-   |<------------+ |       Code: 2.05 (Content)
-   |      | 2.05 | |      Token: 0x44
-   |      |      | |    Observe: 218
-   |      |      | |    Payload: "301.2 K"
-   |      |      | |
-   |<--------------+       Code: 2.05 (Content)
-   |      | 2.05 | |      Token: 0x44
-   |      |      | |    Observe: 364
-   |      |      | |    Payload: "293.4 K"
-   |      |      | |
+   |      |      |  |
+   |<------------+  |       Code: 2.05 (Content)
+   |      | 2.05 |  |      Token: 0x44
+   |      |      |  |    Observe: 218
+   |      |      |  |    Payload: "301.2 K"
+   |      |      |  |
+   |<---------------+       Code: 2.05 (Content)
+   |      | 2.05 |  |      Token: 0x44
+   |      |      |  |    Observe: 364
+   |      |      |  |    Payload: "293.4 K"
+   |      |      |  |
      ....   ....
 ~~~~
 {: #ampmulti_mn title='Amplification attack using multicast and observe' artwork-align="center"}
