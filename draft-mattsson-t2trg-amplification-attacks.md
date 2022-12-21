@@ -169,17 +169,6 @@ traffic and create a distributed denial-of-service attack on the target.
 When transported over UDP, the CoAP NoSec
 mode is susceptible to source IP address spoofing.
 
-Amplification attacks with CoAP are unfortunately not only theory. Powerful CoAP amplification
-attacks made headlines in 2018, reaching 55 Gbps on average,
-and with the largest one clocking at 320 Gbps {{DDoS-ZDNET}}. But in 2019, they were
-hardly seen anymore {{DDoS-2019}}. In 2020, the FBI cyber division mentioned CoAP in
-a public notification warning that cyber actors are increasingly likely to abuse
-network protocols for DDoS attacks {{DDoS-FBI}}. CoAP amplification attacks made
-a comeback in 2020 and CoAP was behind a significant part of global DDoS attacks
-in Q4 2020 and Q1 2021, but not at all in Q2 and Q3 of 2021 {{DDoS-2021}}. It
-seems unclear exactly how the attacks were done, why they stopped, and how likely
-CoAP amplifications attacks are to come back in the future.
-
 The amplification factor and the bandwidth depend on the layer in the protocol stack that
 is used for the calculation. The amplification factor and bandwidth can e.g., be calculated
 using whole IP packets, UPD payloads, or CoAP payloads. The bandwidth decreases and the
