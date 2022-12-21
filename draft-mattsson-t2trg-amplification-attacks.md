@@ -193,8 +193,8 @@ The following sections give examples of different theoretical amplification atta
 An amplification attack using a single response is illustrated in {{ampsingle}}.
 If the response is c times larger than the request, the amplification factor is c.
 
-~~~~
-Client   Foe   Server
+~~~~ aasvg
+Victim   Foe   Server
    |      |      |
    |      +----->|      Code: 0.01 (GET)
    |      | GET  |  Uri-Path: random quote
@@ -216,8 +216,8 @@ By creating new resources, an attacker can increase the size of /.well-known/cor
 An amplification attack where the attacker influences the amplification factor
 is illustrated in {{ampmulti_post}}.
 
-~~~~
-Client   Foe   Server
+~~~~ aasvg
+Victim   Foe   Server
    |      |      |
    |      +----->|      Code: 0.02 (POST)
    |      | POST |  Uri-Path: /member/
@@ -258,8 +258,8 @@ indicates the maximum time, in seconds, between two consecutive notifications (w
 resource state has changed). If it is predictable when notifications
 are sent as confirmable and which Message ID are used the acknowledgements may be spoofed.
 
-~~~~
-Client   Foe   Server
+~~~~ aasvg
+Victim   Foe   Server
    |      |      |
    |      +----->|      Code: 0.01 (GET)
    |      | GET  |     Token: 0x83
@@ -307,9 +307,8 @@ from m different servers. If each response is c times larger than the request,
 the amplification factor is c * m. Note that the servers usually do not know
 the variable m.
 
-
-~~~~
-Client   Foe   Server
+~~~~ aasvg
+Victim   Foe   Server
    |      |      |
    |      +----->|      Code: 0.01 (GET)
    |      | GET  |     Token: 0x69
@@ -333,9 +332,8 @@ in n responses each from m different servers giving a total of n \* m
 responses. If each response is c times larger than the request,
 the amplification factor is c * n * m.
 
-
-~~~~
-Client   Foe   Server
+~~~~ aasvg
+Victim   Foe   Server
    |      |      |
    |      +----->|      Code: 0.01 (GET)
    |      | GET  |     Token: 0x44
@@ -376,7 +374,7 @@ DTLS 1.2 with Connection ID {{RFC9146}} requires that "the receiver MUST NOT rep
 
 An MITM amplification attack updating the client's source address in an observe registration is illustrated in {{amp_mitm_client}}. This attack is possible in OSCORE and DTLS with Connection ID. The server will send notifications to the Victim until it at some unspecified point requires an acknowledgement {{RFC7641}}. In DTLS 1.2 the reachability test might be done at a later point. In OSCORE a reachability test is likely not done.
 
-~~~~
+~~~~ aasvg
 Client  Victim  Foe   Server
    |      |      |      |
    +------------>S----->|      Code: 0.01 (GET)
@@ -402,7 +400,7 @@ Where 'S' means the MITM attacker is changing the source address of the message 
 
 An MITM amplification attack updating the server's source address is illustrated in {{amp_mitm_server}}. This attack is possible in DTLS with Connection ID. In DTLS 1.2 the reachability test might be done at a later point.
 
-~~~~
+~~~~ aasvg
 Client   Foe  Victim  Server
    |      |      |      |
    +------------------->|      Code: 0.01 (POST)
