@@ -381,14 +381,15 @@ An MITM amplification attack updating the client's source address in an observe 
 ~~~~ aasvg
 Client  Victim  Foe   Server
    |      |      |      |
-   +------------>S----->|      Code: 0.01 (GET)
+   +-----------> S----->|      Code: 0.01 (GET)
    | GET  |      |      |   Observe: 0
    |      |      |      |  Uri-Path: humidity
    |      |      |      |
-   |<------------D<-----+  Reachability test (DTLS)
-   +------------>S----->|
+   |<------------D <----+  Reachability test (DTLS)
+   +-----------> S----->|
    |      |      |      |
      ....   ....   ....
+   |      |      |      |
    |      |<------------+      Code: 2.05 (Content)
    |      |      | 2.05 |   Observe: 263712
    |      |      |      |   Payload: "68 %"
@@ -410,13 +411,14 @@ Client   Foe  Victim  Server
    +------------------->|      Code: 0.01 (POST)
    | POST |      |      |  Uri-Path: video/
    |      |      |      |
-   |<-----S<------------|      Code: 2.01 (Created)
+   |<-----S <-----------|      Code: 2.01 (Created)
    |      |      | 2.01 |
    |      |      |      |
-   +----->D------------>|  Reachability test (DTLS)
-   |<-----S<------------+
+   +----> D------------>|  Reachability test (DTLS)
+   |<-----S <-----------+
    |      |      |      |
      ....   ....   ....
+   |      |      |      |
    +------------>|      |      Code: 0.01 (POST)
    | POST |      |      |  Uri-Path: video/
    |      |      |      |   Payload: survailance_1139.hevc
