@@ -220,19 +220,19 @@ is illustrated in {{ampmulti_post}}.
 Victim   Foe   Server
    |      |      |
    |      +----->|      Code: 0.02 (POST)
-   |      | POST |  Uri-Path: /member/
+   |      | POST |  Uri-Path: member
    |      |      |   Payload: hampsterdance.hevc
    |      |      |
      ....   ....
    |      |      |
    |      +----->|      Code: 0.02 (GET)
-   |      | GET  |  Uri-Path: /member/
+   |      | GET  |  Uri-Path: member
    |      |      |
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |   Payload: hampsterdance.hevc
    |      |      |
    |      +----->|      Code: 0.02 (GET)
-   |      | GET  |  Uri-Path: /member/
+   |      | GET  |  Uri-Path: member
    |      |      |
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |   Payload: hampsterdance.hevc
@@ -409,7 +409,7 @@ An MITM amplification attack updating the server's source address is illustrated
 Client   Foe  Victim  Server
    |      |      |      |
    +------------------->|      Code: 0.01 (POST)
-   | POST |      |      |  Uri-Path: video/
+   | POST |      |      |  Uri-Path: video
    |      |      |      |
    |<-----S <-----------|      Code: 2.01 (Created)
    |      |      | 2.01 |
@@ -420,11 +420,11 @@ Client   Foe  Victim  Server
      ....   ....   ....
    |      |      |      |
    +------------>|      |      Code: 0.01 (POST)
-   | POST |      |      |  Uri-Path: video/
+   | POST |      |      |  Uri-Path: video
    |      |      |      |   Payload: survailance_1139.hevc
    |      |      |      |
    +------------>|      |      Code: 0.01 (POST)
-   | POST |      |      |  Uri-Path: video/
+   | POST |      |      |  Uri-Path: video
    |      |      |      |   Payload: survailance_1140.hevc
      ....   ....   ....
 ~~~~
