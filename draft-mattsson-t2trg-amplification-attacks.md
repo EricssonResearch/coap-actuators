@@ -210,7 +210,7 @@ factors can be very large.
 
 An amplification attack using observe is illustrated in
 {{ampmulti_nk}}. If each notification response is c times larger than the registration
-request and each request results in n notifications, the amplification factor is c * n.
+request and each request results in n notifications, the amplification factor is c {{{⋅}}} n.
 By registering the same client several times using different Tokens or port numbers,
 the bandwidth can be increased. By updating the observed resource, the attacker
 may trigger notifications and increase the size of the notifications. By using
@@ -268,7 +268,7 @@ An amplification attack using a group request is illustrated in
 {{ampmulti_m}}. The group request is sent over multicast or broadcast
 and in this case a single request results in m responses
 from m different servers. If each response is c times larger than the request,
-the amplification factor is c * m. Note that the servers usually do not know
+the amplification factor is c {{{⋅}}} m. Note that the servers usually do not know
 the variable m.
 
 ~~~~ aasvg
@@ -292,9 +292,9 @@ Victim   Foe   Servers
 
 An amplification attack using a multicast request and observe is
 illustrated in {{ampmulti_mn}}. In this case a single request results
-in n responses each from m different servers giving a total of n \* m
+in n responses each from m different servers giving a total of n {{{⋅}}} m
 responses. If each response is c times larger than the request,
-the amplification factor is c * n * m.
+the amplification factor is c {{{⋅}}} n {{{⋅}}} m.
 
 ~~~~ aasvg
 Victim   Foe   Servers
