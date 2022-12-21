@@ -224,6 +224,7 @@ Victim   Foe   Server
    |      |      |   Payload: hampsterdance.hevc
    |      |      |
      ....   ....
+   |      |      |
    |      +----->|      Code: 0.02 (GET)
    |      | GET  |  Uri-Path: /member/
    |      |      |
@@ -274,6 +275,7 @@ Victim   Foe   Server
    |      |      |  Uri-Query: pmax="0.1"
    |      |      |
      ....   ....
+   |      |      |
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |     Token: 0x83
    |      |      |   Observe: 217362
@@ -285,6 +287,7 @@ Victim   Foe   Server
    |      |      |   Payload: "299.7 K"
    |      |      |
      ....   ....
+   |      |      |
    |<------------+      Code: 2.05 (Content)
    |      | 2.05 |     Token: 0x83
    |      |      |   Observe: 217363
@@ -352,6 +355,7 @@ Victim   Foe   Servers
    |      |      | |   Payload: "293.4 K"
    |      |      | |
      ....   ....
+   |      |      | |
    |<------------+ |      Code: 2.05 (Content)
    |      | 2.05 | |     Token: 0x44
    |      |      | |   Observe: 218
