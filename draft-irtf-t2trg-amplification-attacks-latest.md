@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-irtf-t2trg-amplification-attacks-00
+docname: draft-irtf-t2trg-amplification-attacks-latest
 cat: info
 submissiontype: IRTF
 pi:
