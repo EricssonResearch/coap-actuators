@@ -63,8 +63,7 @@ informative:
 venue:
   group: Thing-to-Thing (t2trg)
   mail: t2trg@irtf.org
-  github: EricssonResearch/coap-actuators
-
+  github: t2trg/t2trg-amplification-attacks
 
 --- abstract
 
